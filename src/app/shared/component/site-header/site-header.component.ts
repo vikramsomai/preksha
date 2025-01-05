@@ -15,9 +15,8 @@ export class SiteHeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
   ngOnInit(): void {
-    this.wishlistArray = JSON.parse(
-      localStorage.getItem('prekshawishlist') as string
-    );
+    const storedWishlist = localStorage.getItem('prekshawishlist');
+    this.wishlistArray = storedWishlist ? JSON.parse(storedWishlist) : [];
     console.log('fetch', this.wishlistArray);
   }
 }
