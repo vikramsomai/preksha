@@ -11,7 +11,7 @@ export class CardComponent {
   productList = [
     {
       name: 'Ribbed modal T-shirt',
-      price: 'From $18.95',
+      price: 'NPR. 4000',
       sizes: ['M', 'L', 'XL'],
       colors: [
         {
@@ -33,7 +33,7 @@ export class CardComponent {
     },
     {
       name: 'Regular Fit Oxford Shirt',
-      price: 'From $10.00',
+      price: 'NPR. 5000',
       sizes: ['S', 'M', 'L'],
       colors: [
         {
@@ -66,7 +66,7 @@ export class CardComponent {
     },
     {
       name: 'Loose Fit Hoodie',
-      price: 'From $9.95',
+      price: 'NPR. 10000',
       sizes: ['S', 'M', 'L', 'XL'],
       colors: [
         {
@@ -89,7 +89,7 @@ export class CardComponent {
     },
     {
       name: 'Patterned Scarf',
-      price: 'From $14.95',
+      price: 'NPR. 4000',
       sizes: ['M', 'L', 'XL'],
       colors: [
         {
@@ -107,7 +107,7 @@ export class CardComponent {
     },
     {
       name: 'Slim Fit Fine-knit Turtleneck Sweater',
-      price: 'From $18.95',
+      price: 'NPR. 2400',
       sizes: ['S', 'M', 'L'],
       colors: [
         {
@@ -124,4 +124,7 @@ export class CardComponent {
       id: 4,
     },
   ];
+  addWishlist(event: any) {
+    console.log(event);
+  }
 }
