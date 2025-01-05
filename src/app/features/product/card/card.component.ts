@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
+  wishListArray: any[] = [];
   productList = [
     {
       name: 'Ribbed modal T-shirt',
@@ -124,7 +125,14 @@ export class CardComponent {
       id: 4,
     },
   ];
+  ngOnInit(): void {
+    this.wishListArray = JSON.parse(
+      localStorage.getItem('prekshawishlist') as string
+    );
+  }
   addWishlist(event: any) {
     console.log(event);
+    this.wishListArray.push(event);
+    localStorage.setItem('prekshawishlist', JSON.stringify(this.wishListArray));
   }
 }

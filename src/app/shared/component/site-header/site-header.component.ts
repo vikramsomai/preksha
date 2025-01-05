@@ -9,8 +9,15 @@ import { Component } from '@angular/core';
 })
 export class SiteHeaderComponent {
   isMenuOpen: boolean = false;
+  wishlistArray: any[] = [];
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+  ngOnInit(): void {
+    this.wishlistArray = JSON.parse(
+      localStorage.getItem('prekshawishlist') as string
+    );
+    console.log('fetch', this.wishlistArray);
   }
 }

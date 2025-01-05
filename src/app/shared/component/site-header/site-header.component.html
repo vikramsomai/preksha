@@ -142,7 +142,11 @@
           <li class="nav-wishlist">
             <a href="#" class="nav-icon-item"
               ><i class="icon icon-heart"></i
-              ><span class="count-box">0</span></a
+              ><span class="count-box"
+                >@if(wishlistArray.length!==0){
+                {{ wishlistArray.length }}
+                } @else { 0 }
+              </span></a
             >
           </li>
           <li class="nav-cart">
@@ -156,3 +160,62 @@
   </div>
 </header>
 <!-- /Header -->
+<!-- toolbar-bottom -->
+<div class="tf-toolbar-bottom type-1150">
+  <div class="toolbar-item">
+    <a
+      href="#toolbarShopmb"
+      data-bs-toggle="offcanvas"
+      aria-controls="offcanvasLeft"
+    >
+      <div class="toolbar-icon">
+        <i class="icon-shop"></i>
+      </div>
+      <div class="toolbar-label">Shop</div>
+    </a>
+  </div>
+
+  <div class="toolbar-item">
+    <a
+      href="#canvasSearch"
+      data-bs-toggle="offcanvas"
+      aria-controls="offcanvasLeft"
+    >
+      <div class="toolbar-icon">
+        <i class="icon-search"></i>
+      </div>
+      <div class="toolbar-label">Search</div>
+    </a>
+  </div>
+  <div class="toolbar-item">
+    <a href="#login" data-bs-toggle="modal">
+      <div class="toolbar-icon">
+        <i class="icon-account"></i>
+      </div>
+      <div class="toolbar-label">Account</div>
+    </a>
+  </div>
+  <div class="toolbar-item">
+    <a href="#">
+      <div class="toolbar-icon">
+        <i class="icon-heart"></i>
+        <div class="toolbar-count">
+          @if(wishlistArray.length!==0){
+          {{ wishlistArray.length }}
+          } @else { 0 }
+        </div>
+      </div>
+      <div class="toolbar-label">Wishlist</div>
+    </a>
+  </div>
+  <div class="toolbar-item">
+    <a href="#shoppingCart" data-bs-toggle="modal">
+      <div class="toolbar-icon">
+        <i class="icon-bag"></i>
+        <div class="toolbar-count">1</div>
+      </div>
+      <div class="toolbar-label">Cart</div>
+    </a>
+  </div>
+</div>
+<!-- /toolbar-bottom -->
