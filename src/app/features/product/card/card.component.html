@@ -1,0 +1,120 @@
+<div
+  class="grid-layout loadmore-item wow fadeInUp"
+  data-wow-delay="0s"
+  data-grid="grid-4"
+>
+  @for (item of productList; track $index) {
+  <div class="card-product fl-item">
+    <div class="card-product-wrapper">
+      <a href="#" class="product-img">
+        <img
+          class="lazyload img-product"
+          src="{{ item.colors[0].image }}"
+          data-src="{{ item.colors[0].image }}"
+          alt="image-product"
+        />
+        <img
+          class="lazyload img-hover"
+          [attr.src]="item.colors[0].hoverImage"
+          [attr.data-src]="item.colors[0].hoverImage"
+          alt="image-product"
+        />
+      </a>
+      <div class="list-product-btn">
+        <a
+          href="#quick_add"
+          data-bs-toggle="modal"
+          class="box-icon bg_white quick-add tf-btn-loading"
+        >
+          <span class="icon icon-bag"></span>
+          <span class="tooltip">Quick Add</span>
+        </a>
+        <a
+          href="javascript:void(0);"
+          class="box-icon bg_white wishlist btn-icon-action"
+        >
+          <span class="icon icon-heart"></span>
+          <span class="tooltip">Add to Wishlist</span>
+          <span class="icon icon-delete"></span>
+        </a>
+        <a
+          href="#compare"
+          data-bs-toggle="offcanvas"
+          aria-controls="offcanvasLeft"
+          class="box-icon bg_white compare btn-icon-action"
+        >
+          <span class="icon icon-compare"></span>
+          <span class="tooltip">Add to Compare</span>
+          <span class="icon icon-check"></span>
+        </a>
+        <a
+          href="#quick_view"
+          data-bs-toggle="modal"
+          class="box-icon bg_white quickview tf-btn-loading"
+        >
+          <span class="icon icon-view"></span>
+          <span class="tooltip">Quick View</span>
+        </a>
+      </div>
+      <div class="size-list">
+        @for (size of item.sizes; track $index) {
+        <span>{{ size }}</span>
+        }
+      </div>
+    </div>
+    <div class="card-product-info">
+      <a href="#" class="title link">{{ item.name }}</a>
+      <span class="price">{{ item.price }}</span>
+      <!-- <ul class="list-color-product">
+        @for (color of item.colors; track $index) {
+        <li
+          [class.active]="color.name === item.colors[0].name"
+          class="list-color-item color-swatch"
+        >
+          <span class="tooltip">{{ color.name }}</span>
+          <span class="swatch-value"></span>
+          <img
+            class="lazyload"
+            src="{{ color.image }}"
+            data-src="{{ color.image }}"
+            alt="image-product"
+          />
+        </li>
+        }
+      </ul> -->
+      <ul class="list-color-product">
+        <li class="list-color-item color-swatch active">
+          <span class="tooltip">Brown</span>
+          <span class="swatch-value bg_brown"></span>
+          <img
+            class="lazyload"
+            data-src="assets/images/products/brown.jpg"
+            src="assets/images/products/brown.jpg"
+            alt="image-product"
+          />
+        </li>
+        <li class="list-color-item color-swatch">
+          <span class="tooltip">Light Purple</span>
+          <span class="swatch-value bg_purple"></span>
+          <img
+            class="lazyload"
+            data-src="assets/images/products/purple.jpg"
+            src="assets/images/products/purple.jpg"
+            alt="image-product"
+          />
+        </li>
+        <li class="list-color-item color-swatch">
+          <span class="tooltip">Light Green</span>
+          <span class="swatch-value bg_light-green"></span>
+          <img
+            class="lazyload"
+            data-src="assets/images/products/green.jpg"
+            src="assets/images/products/green.jpg"
+            alt="image-product"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+  }
+</div>
