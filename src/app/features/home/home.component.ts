@@ -211,9 +211,13 @@ export class HomeComponent {
       console.log('Added to Cart:', { ...this.selectedProduct, ...formData });
     }
   }
-  addToCart(product: any) {
-    console.log('add cart', product);
-    this.cartService.addToCart(product, this.quantity); // Add 2 units of the product
+  addToCart(item: any) {
+    this.cartService.addToCart(
+      item,
+      this.quantity,
+      item.selectedColor,
+      item.selectedSize
+    ); // Add 2 units of the product
     console.log('qunatity', this.quantity);
   }
   addItem(item: any): void {
@@ -253,13 +257,28 @@ export class HomeComponent {
   updateQunatity(action: string, product: any, qty: number) {
     if (action === 'add') {
       qty = qty + 1;
-      this.cartService.updateCartItemQuantity(product.product.id, qty);
+      this.cartService.updateCartItemQuantity(
+        product.product.id,
+        product.product.selectedColor,
+        product.product.selectedSize,
+        qty
+      );
     } else if (action === 'delete' && qty > 1) {
       qty = qty - 1;
-      this.cartService.updateCartItemQuantity(product.product.id, qty);
+      this.cartService.updateCartItemQuantity(
+        product.product.id,
+        product.product.selectedColor,
+        product.product.selectedSize,
+        qty
+      );
     }
   }
-  removeCartItem(item: number) {
-    this.cartService.removeFromCart(item);
+  removeCartItem(item: any) {
+    const product = item.product;
+    this.cartService.removeFromCart(
+      product.id,
+      product.selectedColor,
+      product.selectedSize
+    );
   }
 }
