@@ -83,7 +83,7 @@ export class CartService {
 
   // Get the total cost of items in the cart
   getTotalCost(): number {
-    const currentCart = this.cartSource.getValue();
+    const currentCart = this.cartSource.getValue().reverse();
     return currentCart.reduce(
       (total, item) =>
         total +

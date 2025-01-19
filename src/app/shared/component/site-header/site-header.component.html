@@ -152,7 +152,10 @@
           </li>
           <li class="nav-cart">
             <a href="#shoppingCart" data-bs-toggle="modal" class="nav-icon-item"
-              ><i class="icon icon-bag"></i><span class="count-box">0</span></a
+              ><i class="icon icon-bag"></i
+              ><span class="count-box">{{
+                cartService.getTotalItems()
+              }}</span></a
             >
           </li>
         </ul>

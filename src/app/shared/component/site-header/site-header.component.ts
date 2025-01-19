@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IWishlistList } from '../../../core/services/wishlist/wishlist.interface';
 import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
-import { Route, Router, RouterLink, RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
+import { CartService } from '../../../core/services/cart/cart.service';
 
 @Component({
   selector: 'app-site-header',
@@ -12,12 +13,13 @@ import { Route, Router, RouterLink, RouterModule } from '@angular/router';
 })
 export class SiteHeaderComponent {
   wishlist: IWishlistList[] = [];
-  constructor(private wishlistService: WishlistService, private route: Router) {
+  constructor(
+    private wishlistService: WishlistService,
+    private route: Router,
+    public cartService: CartService
+  ) {
     this.wishlistService.wishlist$.subscribe((items) => {
       this.wishlist = items; // Update the local wishlist when data changes
     });
   }
-  // handleWishlist() {
-  //   this.route.navigate['/wishlist'];
-  // }
 }

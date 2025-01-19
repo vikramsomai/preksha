@@ -233,9 +233,7 @@ export class HomeComponent {
     this.selectedProduct = product;
     console.log('Selected Product:', this.selectedProduct);
   }
-  onQuantityChange() {
-    console.log('sdff');
-  }
+  onQuantityChange() {}
   addQunatity(id: number) {
     this.quantity = this.quantity + id;
   }
@@ -251,5 +249,17 @@ export class HomeComponent {
   // Method to update selected size
   onSizeChange(size: string): void {
     this.selectedProduct.selectedSize = size;
+  }
+  updateQunatity(action: string, product: any, qty: number) {
+    if (action === 'add') {
+      qty = qty + 1;
+      this.cartService.updateCartItemQuantity(product.product.id, qty);
+    } else if (action === 'delete' && qty > 1) {
+      qty = qty - 1;
+      this.cartService.updateCartItemQuantity(product.product.id, qty);
+    }
+  }
+  removeCartItem(item: number) {
+    this.cartService.removeFromCart(item);
   }
 }
