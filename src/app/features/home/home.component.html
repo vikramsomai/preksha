@@ -1163,51 +1163,41 @@
               <span class="fw-6">Free Shipping</span>
             </div>
           </div>
+
           <div class="tf-mini-cart-wrap">
             <div class="tf-mini-cart-main">
               <div class="tf-mini-cart-sroll">
                 <div class="tf-mini-cart-items">
+                  @for(item of cartlist;track item){
                   <div class="tf-mini-cart-item">
                     <div class="tf-mini-cart-image">
                       <a href="#">
-                        <img src="assets/images/products/white-2.jpg" alt="" />
+                        <img src="{{ item.product.colors[0].image }}" alt="" />
                       </a>
                     </div>
                     <div class="tf-mini-cart-info">
-                      <a class="title link" href="#">T-shirt</a>
+                      <a class="title link">{{ item.product?.name }}</a>
                       <div class="meta-variant">Light gray</div>
-                      <div class="price fw-6">NPR. 4000</div>
+                      <div class="price fw-6">
+                        {{ item.product?.price }}
+                      </div>
                       <div class="tf-mini-cart-btns">
                         <div class="wg-quantity small">
                           <span class="btn-quantity minus-btn">-</span>
-                          <input type="text" name="number" value="1" />
+                          <input
+                            type="text"
+                            name="number"
+                            value="{{ item.quantity }}"
+                          />
                           <span class="btn-quantity plus-btn">+</span>
                         </div>
                         <div class="tf-mini-cart-remove">Remove</div>
                       </div>
                     </div>
                   </div>
-                  <div class="tf-mini-cart-item">
-                    <div class="tf-mini-cart-image">
-                      <a href="#">
-                        <img src="assets/images/products/white-3.jpg" alt="" />
-                      </a>
-                    </div>
-                    <div class="tf-mini-cart-info">
-                      <a class="title link" href="#">Oversized Motif T-shirt</a>
-                      <div class="price fw-6">NPR. 4000</div>
-                      <div class="tf-mini-cart-btns">
-                        <div class="wg-quantity small">
-                          <span class="btn-quantity minus-btn">-</span>
-                          <input type="text" name="number" value="1" />
-                          <span class="btn-quantity plus-btn">+</span>
-                        </div>
-                        <div class="tf-mini-cart-remove">Remove</div>
-                      </div>
-                    </div>
-                  </div>
+                  }
                 </div>
-                <div class="tf-minicart-recommendations">
+                <!-- <div class="tf-minicart-recommendations">
                   <div class="tf-minicart-recommendations-heading">
                     <div class="tf-minicart-recommendations-title">
                       You may also like
@@ -1274,7 +1264,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="tf-mini-cart-bottom">
@@ -1329,7 +1319,9 @@
               <div class="tf-mini-cart-bottom-wrap">
                 <div class="tf-cart-totals-discounts">
                   <div class="tf-cart-total">Subtotal</div>
-                  <div class="tf-totals-total-value fw-6">NPR. 4000</div>
+                  <div class="tf-totals-total-value fw-6">
+                    {{ this.cartService.getTotalCost() }}
+                  </div>
                 </div>
                 <div class="tf-cart-tax">
                   Taxes and <a href="#">shipping</a> calculated at checkout

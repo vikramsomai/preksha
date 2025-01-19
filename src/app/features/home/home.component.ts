@@ -10,12 +10,19 @@ import {
 } from '@angular/forms';
 import { IWishlistList } from '../../core/services/wishlist/wishlist.interface';
 import { WishlistService } from '../../core/services/wishlist/wishlist.service';
-import { LowerCasePipe } from '@angular/common';
+import { JsonPipe, LowerCasePipe } from '@angular/common';
+import { CartService } from '../../core/services/cart/cart.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [LoginComponent, ReactiveFormsModule, FormsModule, LowerCasePipe],
+  imports: [
+    LoginComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    LowerCasePipe,
+    JsonPipe,
+  ],
   templateUrl: 'home.component.html',
   styleUrl: 'home.component.scss',
 })
@@ -166,8 +173,10 @@ export class HomeComponent {
   selectedProduct: any;
   cartForm: FormGroup;
   wishlist: IWishlistList[] = [];
+  cartlist: any[] = [];
   constructor(
     private fb: FormBuilder,
+    public cartService: CartService,
     private wishlistService: WishlistService
   ) {
     this.cartForm = this.fb.group({
@@ -177,6 +186,9 @@ export class HomeComponent {
     });
     this.wishlistService.wishlist$.subscribe((items) => {
       this.wishlist = items; // Update the local wishlist when data changes
+    });
+    this.cartService.cart$.subscribe((items) => {
+      this.cartlist = items;
     });
   }
 
@@ -200,7 +212,9 @@ export class HomeComponent {
     }
   }
   addToCart(product: any) {
-    console.log(product, this.quantity);
+    console.log('add cart', product);
+    this.cartService.addToCart(product, this.quantity); // Add 2 units of the product
+    console.log('qunatity', this.quantity);
   }
   addItem(item: any): void {
     this.wishlistService.addToWishlist(item);
@@ -223,10 +237,10 @@ export class HomeComponent {
     console.log('sdff');
   }
   addQunatity(id: number) {
-    this.quantity = id;
+    this.quantity = this.quantity + id;
   }
   decreaseQunatity(id: number) {
-    this.quantity = id;
+    this.quantity -= id;
   }
   // Method to update selected color
   onColorChange(color: string): void {
