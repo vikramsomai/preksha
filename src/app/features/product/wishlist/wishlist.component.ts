@@ -24,14 +24,12 @@ export class WishlistComponent {
 
   constructor(
     private wishlistService: WishlistService,
-    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.subscription = this.wishlistService.wishlist$.subscribe((items) => {
       this.wishlist = items;
     });
-    this.cdr.detectChanges(); // Manually trigger UI update
   }
 
   ngOnDestroy(): void {

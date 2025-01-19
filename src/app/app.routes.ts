@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { AdminDashboardComponent } from './features/dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './features/user-dashboard/user-dashboard.component';
-import { CartComponent } from './features/product/cart/cart.component';
 import { WishlistComponent } from './features/product/wishlist/wishlist.component';
 import { AdminLoginComponent } from './features/admin/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +12,10 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLoginComponent,
+  },
+  {
+    path: 'dashboard',
+    component: AdminDashboardComponent,
   },
   {
     path: 'wishlist',

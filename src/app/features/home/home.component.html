@@ -314,18 +314,21 @@
                   <span class="icon icon-bag"></span>
                   <span class="tooltip">Quick Add</span>
                 </a>
+                @if(!isInWishlist(item)){
                 <a class="box-icon bg_white wishlist btn-icon-action">
-                  @if(!isInWishlist(item)){
                   <span class="icon icon-heart" (click)="addItem(item)"></span>
                   <span class="tooltip">Add to Wishlist</span>
-                  }@else{
+                </a>
+                }@else if(isInWishlist(item)){
+                <a class="box-icon bg_white wishlist btn-icon-action">
                   <span
                     class="icon icon-delete"
                     (click)="removeItem(item)"
                   ></span>
                   <span class="tooltip">deletes from Wishlist</span>
-                  }
                 </a>
+                }
+
                 <!-- Quick View Button -->
                 <a
                   href="#quick_view"
@@ -1884,7 +1887,7 @@
                       type="radio"
                       name="size-1"
                       id="values-s-1"
-                      checked
+                      [checked]="selectedProduct?.selectedSize == 'S'"
                       (click)="onSizeChange('S')"
                     />
                     <label class="style-text" for="values-s-1" data-value="S">
@@ -1894,6 +1897,7 @@
                       type="radio"
                       name="size-1"
                       id="values-m-1"
+                      [checked]="selectedProduct?.selectedSize == 'M'"
                       (click)="onSizeChange('M')"
                     />
                     <label class="style-text" for="values-m-1" data-value="M">
@@ -1903,6 +1907,7 @@
                       type="radio"
                       name="size-1"
                       id="values-l-1"
+                      [checked]="selectedProduct?.selectedSize == 'L'"
                       (click)="onSizeChange('L')"
                     />
                     <label class="style-text" for="values-l-1" data-value="L">
@@ -1912,6 +1917,7 @@
                       type="radio"
                       name="size-1"
                       id="values-xl-1"
+                      [checked]="selectedProduct?.selectedSize == 'XL'"
                       (click)="onSizeChange('XL')"
                     />
                     <label class="style-text" for="values-xl-1" data-value="XL">

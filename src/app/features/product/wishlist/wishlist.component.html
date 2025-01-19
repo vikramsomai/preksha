@@ -3,22 +3,19 @@
   My wishlist {{ wishlist.length }} items
 </h3>
 
-@for(item of wishlist;track item){
-<img src="{{ item.colors[0].image }}" />
-}
-<!-- <div class="grid-layout loadmore-item wow fadeInUp" data-grid="grid-4">
-  @for (item of wishlist; track item) {
+<div class="grid-layout" data-grid="grid-4">
+  @for (item of wishlist; track item.id) {
   <div class="card-product fl-item">
     <div class="card-product-wrapper">
       <a class="product-img">
         <img
           class="img-product"
-          src="{{ item.colors[0].image }}"
+          src="{{ item.colors[0].image || '' }}"
           alt="image-product"
         />
         <img
           class="img-hover"
-          src="{{ item.colors[0].hoverImage }}"
+          src="{{ item.colors[0].hoverImage || '' }}"
           alt="image-product"
         />
       </a>
@@ -51,4 +48,4 @@
   } @empty {
   <p>empty data list</p>
   }
-</div> -->
+</div>
