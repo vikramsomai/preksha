@@ -1,22 +1,23 @@
 import { Component } from '@angular/core';
+import { IWishlistList } from '../../../core/services/wishlist/wishlist.interface';
+import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
+import { Route, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-site-header',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './site-header.component.html',
   styleUrl: './site-header.component.scss',
 })
 export class SiteHeaderComponent {
-  isMenuOpen: boolean = false;
-  wishlistArray: any[] = [];
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  wishlist: IWishlistList[] = [];
+  constructor(private wishlistService: WishlistService, private route: Router) {
+    this.wishlistService.wishlist$.subscribe((items) => {
+      this.wishlist = items; // Update the local wishlist when data changes
+    });
   }
-  ngOnInit(): void {
-    const storedWishlist = localStorage.getItem('prekshawishlist');
-    this.wishlistArray = storedWishlist ? JSON.parse(storedWishlist) : [];
-    console.log('fetch', this.wishlistArray);
-  }
+  // handleWishlist() {
+  //   this.route.navigate['/wishlist'];
+  // }
 }

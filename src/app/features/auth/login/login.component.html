@@ -13,12 +13,13 @@
         ></span>
       </div>
       <div class="tf-login-form">
-        <form class="" action="#" accept-charset="utf-8">
+        <form class="" [formGroup]="loginForm" accept-charset="utf-8">
           <div class="tf-field style-1">
             <input
               class="tf-field-input tf-input"
               placeholder=" "
               type="email"
+              formControlName="email"
               name=""
             />
             <label class="tf-field-label" for="">Email *</label>
@@ -28,6 +29,7 @@
               class="tf-field-input tf-input"
               placeholder=" "
               type="password"
+              formControlName="password"
               name=""
             />
             <label class="tf-field-label" for="">Password *</label>
@@ -44,6 +46,7 @@
             <div class="w-100">
               <button
                 type="submit"
+                (click)="handleLogin()"
                 class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
               >
                 <span>Log in</span>
@@ -129,11 +132,12 @@
         ></span>
       </div>
       <div class="tf-login-form">
-        <form class="">
+        <form class="" [formGroup]="signupForm">
           <div class="tf-field style-1">
             <input
               class="tf-field-input tf-input"
               placeholder=" "
+              formControlName="firstname"
               type="text"
               name=""
             />
@@ -143,6 +147,7 @@
             <input
               class="tf-field-input tf-input"
               placeholder=" "
+              formControlName="lastname"
               type="text"
               name=""
             />
@@ -152,6 +157,7 @@
             <input
               class="tf-field-input tf-input"
               placeholder=" "
+              formControlName="email"
               type="email"
               name=""
             />
@@ -162,6 +168,7 @@
               class="tf-field-input tf-input"
               placeholder=" "
               type="password"
+              formControlName="password"
               name=""
             />
             <label class="tf-field-label" for="">Password *</label>
@@ -170,6 +177,7 @@
             <div class="w-100">
               <a
                 href="#"
+                (click)="handleSignup()"
                 class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                 ><span>Register</span></a
               >

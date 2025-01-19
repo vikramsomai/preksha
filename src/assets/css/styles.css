@@ -1823,7 +1823,7 @@ label {
 }
 
 .header-absolute {
-  margin-bottom: -64px;
+  /* margin-bottom: -64px; */
   background-color: transparent;
   z-index: 999;
 }
@@ -16374,7 +16374,7 @@ blockquote .text {
   }
 
   .header-absolute {
-    margin-bottom: -94px;
+    margin-bottom: 20px;
   }
 
   .tf-slideshow .banner-wrapper .tf-btn {

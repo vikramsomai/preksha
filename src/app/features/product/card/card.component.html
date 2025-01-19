@@ -29,23 +29,14 @@
           <span class="icon icon-bag"></span>
           <span class="tooltip">Quick Add</span>
         </a>
-        <a
-          href="javascript:void(0);"
-          class="box-icon bg_white wishlist btn-icon-action"
-        >
-          <span class="icon icon-heart" (click)="addWishlist(item)"></span>
+        <a class="box-icon bg_white wishlist btn-icon-action">
+          @if(!isInWishlist(item)){
+          <span class="icon icon-heart" (click)="addItem(item)"></span>
           <span class="tooltip">Add to Wishlist</span>
-          <span class="icon icon-delete"></span>
-        </a>
-        <a
-          href="#compare"
-          data-bs-toggle="offcanvas"
-          aria-controls="offcanvasLeft"
-          class="box-icon bg_white compare btn-icon-action"
-        >
-          <span class="icon icon-compare"></span>
-          <span class="tooltip">Add to Compare</span>
-          <span class="icon icon-check"></span>
+          }@else{
+          <span class="icon icon-delete" (click)="removeItem(item)"></span>
+          <span class="tooltip">deletes from Wishlist</span>
+          }
         </a>
         <a
           href="#quick_view"
@@ -65,8 +56,8 @@
     <div class="card-product-info">
       <a href="#" class="title link">{{ item.name }}</a>
       <span class="price">{{ item.price }}</span>
-      <!-- <ul class="list-color-product">
-        @for (color of item.colors; track $index) {
+      <!-- <ul class="list-color-product"> -->
+      <!-- @for (color of item.colors; track $index) {
         <li
           [class.active]="color.name === item.colors[0].name"
           class="list-color-item color-swatch"
@@ -80,8 +71,8 @@
             alt="image-product"
           />
         </li>
-        }
-      </ul> -->
+        } -->
+      <!-- </ul> -->
       <ul class="list-color-product">
         <li class="list-color-item color-swatch active">
           <span class="tooltip">Brown</span>

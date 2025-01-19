@@ -31,7 +31,6 @@
 
  */
 
-
 (function ($) {
   "use strict";
 
@@ -93,7 +92,6 @@
         });
       }, 100);
     }
-    
   };
 
   /* Scroll process
@@ -142,7 +140,7 @@
       $this.closest(".file-delete").remove();
     });
 
-    $('.tf-compapre-button-clear-all').on("click", function (e) {
+    $(".tf-compapre-button-clear-all").on("click", function (e) {
       $(".tf-compare-item").remove();
     });
     $(".tf-compare-item .icon").on("click", function (e) {
@@ -150,10 +148,8 @@
       $this.closest(".tf-compare-item").remove();
     });
     $(".tf-mini-cart-remove").on("click", function (e) {
-      console.log('hhh')
       $(this).closest(".tf-mini-cart-item").remove();
     });
-
   };
 
   /* Go Top
@@ -263,44 +259,44 @@
 
   /* range
   -------------------------------------------------------------------------*/
-  var rangePrice = function(){
-    const rangeInput = document.querySelectorAll('.range-input input')
-    const progress = document.querySelector('.progress-price')
-    const minPrice = document.querySelector('.min-price')
-    const maxPrice = document.querySelector('.max-price')
+  var rangePrice = function () {
+    const rangeInput = document.querySelectorAll(".range-input input");
+    const progress = document.querySelector(".progress-price");
+    const minPrice = document.querySelector(".min-price");
+    const maxPrice = document.querySelector(".max-price");
 
-    let priceGap = 10
+    let priceGap = 10;
 
-    rangeInput.forEach(input => {
-        input.addEventListener('input', e => {
-            let minValue = parseInt(rangeInput[0].value, 10)
-            let maxValue = parseInt(rangeInput[1].value, 10)
+    rangeInput.forEach((input) => {
+      input.addEventListener("input", (e) => {
+        let minValue = parseInt(rangeInput[0].value, 10);
+        let maxValue = parseInt(rangeInput[1].value, 10);
 
-            if (maxValue - minValue < priceGap) {
-                if (e.target.class === 'range-min') {
-                    rangeInput[0].value = maxValue - priceGap
-                } else {
-                    rangeInput[1].value = minValue + priceGap
-                }
-            } else {
-                progress.style.left = (minValue / rangeInput[0].max) * 100 + "%";
-                progress.style.right = 100 - (maxValue / rangeInput[1].max) * 100 + "%";
-            }
+        if (maxValue - minValue < priceGap) {
+          if (e.target.class === "range-min") {
+            rangeInput[0].value = maxValue - priceGap;
+          } else {
+            rangeInput[1].value = minValue + priceGap;
+          }
+        } else {
+          progress.style.left = (minValue / rangeInput[0].max) * 100 + "%";
+          progress.style.right =
+            100 - (maxValue / rangeInput[1].max) * 100 + "%";
+        }
 
-            minPrice.innerHTML = minValue
-            maxPrice.innerHTML = maxValue
+        minPrice.innerHTML = minValue;
+        maxPrice.innerHTML = maxValue;
 
-            if (minValue >= 290) {
-                minPrice.innerHTML = 290
-            }
+        if (minValue >= 290) {
+          minPrice.innerHTML = 290;
+        }
 
-            if (maxValue <= 10) {
-                maxPrice.innerHTML = 10
-            }
-        })
-    })
-
-  }
+        if (maxValue <= 10) {
+          maxPrice.innerHTML = 10;
+        }
+      });
+    });
+  };
 
   /* sidebar mobile
   -------------------------------------------------------------------------*/
@@ -513,16 +509,16 @@
   /* filter
   -------------------------------------------------------------------------*/
   var filterTab = function () {
-    var $btnFilter = $('.tf-btns-filter').click(function() {
-      if (this.id == 'all') {
-        $('#parent > div').show();
+    var $btnFilter = $(".tf-btns-filter").click(function () {
+      if (this.id == "all") {
+        $("#parent > div").show();
       } else {
-        var $el = $('.' + this.id).show();
-        $('#parent > div').not($el).hide();
+        var $el = $("." + this.id).show();
+        $("#parent > div").not($el).hide();
       }
-      $btnFilter.removeClass('is--active');
-      $(this).addClass('is--active');
-    })
+      $btnFilter.removeClass("is--active");
+      $(this).addClass("is--active");
+    });
   };
 
   /* modal second
@@ -554,8 +550,6 @@
     );
   };
 
-
-
   /* header sticky
   -------------------------------------------------------------------------*/
   var headerSticky = function () {
@@ -566,7 +560,7 @@
     $(window).scroll(function (event) {
       didScroll = true;
     });
-    
+
     setInterval(function () {
       if (didScroll) {
         let st = $(this).scrollTop();
@@ -576,11 +570,11 @@
         // If scrolled down and past the navbar, add class .nav-up.
         if (st > lastScrollTop && st > navbarHeight) {
           // Scroll Down
-          $("header").css("top",`-${navbarHeight}px`)
+          $("header").css("top", `-${navbarHeight}px`);
         } else {
           // Scroll Up
           if (st + $(window).height() < $(document).height()) {
-            $("header").css("top","0px");
+            $("header").css("top", "0px");
           }
         }
         lastScrollTop = st;
@@ -599,12 +593,13 @@
         $("header").removeClass("header-bg");
       }
     });
-  }
-   /* total cart
+  };
+  /* total cart
   -------------------------------------------------------------------------*/
   var totalPriceVariant = function () {
-
-    var basePrice = parseFloat($(".price-on-sale").data("base-price")) || parseFloat($(".price-on-sale").text().replace("$", ""));
+    var basePrice =
+      parseFloat($(".price-on-sale").data("base-price")) ||
+      parseFloat($(".price-on-sale").text().replace("$", ""));
     var quantityInput = $(".quantity-product");
     // quantityInput.on("keydown keypress input", function(event) {
     //   event.preventDefault();
@@ -612,9 +607,13 @@
     $(".color-btn, .size-btn").on("click", function () {
       var newPrice = parseFloat($(this).data("price")) || basePrice;
       quantityInput.val(1);
-      $(".price-on-sale").text("$" + newPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $(".price-on-sale").text(
+        "$" + newPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      );
       var totalPrice = newPrice;
-      $(".total-price").text("$" + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $(".total-price").text(
+        "$" + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      );
     });
 
     $(".btn-increase").on("click", function () {
@@ -632,52 +631,63 @@
     });
 
     function updateTotalPrice() {
-      var currentPrice = parseFloat($(".price-on-sale").text().replace("$", ""));
+      var currentPrice = parseFloat(
+        $(".price-on-sale").text().replace("$", "")
+      );
       var quantity = parseInt(quantityInput.val());
       var totalPrice = currentPrice * quantity;
-      $(".total-price").text("$" + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $(".total-price").text(
+        "$" + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      );
     }
-
   };
 
   /* scroll grid product
   ------------------------------------------------------------------------------------- */
-  var scrollGridProduct = function(){
-
-    var headerHeight = $("#header").outerHeight(); 
-    var activeColorBtn = null; 
+  var scrollGridProduct = function () {
+    var headerHeight = $("#header").outerHeight();
+    var activeColorBtn = null;
     $(".btn-grid-color").on("click", function () {
-        var color = $(this).data("color");
-        var target = $(".item-img-color[data-color='" + color + "']"); 
-        $('html, body').animate({
-            scrollTop: target.offset().top - headerHeight 
-        }, 100);
+      var color = $(this).data("color");
+      var target = $(".item-img-color[data-color='" + color + "']");
+      $("html, body").animate(
+        {
+          scrollTop: target.offset().top - headerHeight,
+        },
+        100
+      );
 
-        $(".btn-grid-color").removeClass("active");
-        $(this).addClass("active");
-        activeColorBtn = $(this); 
+      $(".btn-grid-color").removeClass("active");
+      $(this).addClass("active");
+      activeColorBtn = $(this);
     });
 
     $(window).on("scroll", function () {
-        var isActiveSet = false; 
-        $(".item-img-color").each(function () {
-            var targetTop = $(this).offset().top - headerHeight;
-            if ($(window).scrollTop() >= targetTop && $(window).scrollTop() < (targetTop + $(this).outerHeight())) {
-                var color = $(this).data("color");
-                if (!isActiveSet && (activeColorBtn === null || activeColorBtn.data("color") !== color)) {
-                    $(".btn-grid-color").removeClass("active");
-                    $(".btn-grid-color[data-color='" + color + "']").addClass("active");
-                    // $('.value-currentColor').text(color);
-                }
-                isActiveSet = true; 
-            }
-        });
-        if (!isActiveSet && activeColorBtn !== null) {
+      var isActiveSet = false;
+      $(".item-img-color").each(function () {
+        var targetTop = $(this).offset().top - headerHeight;
+        if (
+          $(window).scrollTop() >= targetTop &&
+          $(window).scrollTop() < targetTop + $(this).outerHeight()
+        ) {
+          var color = $(this).data("color");
+          if (
+            !isActiveSet &&
+            (activeColorBtn === null || activeColorBtn.data("color") !== color)
+          ) {
             $(".btn-grid-color").removeClass("active");
-            activeColorBtn.addClass("active");
+            $(".btn-grid-color[data-color='" + color + "']").addClass("active");
+            // $('.value-currentColor').text(color);
+          }
+          isActiveSet = true;
         }
+      });
+      if (!isActiveSet && activeColorBtn !== null) {
+        $(".btn-grid-color").removeClass("active");
+        activeColorBtn.addClass("active");
+      }
     });
-  }
+  };
 
   /* contact form
   ------------------------------------------------------------------------------------- */
@@ -727,7 +737,7 @@
       });
     }); // each contactform
   };
-  
+
   /* subscribe mailchimp
   ------------------------------------------------------------------------------------- */
   var ajaxSubscribe = {
@@ -842,20 +852,19 @@
   /* auto popup
   ------------------------------------------------------------------------------------- */
   var autoPopup = function () {
-    if($("body").hasClass("popup-loader")){
+    if ($("body").hasClass("popup-loader")) {
       if ($(".auto-popup").length > 0) {
         let showPopup = sessionStorage.getItem("showPopup");
         if (!JSON.parse(showPopup)) {
           setTimeout(function () {
-            $(".auto-popup").modal('show');
+            $(".auto-popup").modal("show");
           }, 3000);
         }
       }
       $(".btn-hide-popup").on("click", function () {
         sessionStorage.setItem("showPopup", true);
       });
-    };
-
+    }
   };
   /* toggle control
   ------------------------------------------------------------------------------------- */
@@ -870,10 +879,16 @@
     });
 
     $(".btn-edit-address").click(function () {
-      $(this).closest(".account-address-item").find(".edit-form-address").toggle();
+      $(this)
+        .closest(".account-address-item")
+        .find(".edit-form-address")
+        .toggle();
     });
     $(".btn-hide-edit-address").click(function () {
-      $(this).closest(".account-address-item").find(".edit-form-address").hide();
+      $(this)
+        .closest(".account-address-item")
+        .find(".edit-form-address")
+        .hide();
     });
   };
   /* RTL
@@ -882,27 +897,29 @@
     if (localStorage.getItem("dir") === "rtl") {
       $("html").attr("dir", "rtl");
       $("body").addClass("rtl");
-      $('#toggle-rtl').text('ltr');
-      $(".tf-slideshow .tf-btn,.view-all-demo .tf-btn, .pagination-link, .pagination-item").find(".icon").removeClass("icon-arrow-right").addClass("icon-arrow-left");    
+      $("#toggle-rtl").text("ltr");
+      $(
+        ".tf-slideshow .tf-btn,.view-all-demo .tf-btn, .pagination-link, .pagination-item"
+      )
+        .find(".icon")
+        .removeClass("icon-arrow-right")
+        .addClass("icon-arrow-left");
     } else {
       $("html").attr("dir", "ltr");
       $("body").removeClass("rtl");
-      $('#toggle-rtl').text('rtl');      
-      
+      $("#toggle-rtl").text("rtl");
     }
-    $("#toggle-rtl").on("click", function() {
+    $("#toggle-rtl").on("click", function () {
       if ($("html").attr("dir") === "rtl") {
-        localStorage.setItem("dir", "ltr"); 
-        $('#toggle-rtl').text('rtl');      
-
+        localStorage.setItem("dir", "ltr");
+        $("#toggle-rtl").text("rtl");
       } else {
         localStorage.setItem("dir", "rtl");
-        $('#toggle-rtl').text('ltr');      
+        $("#toggle-rtl").text("ltr");
       }
       location.reload();
     });
   };
-
 
   /* hoverPin
   -------------------------------------------------------------------------*/
@@ -910,8 +927,10 @@
     if ($(".wrap-lookbook-hover").length) {
       $(".bundle-pin-item").on("mouseover", function () {
         $(".bundle-hover-wrap").addClass("has-hover");
-        var $el = $('.' + this.id).show();
-        $('.bundle-hover-wrap .bundle-hover-item').not($el).addClass("no-hover");
+        var $el = $("." + this.id).show();
+        $(".bundle-hover-wrap .bundle-hover-item")
+          .not($el)
+          .addClass("no-hover");
       });
       $(".bundle-pin-item").on("mouseleave", function () {
         $(".bundle-hover-wrap").removeClass("has-hover");
@@ -920,20 +939,17 @@
     }
   };
 
-    /* write-review
+  /* write-review
   ------------------------------------------------------------------------------------- */
   var writeReview = function () {
-
     if ($(".write-cancel-review-wrap").length > 0) {
       $(".btn-comment-review").click(function () {
-        $(this).closest(".write-cancel-review-wrap").toggleClass("write-review");
+        $(this)
+          .closest(".write-cancel-review-wrap")
+          .toggleClass("write-review");
       });
     }
-   
   };
-
-
-
 
   // Dom Ready
   $(function () {

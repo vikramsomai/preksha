@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="top-bar-language tf-cur justify-content-end">
+      <!-- <div class="top-bar-language tf-cur justify-content-end">
         <div class="tf-currencies">
           <select class="image-select center style-default type-currencies">
             <option data-thumbnail="assets/images/country/fr.svg">
@@ -70,13 +70,13 @@
               USD <span>$ | United States</span>
             </option>
           </select>
-        </div>
-        <div class="tf-languages">
+        </div> -->
+      <!-- <div class="tf-languages">
           <select class="image-select center style-default type-languages">
             <option>English</option>
           </select>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
     </div>
   </div>
 </div>
@@ -105,20 +105,21 @@
         </a>
       </div>
       <div class="col-xl-3 col-md-4 col-6">
-        <a href="#" class="logo-header">
+        <a routerLink="/" class="logo-header">
           <img
             src="assets/images/logo/logo.png"
             alt="logo"
             class="logo"
             height="20px"
+            routerLink="/"
             width="50px"
           />
         </a>
       </div>
       <div class="col-xl-6 tf-md-hidden">
         <ul style="display: flex; gap: 10">
-          <li>Men</li>
-          <li style="margin-left: 20px">Women</li>
+          <!-- <li>Men</li>
+          <li style="margin-left: 20px">Women</li> -->
         </ul>
       </div>
       <div class="col-xl-3 col-md-4 col-3">
@@ -140,11 +141,11 @@
             ></a>
           </li>
           <li class="nav-wishlist">
-            <a href="#" class="nav-icon-item"
+            <a class="nav-icon-item" routerLink="/wishlist"
               ><i class="icon icon-heart"></i
               ><span class="count-box"
-                >@if(wishlistArray.length!==0){
-                {{ wishlistArray.length }}
+                >@if(wishlist.length!==0){
+                {{ wishlist.length }}
                 } @else { 0 }
               </span></a
             >
@@ -196,12 +197,12 @@
     </a>
   </div>
   <div class="toolbar-item">
-    <a href="#">
+    <a routerLink="/wishlist">
       <div class="toolbar-icon">
         <i class="icon-heart"></i>
         <div class="toolbar-count">
-          @if(wishlistArray.length!==0){
-          {{ wishlistArray.length }}
+          @if(wishlist.length!==0){
+          {{ wishlist.length }}
           } @else { 0 }
         </div>
       </div>

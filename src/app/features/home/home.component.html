@@ -268,162 +268,6 @@
       </div>
     </div>
     <!-- /Marquee -->
-    <!-- Categories -->
-    <!-- <section class="flat-spacing-4 flat-categorie">
-      <div class="container-full">
-        <div class="flat-title-v2">
-          <div class="box-sw-navigation">
-            <div class="nav-sw nav-next-slider nav-next-collection">
-              <span class="icon icon-arrow-left"></span>
-            </div>
-            <div class="nav-sw nav-prev-slider nav-prev-collection">
-              <span class="icon icon-arrow-right"></span>
-            </div>
-          </div>
-          <span
-            class="text-3 fw-7 text-uppercase title wow fadeInUp"
-            data-wow-delay="0s"
-            >SHOP BY CATEGORIES</span
-          >
-        </div>
-        <div class="row">
-          <div class="col-xl-9 col-lg-8 col-md-8">
-            <div
-              dir="ltr"
-              class="swiper tf-sw-collection"
-              data-preview="3"
-              data-tablet="2"
-              data-mobile="2"
-              data-space-lg="30"
-              data-space-md="30"
-              data-space="15"
-              data-loop="false"
-              data-auto-play="false"
-            >
-              <div class="swiper-wrapper">
-                <div class="swiper-slide" lazy="true">
-                  <div class="collection-item style-left hover-img">
-                    <div class="collection-inner">
-                      <a href="#" class="collection-image img-style">
-                        <img
-                          class="lazyload"
-                          data-src="assets/images/collections/collection-17.jpg"
-                          src="assets/images/collections/collection-17.jpg"
-                          alt="collection-img"
-                        />
-                      </a>
-                      <div class="collection-content">
-                        <a
-                          href="#"
-                          class="tf-btn collection-title hover-icon fs-15"
-                          ><span>Clothing</span
-                          ><i class="icon icon-arrow1-top-left"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide" lazy="true">
-                  <div class="collection-item style-left hover-img">
-                    <div class="collection-inner">
-                      <a href="#" class="collection-image img-style">
-                        <img
-                          class="lazyload"
-                          data-src="assets/images/collections/collection-14.jpg"
-                          src="assets/images/collections/collection-14.jpg"
-                          alt="collection-img"
-                        />
-                      </a>
-                      <div class="collection-content">
-                        <a
-                          href="#"
-                          class="tf-btn collection-title hover-icon fs-15"
-                          ><span>Sunglasses</span
-                          ><i class="icon icon-arrow1-top-left"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide" lazy="true">
-                  <div class="collection-item style-left hover-img">
-                    <div class="collection-inner">
-                      <a href="#" class="collection-image img-style">
-                        <img
-                          class="lazyload"
-                          data-src="assets/images/collections/collection-18.jpg"
-                          src="assets/images/collections/collection-18.jpg"
-                          alt="collection-demo-1"
-                        />
-                      </a>
-                      <div class="collection-content">
-                        <a
-                          href="#"
-                          class="tf-btn collection-title hover-icon fs-15"
-                          ><span>Bags</span
-                          ><i class="icon icon-arrow1-top-left"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide" lazy="true">
-                  <div class="collection-item style-left hover-img">
-                    <div class="collection-inner">
-                      <a href="#" class="collection-image img-style">
-                        <img
-                          class="lazyload"
-                          data-src="assets/images/collections/collection-15.jpg"
-                          src="assets/images/collections/collection-15.jpg"
-                          alt="collection-demo-1"
-                        />
-                      </a>
-                      <div class="collection-content">
-                        <a
-                          href="#"
-                          class="tf-btn collection-title hover-icon fs-15"
-                          ><span>Fashion</span
-                          ><i class="icon icon-arrow1-top-left"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide" lazy="true">
-                  <div class="collection-item style-left hover-img">
-                    <div class="collection-inner">
-                      <a href="#" class="collection-image img-style">
-                        <img
-                          class="lazyload"
-                          data-src="assets/images/collections/collection-20.jpg"
-                          src="assets/images/collections/collection-20.jpg"
-                          alt="collection-demo-1"
-                        />
-                      </a>
-                      <div class="collection-content">
-                        <a
-                          href="#"
-                          class="tf-btn collection-title hover-icon fs-15"
-                          ><span>Accessories</span
-                          ><i class="icon icon-arrow1-top-left"></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-4 col-md-4">
-            <div class="discovery-new-item">
-              <h5>Discovery all new items</h5>
-              <a href="#"><i class="icon-arrow1-top-left"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-    <!-- /Categories -->
     <!-- Seller -->
     <section class="flat-spacing-5 pt_0 flat-seller">
       <div class="container">
@@ -436,7 +280,125 @@
             arrivals
           </p>
         </div>
-        <app-card></app-card>
+        <!-- <app-card></app-card> -->
+        <div
+          class="grid-layout loadmore-item wow fadeInUp"
+          data-wow-delay="0s"
+          data-grid="grid-4"
+        >
+          @for (item of productList; track $index) {
+          <div class="card-product fl-item">
+            <div class="card-product-wrapper">
+              <a href="#" class="product-img">
+                <img
+                  class="lazyload img-product"
+                  src="{{ item.colors[0].image }}"
+                  data-src="{{ item.colors[0].image }}"
+                  alt="image-product"
+                />
+                <img
+                  class="lazyload img-hover"
+                  [attr.src]="item.colors[0].hoverImage"
+                  [attr.data-src]="item.colors[0].hoverImage"
+                  alt="image-product"
+                />
+              </a>
+              <div class="list-product-btn">
+                <!-- quick add button -->
+                <a
+                  href="#quick_add"
+                  data-bs-toggle="modal"
+                  (click)="setSelectedProduct(item)"
+                  class="box-icon bg_white quick-add tf-btn-loading"
+                >
+                  <span class="icon icon-bag"></span>
+                  <span class="tooltip">Quick Add</span>
+                </a>
+                <a class="box-icon bg_white wishlist btn-icon-action">
+                  @if(!isInWishlist(item)){
+                  <span class="icon icon-heart" (click)="addItem(item)"></span>
+                  <span class="tooltip">Add to Wishlist</span>
+                  }@else{
+                  <span
+                    class="icon icon-delete"
+                    (click)="removeItem(item)"
+                  ></span>
+                  <span class="tooltip">deletes from Wishlist</span>
+                  }
+                </a>
+                <!-- Quick View Button -->
+                <a
+                  href="#quick_view"
+                  data-bs-toggle="modal"
+                  (click)="setSelectedProduct(item)"
+                  class="box-icon bg_white quickview tf-btn-loading"
+                >
+                  <span class="icon icon-view"></span>
+                  <span class="tooltip">Quick View</span>
+                </a>
+              </div>
+              <div class="size-list">
+                @for (size of item.sizes; track $index) {
+                <span>{{ size }}</span>
+                }
+              </div>
+            </div>
+            <div class="card-product-info">
+              <a href="#" class="title link">{{ item.name }}</a>
+              <span class="price">{{ item.price }}</span>
+              <!-- <ul class="list-color-product"> -->
+              <!-- @for (color of item.colors; track $index) {
+              <li
+                [class.active]="color.name === item.colors[0].name"
+                class="list-color-item color-swatch"
+              >
+                <span class="tooltip">{{ color.name }}</span>
+                <span class="swatch-value"></span>
+                <img
+                  class="lazyload"
+                  src="{{ color.image }}"
+                  data-src="{{ color.image }}"
+                  alt="image-product"
+                />
+              </li>
+              } -->
+              <!-- </ul> -->
+              <ul class="list-color-product">
+                <li class="list-color-item color-swatch active">
+                  <span class="tooltip">Brown</span>
+                  <span class="swatch-value bg_brown"></span>
+                  <img
+                    class="lazyload"
+                    data-src="assets/images/products/brown.jpg"
+                    src="assets/images/products/brown.jpg"
+                    alt="image-product"
+                  />
+                </li>
+                <li class="list-color-item color-swatch">
+                  <span class="tooltip">Light Purple</span>
+                  <span class="swatch-value bg_purple"></span>
+                  <img
+                    class="lazyload"
+                    data-src="assets/images/products/purple.jpg"
+                    src="assets/images/products/purple.jpg"
+                    alt="image-product"
+                  />
+                </li>
+                <li class="list-color-item color-swatch">
+                  <span class="tooltip">Light Green</span>
+                  <span class="swatch-value bg_light-green"></span>
+                  <img
+                    class="lazyload"
+                    data-src="assets/images/products/green.jpg"
+                    src="assets/images/products/green.jpg"
+                    alt="image-product"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+          }
+        </div>
       </div>
       <div class="tf-pagination-wrap view-more-button text-center">
         <button class="tf-btn-loading tf-loading-default style-2 btn-loadmore">
@@ -446,168 +408,7 @@
       <!-- </div> -->
     </section>
     <!-- /Seller -->
-    <!-- Lookbook -->
-    <section class="flat-spacing-6">
-      <div class="flat-title wow fadeInUp" data-wow-delay="0s">
-        <span class="title">Shop the look</span>
-        <p class="sub-title">
-          Inspire and let yourself be inspired, from one unique fashion to
-          another.
-        </p>
-      </div>
-      <div
-        dir="ltr"
-        class="swiper tf-sw-lookbook"
-        data-preview="2"
-        data-tablet="2"
-        data-mobile="1"
-        data-space-lg="0"
-        data-space-md="0"
-      >
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" lazy="true">
-            <div class="wrap-lookbook lookbook-1">
-              <div class="image">
-                <img
-                  class="lazyload"
-                  data-src="assets/images/shop/file/lookbook-3.jpg"
-                  src="assets/images/shop/file/lookbook-3.jpg"
-                  alt="image-lookbook"
-                />
-              </div>
-              <div class="lookbook-item item-1">
-                <div class="inner">
-                  <div class="btn-group dropdown dropup dropdown-center">
-                    <button
-                      class="tf-pin-btn"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <span></span>
-                    </button>
-                    <ul class="dropdown-menu p-0 border-0">
-                      <li>
-                        <div class="lookbook-product">
-                          <a href="#" class="image">
-                            <img
-                              class="lazyload"
-                              data-src="assets/images/shop/products/img-p2.png"
-                              src="assets/images/shop/products/img-p2.png"
-                              alt="lookbook-item"
-                            />
-                          </a>
-                          <div class="content-wrap">
-                            <div class="product-title">
-                              <a href="#">Jersey thong body</a>
-                            </div>
-                            <div class="price">NPR. 4000</div>
-                          </div>
-                          <a href="#quick_view" data-bs-toggle="modal" class=""
-                            ><i class="icon-view"></i
-                          ></a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="lookbook-item item-2">
-                <div class="inner">
-                  <div class="btn-group dropdown dropup dropdown-center">
-                    <button
-                      class="tf-pin-btn"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <span></span>
-                    </button>
-                    <ul class="dropdown-menu p-0 border-0">
-                      <li>
-                        <div class="lookbook-product">
-                          <a href="#" class="image">
-                            <img
-                              class="lazyload"
-                              data-src="assets/images/shop/products/img-p4.png"
-                              src="assets/images/shop/products/img-p4.png"
-                              alt=""
-                            />
-                          </a>
-                          <div class="content-wrap">
-                            <div class="product-title">
-                              <a href="#">Ribbed modal T-shirt</a>
-                            </div>
-                            <div class="price">NPR. 4000</div>
-                          </div>
-                          <a href="#quick_view" data-bs-toggle="modal" class=""
-                            ><i class="icon-view"></i
-                          ></a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide" lazy="true">
-            <div class="wrap-lookbook lookbook-2">
-              <div class="image">
-                <img
-                  class="lazyload"
-                  data-src="images/shop/file/lookbook-4.jpg"
-                  src="images/shop/file/lookbook-4.jpg"
-                  alt="image-lookbook"
-                />
-              </div>
-              <div class="lookbook-item item-1">
-                <div class="inner">
-                  <div class="btn-group dropdown dropup dropdown-center">
-                    <button
-                      class="tf-pin-btn"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <span></span>
-                    </button>
-                    <ul class="dropdown-menu p-0 border-0">
-                      <li>
-                        <div class="lookbook-product">
-                          <a href="#" class="image">
-                            <img
-                              class="lazyload"
-                              data-src="assets/images/shop/products/img-p5.png"
-                              src="assets/images/shop/products/img-p5.png"
-                              alt=""
-                            />
-                          </a>
-                          <div class="content-wrap">
-                            <div class="product-title">
-                              <a href="#">Ribbed Tank Top</a>
-                            </div>
-                            <div class="price">NPR. 4000</div>
-                          </div>
-                          <a href="#quick_view" data-bs-toggle="modal" class=""
-                            ><i class="icon-view"></i
-                          ></a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="wrap-pagination">
-          <div class="container-full">
-            <div
-              class="sw-dots sw-pagination-lookbook justify-content-center"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- /Lookbook -->
+
     <!-- Testimonial -->
     <section class="flat-spacing-5 pt_0 flat-testimonial">
       <div class="container">
@@ -816,205 +617,9 @@
         </div>
       </div>
     </section>
+
     <!-- /Testimonial -->
-    <!-- brand -->
-    <!-- <section class="flat-spacing-5 pt_0">
-      <div class="container">
-        <div
-          dir="ltr"
-          class="swiper tf-sw-brand"
-          data-loop="false"
-          data-play="false"
-          data-preview="6"
-          data-tablet="3"
-          data-mobile="2"
-          data-space-lg="0"
-          data-space-md="0"
-        >
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="brand-item">
-                <img
-                  class="lazyload"
-                  data-src="assets/images/brand/brand-02.png"
-                  src="assets/images/brand/brand-02.png"
-                  alt="image-brand"
-                />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="brand-item">
-                <img
-                  class="lazyload"
-                  data-src="images/brand/brand-03.png"
-                  src="images/brand/brand-03.png"
-                  alt="image-brand"
-                />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="brand-item">
-                <img
-                  class="lazyload"
-                  data-src="images/brand/brand-04.png"
-                  src="images/brand/brand-04.png"
-                  alt="image-brand"
-                />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="brand-item">
-                <img
-                  class="lazyload"
-                  data-src="images/brand/brand-05.png"
-                  src="images/brand/brand-05.png"
-                  alt="image-brand"
-                />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="brand-item">
-                <img
-                  class="lazyload"
-                  data-src="images/brand/brand-06.png"
-                  src="images/brand/brand-06.png"
-                  alt="image-brand"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="sw-dots style-2 sw-pagination-brand justify-content-center"
-        ></div>
-      </div>
-    </section> -->
-    <!-- /brand -->
-    <!-- Shop Gram -->
-    <section class="flat-spacing-7">
-      <div class="container">
-        <div class="flat-title wow fadeInUp" data-wow-delay="0s">
-          <span class="title">Shop Gram</span>
-          <p class="sub-title">
-            Inspire and let yourself be inspired, from one unique fashion to
-            another.
-          </p>
-        </div>
-        <div class="wrap-carousel wrap-shop-gram">
-          <div
-            dir="ltr"
-            class="swiper tf-sw-shop-gallery"
-            data-preview="5"
-            data-tablet="3"
-            data-mobile="2"
-            data-space-lg="7"
-            data-space-md="7"
-          >
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div
-                  class="gallery-item hover-img wow fadeInUp"
-                  data-wow-delay=".2s"
-                >
-                  <div class="img-style">
-                    <img
-                      class="lazyload img-hover"
-                      data-src="assets/images/shop/gallery/gallery-7.jpg"
-                      src="assets/images/shop/gallery/gallery-7.jpg"
-                      alt="image-gallery"
-                    />
-                  </div>
-                  <a href="#quick_add" data-bs-toggle="modal" class="box-icon"
-                    ><span class="icon icon-bag"></span>
-                    <span class="tooltip">Quick Add</span></a
-                  >
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="gallery-item hover-img wow fadeInUp"
-                  data-wow-delay=".3s"
-                >
-                  <div class="img-style">
-                    <img
-                      class="lazyload img-hover"
-                      data-src="assets/images/shop/gallery/gallery-3.jpg"
-                      src="assets/images/shop/gallery/gallery-3.jpg"
-                      alt="image-gallery"
-                    />
-                  </div>
-                  <a href="#quick_add" data-bs-toggle="modal" class="box-icon"
-                    ><span class="icon icon-bag"></span>
-                    <span class="tooltip">Quick Add</span></a
-                  >
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="gallery-item hover-img wow fadeInUp"
-                  data-wow-delay=".4s"
-                >
-                  <div class="img-style">
-                    <img
-                      class="lazyload img-hover"
-                      data-src="assets/images/shop/gallery/gallery-5.jpg"
-                      src="assets/images/shop/gallery/gallery-5.jpg"
-                      alt="image-gallery"
-                    />
-                  </div>
-                  <a href="#quick_add" data-bs-toggle="modal" class="box-icon"
-                    ><span class="icon icon-bag"></span>
-                    <span class="tooltip">Quick Add</span></a
-                  >
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="gallery-item hover-img wow fadeInUp"
-                  data-wow-delay=".5s"
-                >
-                  <div class="img-style">
-                    <img
-                      class="lazyload img-hover"
-                      data-src="assets/images/shop/gallery/gallery-8.jpg"
-                      src="assets/images/shop/gallery/gallery-8.jpg"
-                      alt="image-gallery"
-                    />
-                  </div>
-                  <a href="#" class="box-icon"
-                    ><span class="icon icon-bag"></span>
-                    <span class="tooltip">View product</span></a
-                  >
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="gallery-item hover-img wow fadeInUp"
-                  data-wow-delay=".6s"
-                >
-                  <div class="img-style">
-                    <img
-                      class="lazyload img-hover"
-                      data-src="images/shop/gallery/gallery-6.jpg"
-                      src="images/shop/gallery/gallery-6.jpg"
-                      alt="image-gallery"
-                    />
-                  </div>
-                  <a href="#" class="box-icon"
-                    ><span class="icon icon-bag"></span>
-                    <span class="tooltip">View product</span></a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="sw-dots sw-pagination-gallery justify-content-center"
-          ></div>
-        </div>
-      </div>
-    </section>
-    <!-- /Shop Gram -->
+
     <!-- Icon box -->
     <section
       class="flat-spacing-7 flat-iconbox wow fadeInUp"
@@ -2002,77 +1607,6 @@
   </div>
   <!-- /shoppingCart -->
 
-  <!-- modal compare -->
-  <div class="offcanvas offcanvas-bottom canvas-compare" id="compare">
-    <div class="canvas-wrapper">
-      <header class="canvas-header">
-        <div class="close-popup">
-          <span
-            class="icon-close icon-close-popup"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></span>
-        </div>
-      </header>
-      <div class="canvas-body">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="tf-compare-list">
-                <div class="tf-compare-head">
-                  <div class="title">Compare Products</div>
-                </div>
-                <div class="tf-compare-offcanvas">
-                  <div class="tf-compare-item">
-                    <div class="position-relative">
-                      <div class="icon">
-                        <i class="icon-close"></i>
-                      </div>
-                      <a href="#">
-                        <img
-                          class="radius-3"
-                          src="assets/images/products/orange-1.jpg"
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                  </div>
-                  <div class="tf-compare-item">
-                    <div class="position-relative">
-                      <div class="icon">
-                        <i class="icon-close"></i>
-                      </div>
-                      <a href="#">
-                        <img
-                          class="radius-3"
-                          src="assets/images/products/pink-1.jpg"
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="tf-compare-buttons">
-                  <div class="tf-compare-buttons-wrap">
-                    <a
-                      href="#"
-                      class="tf-btn radius-3 btn-fill justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn"
-                      >Compare</a
-                    >
-                    <div class="tf-compapre-button-clear-all link">
-                      Clear All
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- /modal compare -->
-
   <!-- modal quick_add -->
   <div class="modal fade modalDemo" id="quick_add">
     <div class="modal-dialog modal-dialog-centered">
@@ -2086,15 +1620,19 @@
         <div class="wrap">
           <div class="tf-product-info-item">
             <div class="image">
-              <img src="assets/images/products/orange-1.jpg" alt="" />
+              <img
+                src="{{ selectedProduct?.colors[0].image }}"
+                alt="{{ selectedProduct?.name }}"
+              />
             </div>
             <div class="content">
-              <a href="#">Ribbed Tank Top</a>
+              <!-- <a href="#">Ribbed Tank Top</a> -->
+              <a href="#">{{ selectedProduct?.name }}</a>
               <div class="tf-product-info-price">
                 <!-- <div class="price-on-sale">$8.00</div>
                                   <div class="compare-at-price">$10.00</div>
                                   <div class="badges-on-sale"><span>20</span>% OFF</div> -->
-                <div class="price">NPR. 4000</div>
+                <div class="price">{{ selectedProduct?.price }}</div>
               </div>
             </div>
           </div>
@@ -2105,91 +1643,113 @@
                 <span class="fw-6 variant-picker-label-value">Orange</span>
               </div>
               <div class="variant-picker-values">
-                <input id="values-orange" type="radio" name="color" checked />
+                @for(color of selectedProduct?.colors;track color){
+                <input
+                  id="values-{{ color.name | lowercase }}-1"
+                  type="radio"
+                  name="color-1"
+                  value="{{ color.name }}"
+                  [(ngModel)]="selectedProduct.selectedColor"
+                  (click)="onColorChange(color.name)"
+                />
                 <label
                   class="hover-tooltip radius-60"
-                  for="values-orange"
-                  data-value="Orange"
+                  [for]="'values-' + (color.name | lowercase) + '-1'"
+                  data-value="color.name"
                 >
-                  <span class="btn-checkbox bg-color-orange"></span>
-                  <span class="tooltip">Orange</span>
+                  <span
+                    class="btn-checkbox bg-color-{{ color.name | lowercase }}"
+                  ></span>
+                  <span class="tooltip">{{ color.name }}</span>
                 </label>
-                <input id="values-black" type="radio" name="color" />
-                <label
-                  class="hover-tooltip radius-60"
-                  for="values-black"
-                  data-value="Black"
-                >
-                  <span class="btn-checkbox bg-color-black"></span>
-                  <span class="tooltip">Black</span>
-                </label>
-                <input id="values-white" type="radio" name="color" />
-                <label
-                  class="hover-tooltip radius-60"
-                  for="values-white"
-                  data-value="White"
-                >
-                  <span class="btn-checkbox bg-color-white"></span>
-                  <span class="tooltip">White</span>
-                </label>
+                }
               </div>
             </div>
-            <div class="variant-picker-item">
+          </div>
+          <div class="variant-picker-item">
+            <div class="d-flex justify-content-between align-items-center">
               <div class="variant-picker-label">
-                Size: <span class="fw-6 variant-picker-label-value">S</span>
+                Size:
+                <span class="fw-6 variant-picker-label-value">{{
+                  selectedProduct?.selectedSize
+                }}</span>
               </div>
-              <div class="variant-picker-values">
-                <input type="radio" name="size" id="values-s" checked />
-                <label class="style-text" for="values-s" data-value="S">
-                  <p>S</p>
-                </label>
-                <input type="radio" name="size" id="values-m" />
-                <label class="style-text" for="values-m" data-value="M">
-                  <p>M</p>
-                </label>
-                <input type="radio" name="size" id="values-l" />
-                <label class="style-text" for="values-l" data-value="L">
-                  <p>L</p>
-                </label>
-                <input type="radio" name="size" id="values-xl" />
-                <label class="style-text" for="values-xl" data-value="XL">
-                  <p>XL</p>
-                </label>
-              </div>
+              <div class="find-size btn-choose-size fw-6">Find your size</div>
+            </div>
+            <div class="variant-picker-values">
+              <input
+                type="radio"
+                name="size-1"
+                id="values-s-1"
+                checked
+                (click)="onSizeChange('S')"
+              />
+              <label class="style-text" for="values-s-1" data-value="S">
+                <p>S</p>
+              </label>
+              <input
+                type="radio"
+                name="size-1"
+                id="values-m-1"
+                (click)="onSizeChange('M')"
+              />
+              <label class="style-text" for="values-m-1" data-value="M">
+                <p>M</p>
+              </label>
+              <input
+                type="radio"
+                name="size-1"
+                id="values-l-1"
+                (click)="onSizeChange('L')"
+              />
+              <label class="style-text" for="values-l-1" data-value="L">
+                <p>L</p>
+              </label>
+              <input
+                type="radio"
+                name="size-1"
+                id="values-xl-1"
+                (click)="onSizeChange('XL')"
+              />
+              <label class="style-text" for="values-xl-1" data-value="XL">
+                <p>XL</p>
+              </label>
             </div>
           </div>
           <div class="tf-product-info-quantity mb_15">
             <div class="quantity-title fw-6">Quantity</div>
             <div class="wg-quantity">
-              <span class="btn-quantity minus-btn">-</span>
-              <input type="text" name="number" value="1" />
-              <span class="btn-quantity plus-btn">+</span>
+              <span class="btn-quantity minus-btn" (click)="decreaseQunatity(1)"
+                >-</span
+              >
+              <input
+                type="text"
+                name="number"
+                [(ngModel)]="quantity"
+                value="1"
+                min="1"
+              />
+              <span class="btn-quantity plus-btn" (click)="addQunatity(1)"
+                >+</span
+              >
             </div>
           </div>
           <div class="tf-product-info-buy-button">
             <form>
               <a
+                (click)="addToCart(selectedProduct)"
                 class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
                 ><span>Add to cart -&nbsp;</span
-                ><span class="tf-qty-price">NPR. 4000</span></a
+                ><span class="tf-qty-price">{{
+                  selectedProduct?.price
+                }}</span></a
               >
               <div class="tf-product-btn-wishlist btn-icon-action">
                 <i class="icon-heart"></i>
                 <i class="icon-delete"></i>
               </div>
-              <a
-                href="#compare"
-                data-bs-toggle="offcanvas"
-                aria-controls="offcanvasLeft"
-                class="tf-product-btn-wishlist box-icon bg_white compare btn-icon-action"
-              >
-                <span class="icon icon-compare"></span>
-                <span class="icon icon-check"></span>
-              </a>
+
               <div class="w-100">
-                <!-- <a href="#" class="btns-full"
-                  >Buy with <img src="assets/images/payments/paypal.png" alt=""
-                /></a> -->
                 <a href="#" class="payment-more-option">More payment options</a>
               </div>
             </form>
@@ -2198,8 +1758,9 @@
       </div>
     </div>
   </div>
-  <!-- /modal quick_add -->
 
+  <!-- /modal quick_add -->
+  <!-- quick model -->
   <!-- modal quick_view -->
   <div class="modal fade modalDemo" id="quick_view">
     <div class="modal-dialog modal-dialog-centered">
@@ -2214,14 +1775,30 @@
           <div class="tf-product-media-wrap">
             <div dir="ltr" class="swiper tf-single-slide">
               <div class="swiper-wrapper">
+                <!-- Dynamically create slides based on selected color -->
+                @for( color of selectedProduct?.colors;track color){
                 <div class="swiper-slide">
                   <div class="item">
-                    <img src="assets/images/products/orange-1.jpg" alt="" />
+                    <img
+                      [src]="
+                        color.name === selectedProduct.selectedColor
+                          ? color.image
+                          : color.image
+                      "
+                      alt="{{ color.name }}"
+                    />
+                  </div>
+                </div>
+                }
+
+                <div class="swiper-slide">
+                  <div class="item">
+                    <img src="{{ selectedProduct?.colors[0].image }}" alt="" />
                   </div>
                 </div>
                 <div class="swiper-slide">
                   <div class="item">
-                    <img src="assets/images/products/pink-1.jpg" alt="" />
+                    <img src="{{ selectedProduct?.colors[0].image }}" alt="" />
                   </div>
                 </div>
               </div>
@@ -2236,25 +1813,25 @@
           <div class="tf-product-info-wrap position-relative">
             <div class="tf-product-info-list">
               <div class="tf-product-info-title">
-                <h5><a class="link" href="#">Ribbed Tank Top</a></h5>
+                <h5>
+                  <a class="link" href="#">{{ selectedProduct?.name }}</a>
+                </h5>
               </div>
               <div class="tf-product-info-badges">
                 <div class="badges text-uppercase">Best seller</div>
                 <div class="product-status-content">
                   <i class="icon-lightning"></i>
                   <p class="fw-6">
-                    Selling fast! 48 people have this in their carts.
+                    {{ selectedProduct?.description }}
                   </p>
                 </div>
               </div>
               <div class="tf-product-info-price">
-                <div class="price">NPR. 4000</div>
+                <div class="price">{{ selectedProduct?.price }}</div>
               </div>
               <div class="tf-product-description">
                 <p>
-                  Nunc arcu faucibus a et lorem eu a mauris adipiscing conubia
-                  ac aptent ligula facilisis a auctor habitant parturient a
-                  a.Interdum fermentum.
+                  {{ selectedProduct?.description }}
                 </p>
               </div>
               <div class="tf-product-info-variant-picker">
@@ -2264,38 +1841,28 @@
                     <span class="fw-6 variant-picker-label-value">Orange</span>
                   </div>
                   <div class="variant-picker-values">
+                    @for(color of selectedProduct?.colors;track color){
                     <input
-                      id="values-orange-1"
+                      id="values-{{ color.name | lowercase }}-1"
                       type="radio"
                       name="color-1"
-                      checked
+                      value="{{ color.name }}"
+                      [(ngModel)]="selectedProduct.selectedColor"
+                      (click)="onColorChange(color.name)"
                     />
                     <label
                       class="hover-tooltip radius-60"
-                      for="values-orange-1"
-                      data-value="Orange"
+                      [for]="'values-' + (color.name | lowercase) + '-1'"
+                      data-value="color.name"
                     >
-                      <span class="btn-checkbox bg-color-orange"></span>
-                      <span class="tooltip">Orange</span>
+                      <span
+                        class="btn-checkbox bg-color-{{
+                          color.name | lowercase
+                        }}"
+                      ></span>
+                      <span class="tooltip">{{ color.name }}</span>
                     </label>
-                    <input id="values-black-1" type="radio" name="color-1" />
-                    <label
-                      class="hover-tooltip radius-60"
-                      for="values-black-1"
-                      data-value="Black"
-                    >
-                      <span class="btn-checkbox bg-color-black"></span>
-                      <span class="tooltip">Black</span>
-                    </label>
-                    <input id="values-white-1" type="radio" name="color-1" />
-                    <label
-                      class="hover-tooltip radius-60"
-                      for="values-white-1"
-                      data-value="White"
-                    >
-                      <span class="btn-checkbox bg-color-white"></span>
-                      <span class="tooltip">White</span>
-                    </label>
+                    }
                   </div>
                 </div>
                 <div class="variant-picker-item">
@@ -2304,26 +1871,49 @@
                   >
                     <div class="variant-picker-label">
                       Size:
-                      <span class="fw-6 variant-picker-label-value">S</span>
+                      <span class="fw-6 variant-picker-label-value">{{
+                        selectedProduct?.selectedSize
+                      }}</span>
                     </div>
                     <div class="find-size btn-choose-size fw-6">
                       Find your size
                     </div>
                   </div>
                   <div class="variant-picker-values">
-                    <input type="radio" name="size-1" id="values-s-1" checked />
+                    <input
+                      type="radio"
+                      name="size-1"
+                      id="values-s-1"
+                      checked
+                      (click)="onSizeChange('S')"
+                    />
                     <label class="style-text" for="values-s-1" data-value="S">
                       <p>S</p>
                     </label>
-                    <input type="radio" name="size-1" id="values-m-1" />
+                    <input
+                      type="radio"
+                      name="size-1"
+                      id="values-m-1"
+                      (click)="onSizeChange('M')"
+                    />
                     <label class="style-text" for="values-m-1" data-value="M">
                       <p>M</p>
                     </label>
-                    <input type="radio" name="size-1" id="values-l-1" />
+                    <input
+                      type="radio"
+                      name="size-1"
+                      id="values-l-1"
+                      (click)="onSizeChange('L')"
+                    />
                     <label class="style-text" for="values-l-1" data-value="L">
                       <p>L</p>
                     </label>
-                    <input type="radio" name="size-1" id="values-xl-1" />
+                    <input
+                      type="radio"
+                      name="size-1"
+                      id="values-xl-1"
+                      (click)="onSizeChange('XL')"
+                    />
                     <label class="style-text" for="values-xl-1" data-value="XL">
                       <p>XL</p>
                     </label>
@@ -2333,18 +1923,32 @@
               <div class="tf-product-info-quantity">
                 <div class="quantity-title fw-6">Quantity</div>
                 <div class="wg-quantity">
-                  <span class="btn-quantity minus-btn">-</span>
-                  <input type="text" name="number" value="1" />
-                  <span class="btn-quantity plus-btn">+</span>
+                  <span
+                    class="btn-quantity minus-btn"
+                    (click)="decreaseQunatity(1)"
+                    >-</span
+                  >
+                  <input
+                    id="quantity"
+                    type="number"
+                    value="1"
+                    [(ngModel)]="quantity"
+                    min="1"
+                  />
+                  <span class="btn-quantity plus-btn" (click)="addQunatity(1)"
+                    >+</span
+                  >
                 </div>
               </div>
               <div class="tf-product-info-buy-button">
                 <form class="">
                   <a
-                    href="javascript:void(0);"
+                    (click)="addToCart(selectedProduct)"
                     class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
                     ><span>Add to cart -&nbsp;</span
-                    ><span class="tf-qty-price">NPR. 2000</span></a
+                    ><span class="tf-qty-price">{{
+                      selectedProduct?.price
+                    }}</span></a
                   >
                   <a
                     href="javascript:void(0);"
@@ -2354,21 +1958,8 @@
                     <span class="tooltip">Add to Wishlist</span>
                     <span class="icon icon-delete"></span>
                   </a>
-                  <a
-                    href="#compare"
-                    data-bs-toggle="offcanvas"
-                    aria-controls="offcanvasLeft"
-                    class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action"
-                  >
-                    <span class="icon icon-compare"></span>
-                    <span class="tooltip">Add to Compare</span>
-                    <span class="icon icon-check"></span>
-                  </a>
+
                   <div class="w-100">
-                    <!-- <a href="#" class="btns-full"
-                      >Buy with
-                      <img src="assets/images/payments/paypal.png" alt=""
-                    /></a> -->
                     <a href="#" class="payment-more-option"
                       >More payment options</a
                     >

@@ -1,0 +1,54 @@
+<app-site-header></app-site-header>
+<h3 style="padding: 5px; margin-left: 10px; font-size: 28px">
+  My wishlist {{ wishlist.length }} items
+</h3>
+
+@for(item of wishlist;track item){
+<img src="{{ item.colors[0].image }}" />
+}
+<!-- <div class="grid-layout loadmore-item wow fadeInUp" data-grid="grid-4">
+  @for (item of wishlist; track item) {
+  <div class="card-product fl-item">
+    <div class="card-product-wrapper">
+      <a class="product-img">
+        <img
+          class="img-product"
+          src="{{ item.colors[0].image }}"
+          alt="image-product"
+        />
+        <img
+          class="img-hover"
+          src="{{ item.colors[0].hoverImage }}"
+          alt="image-product"
+        />
+      </a>
+      <div class="list-product-btn">
+        <a
+          href="#quick_add"
+          data-bs-toggle="modal"
+          class="box-icon bg_white quick-add tf-btn-loading"
+        >
+          <span class="icon icon-bag"></span>
+          <span class="tooltip">Quick Add</span>
+        </a>
+        <a class="box-icon bg_white wishlist btn-icon-action">
+          <span class="icon icon-heart"></span>
+          <span class="tooltip">Add to Wishlist</span>
+
+          <span class="icon icon-delete"></span>
+        </a>
+        <a
+          href="#quick_view"
+          data-bs-toggle="modal"
+          class="box-icon bg_white quickview tf-btn-loading"
+        >
+          <span class="icon icon-view"></span>
+          <span class="tooltip">Quick View</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  } @empty {
+  <p>empty data list</p>
+  }
+</div> -->
