@@ -8,14 +8,14 @@
     <div class="cart-item">
       <div class="item-details">
         <img
-          src="{{ item.product.colors[0].image }}"
+          [src]="'http://localhost:5000/' + item.product?.imageUrls[0]"
           alt="T-shirt"
           class="item-image"
         />
         <div class="item-info">
-          <h3>{{ item.product.name }}</h3>
+          <h3>{{ item.product.productName }}</h3>
           <p>{{ item.product.price }}</p>
-          <p>{{ item.selectedSize }}</p>
+          <p>{{ item.product.selectedSize }}</p>
         </div>
       </div>
 
@@ -25,18 +25,18 @@
           <div class="wg-quantity">
             <span
               class="btn-quantity minus-btn"
-              (click)="updateQunatity('delete', item, item.quantity)"
+              (click)="updateQunatity('delete', item, item.product.qty)"
               >-</span
             >
             <input
               id="quantity"
               type="number"
-              [(ngModel)]="item.quantity"
+              [(ngModel)]="item.product.qty"
               min="1"
             />
             <span
               class="btn-quantity plus-btn"
-              (click)="updateQunatity('add', item, item.quantity)"
+              (click)="updateQunatity('add', item, item.product.qty)"
               >+</span
             >
           </div>

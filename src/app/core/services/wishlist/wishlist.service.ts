@@ -41,10 +41,10 @@ export class WishlistService {
   }
 
   // Remove a product from the wishlist by its ID
-  removeFromWishlist(productId: number): void {
+  removeFromWishlist(productId: string): void {
     const currentWishlist = this.wishlistSource.getValue();
     const updatedWishlist = currentWishlist.filter(
-      (product) => product.id !== productId
+      (product: any) => product.productId !== productId
     );
     this.updateWishlist(updatedWishlist);
   }

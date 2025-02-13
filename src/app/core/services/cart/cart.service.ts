@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface CartItem {
   product: any; // Reference to the product
@@ -13,12 +14,13 @@ export interface CartItem {
 })
 export class CartService {
   private cartKey = 'cart'; // Key for localStorage
+  private baseUrl = 'http://localhost:5000/api';
   private cartSource = new BehaviorSubject<CartItem[]>(
     this.getCartFromLocalStorage()
   );
   cart$ = this.cartSource.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   // Add a product to the cart without replacing other variants
   addToCart(
@@ -32,7 +34,7 @@ export class CartService {
     // Check if the exact product variant (ID + size + color) exists in the cart
     const existingCartItemIndex = currentCart.findIndex(
       (item) =>
-        item.product.id === product.id &&
+        item.product.productId === product.id &&
         item.selectedColor === selectedColor &&
         item.selectedSize === selectedSize
     );
@@ -56,7 +58,7 @@ export class CartService {
 
   // Remove a product variant from the cart
   removeFromCart(
-    productId: number,
+    productId: string,
     selectedColor: string,
     selectedSize: string
   ): void {
@@ -64,7 +66,7 @@ export class CartService {
     const updatedCart = currentCart.filter(
       (item) =>
         !(
-          item.product.id === productId &&
+          item.product.productId === productId &&
           item.selectedColor === selectedColor &&
           item.selectedSize === selectedSize
         )
@@ -81,7 +83,7 @@ export class CartService {
   ): void {
     const currentCart = this.cartSource.getValue();
     const updatedCart = currentCart.map((item) =>
-      item.product.id === productId &&
+      item.product.productId === productId &&
       item.selectedColor === selectedColor &&
       item.selectedSize === selectedSize
         ? { ...item, quantity }
@@ -116,7 +118,7 @@ export class CartService {
     const currentCart = this.cartSource.getValue();
     return currentCart.some(
       (item) =>
-        item.product.id === productId &&
+        item.product.productId === productId &&
         item.selectedColor === selectedColor &&
         item.selectedSize === selectedSize
     );
@@ -135,5 +137,13 @@ export class CartService {
       (total, item) => total + item.quantity * item.product.price,
       0
     );
+  }
+  getCartProducts(productIds: string[]): Observable<any> {
+    return this.http.post('${/get-cart-products', { productIds });
+  }
+  // Retrieve cart from localStorage
+  public getCartFromLocalStorages(): CartItem[] {
+    const cart = localStorage.getItem(this.cartKey); // `cartKey` is the key for localStorage
+    return cart ? JSON.parse(cart) : []; // Parse the JSON string or return an empty array
   }
 }

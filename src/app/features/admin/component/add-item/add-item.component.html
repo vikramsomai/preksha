@@ -68,7 +68,6 @@
             [removable]="true"
           >
           </ngx-dropzone-image-preview>
-          {{ f.name }}
           }
         </div>
         @for(img of uploadedImages;track img){
@@ -176,7 +175,7 @@
 
           <button
             type="submit"
-            (click)="onSubmit()"
+            (click)="saveProduct()"
             class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center my-5"
             [disabled]="!productForm.valid"
           >
@@ -195,13 +194,7 @@
   } @else if(formMode=="edit"){
   <div
     class="min-h-screen bg-white"
-    style="
-      position: absolute;
-      background: #fff;
-      width: 95%;
-      z-index: 20;
-      margin: 20px;
-    "
+    style="position: absolute; background: #fff; width: 95%; z-index: 20"
   >
     <!-- Main Content -->
 
@@ -247,12 +240,11 @@
           </ngx-dropzone-preview>
           }
         </ngx-dropzone>
-        <div style="display: flex">
+        <!-- <div style="display: flex">
           @for(f of selectedFiles;track f){
           <ngx-dropzone-image-preview
             ngProjectAs="ngx-dropzone-preview"
             [removable]="true"
-            [file]="f"
           >
           </ngx-dropzone-image-preview>
           <img
@@ -262,13 +254,13 @@
             class="avatar avatar-xs me-2"
           />
           }
-        </div>
+        </div> -->
         <!-- <button (click)="uploadImages()">Upload Images</button> -->
-        @for(img of uploadedImages;track img){
+        <!-- @for(img of uploadedImages;track img){
         <div>
           <img [src]="'http://localhost:5000/' + img" alt="Uploaded Image" />
         </div>
-        }
+        } -->
         <!-- Product Form -->
         <form [formGroup]="productForm">
           <div>
@@ -412,7 +404,7 @@
               {{ item.productName }}</a
             >
           </td>
-          <td>{{ item.description }}</td>
+          <td id="desc">{{ item.description }}</td>
           <td>
             <a class="text-heading font-semibold" href="#">
               NPR. {{ item.price }}

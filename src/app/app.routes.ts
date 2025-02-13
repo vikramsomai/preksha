@@ -7,6 +7,9 @@ import { CartComponent } from './features/product/cart/cart.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
 import { authGuard } from './core/guards/auth.guard';
+import { LoginComponent } from './features/auth/login/login.component';
+import { UserLoginComponent } from './features/user-login/user-login.component';
+import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
   {
@@ -16,6 +19,11 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLoginComponent,
+  },
+  {
+    path: 'login',
+    component: UserLoginComponent,
+    canActivate: [noAuthGuard],
   },
   {
     path: 'dashboard',

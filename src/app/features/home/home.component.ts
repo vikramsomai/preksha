@@ -21,6 +21,7 @@ import { CartService } from '../../core/services/cart/cart.service';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { UploadService } from '../admin/component/add-item/upload.service';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +39,7 @@ import { UploadService } from '../admin/component/add-item/upload.service';
   styleUrl: 'home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  quantity: number = 1;
+  quantity: number = 1; // Default quantity
   // productList = [
   //   {
   //     name: 'Ribbed modal T-shirt',
@@ -100,6 +101,7 @@ export class HomeComponent implements OnInit {
   cartlist: any[] = [];
   constructor(
     private fb: FormBuilder,
+    public authService: AuthService,
     public cartService: CartService,
     private uploadService: UploadService,
     private wishlistService: WishlistService,
@@ -120,7 +122,32 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.fetchProducts();
     this.mainImage = this.selectedProduct?.imageUrls[0];
+    // this.fetchCartItems();
   }
+
+  fetchCartItems() {
+    const cart = this.cartService.getCartFromLocalStorages(); // Retrieve cart from localStorage
+    const productIds = cart.map((item) => item.product.productId);
+    console.log('gedwhdh ', productIds);
+    // Make an API call to fetch product details
+    // this.cartService.getCartProducts(productIds).subscribe((products) => {
+    //   this.cartlist = cart.map((item) => {
+    //     const productDetails = products.find(
+    //       (prod: any) => prod.productId === item.product.productId
+    //     );
+
+    //     return {
+    //       ...item,
+    //       product: {
+    //         ...item.product,
+    //         price: productDetails?.price, // Add price from the server
+    //       },
+    //     };
+    //   });
+    //   console.log(this.cartlist);
+    // });
+  }
+
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
       (data) => {
@@ -173,21 +200,25 @@ export class HomeComponent implements OnInit {
   }
   addToCart(item: any) {
     const newItem = {
-      id: item.id,
+      productId: item.productId,
+      productName: item.productName,
+      imageUrls: item.imageUrls,
+      qty: item.qty,
     };
+
     this.cartService.addToCart(
-      item,
+      newItem,
       this.quantity,
       item.selectedColor,
       item.selectedSize
     ); // Add 2 units of the product
-    console.log('qunatity', this.quantity);
+    console.log('qunatity', item);
   }
   addItem(item: any): void {
     this.wishlistService.addToWishlist(item);
   }
   removeItem(item: any): void {
-    this.wishlistService.removeFromWishlist(item.id);
+    this.wishlistService.removeFromWishlist(item.productId);
   }
 
   clearAll(): void {
@@ -200,13 +231,17 @@ export class HomeComponent implements OnInit {
     this.selectedProduct = product;
     console.log('Selected Product:', this.selectedProduct);
   }
-  onQuantityChange() {}
-  addQunatity(id: number) {
-    this.quantity = this.quantity + id;
+
+  addQunatity(): void {
+    this.quantity += 1;
   }
-  decreaseQunatity(id: number) {
-    this.quantity -= id;
+
+  decreaseQunatity(): void {
+    if (this.quantity > 1) {
+      this.quantity -= 1;
+    }
   }
+
   // Method to update selected color
   onColorChange(color: string): void {
     this.selectedProduct.selectedColor = color;
@@ -216,29 +251,30 @@ export class HomeComponent implements OnInit {
   onSizeChange(size: string): void {
     this.selectedProduct.selectedSize = size;
   }
-  updateQunatity(action: string, product: any, qty: number) {
+  updateQunatity(action: string, item: any): void {
+    const currentQuantity = item.quantity; // Get the current quantity directly
+    let updatedQuantity = currentQuantity;
+
     if (action === 'add') {
-      qty = qty + 1;
-      this.cartService.updateCartItemQuantity(
-        product.product.id,
-        product.product.selectedColor,
-        product.product.selectedSize,
-        qty
-      );
-    } else if (action === 'delete' && qty > 1) {
-      qty = qty - 1;
-      this.cartService.updateCartItemQuantity(
-        product.product.id,
-        product.product.selectedColor,
-        product.product.selectedSize,
-        qty
-      );
+      updatedQuantity = currentQuantity + 1;
+    } else if (action === 'delete' && currentQuantity > 1) {
+      updatedQuantity = currentQuantity - 1;
     }
+
+    // Update the cart with the new quantity
+    this.cartService.updateCartItemQuantity(
+      item.product.id,
+      item.selectedColor,
+      item.selectedSize,
+      updatedQuantity
+    );
   }
+
   removeCartItem(item: any) {
     const product = item.product;
+    console.log('product id', product);
     this.cartService.removeFromCart(
-      product.id,
+      product.productId,
       product.selectedColor,
       product.selectedSize
     );

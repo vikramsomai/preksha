@@ -165,7 +165,11 @@
             >
               @if(!isLoggedIn){
               <li>
-                <a class="dropdown-item" href="#login" data-bs-toggle="modal"
+                <a
+                  class="dropdown-item"
+                  href="#login"
+                  data-bs-toggle="modal"
+                  routerLink="/login"
                   >Login</a
                 >
               </li>
@@ -282,4 +286,4 @@
   </div>
 </div>
 <!-- /toolbar-bottom -->
-<app-login></app-login>
+<!-- <app-login></app-login> -->

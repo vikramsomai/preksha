@@ -21,6 +21,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 export class AddItemComponent {
   formMode = 'none';
   productForm: FormGroup;
+  productId!: string;
   uploadedImages: string[] = [];
   selectedFiles: File[] = [];
   products: any[] = []; // Store fetched products
@@ -34,7 +35,6 @@ export class AddItemComponent {
 
   constructor(private fb: FormBuilder, private uploadService: UploadService) {
     this.productForm = this.fb.group({
-      productId: [null],
       productName: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required],
@@ -194,7 +194,6 @@ export class AddItemComponent {
     this.formMode = 'edit';
     this.uploadService.getProductById(id).subscribe((res) => {
       this.productForm.patchValue({
-        productId: res._id,
         productName: res.productName,
         description: res.description,
         category: res.category,
@@ -204,6 +203,7 @@ export class AddItemComponent {
         sizes: res.size,
         bestseller: res.bestseller,
       });
+      this.productId = res.productId;
       this.selectedSizes = res.sizes;
       this.selectedFiles = res.imageUrls;
     });
@@ -245,13 +245,34 @@ export class AddItemComponent {
     }
   }
   async saveProduct() {
-    console.log(this.productForm.value);
+    console.log('get images', this.productForm.get('imageUrls')?.value);
     if (this.productForm.valid) {
       try {
-        const imageUrls = await this.uploadImages();
-        this.productForm.patchValue({ imageUrls, sizes: this.selectedSizes });
+        // Upload new images
+        const uploadedImages = await this.uploadImages();
+        console.log('Uploaded Image URLs:', uploadedImages);
 
+        // Combine existing and new images (if edit mode)
+        if (this.formMode === 'edit') {
+          this.productForm.patchValue({ imageUrls: uploadedImages });
+          // const existingImages = this.productForm.get('imageUrls')?.value || [];
+          // const imageUrls = [...existingImages, ...uploadedImages];
+          // this.productForm.patchValue({ imageUrls });
+        } else {
+          this.productForm.patchValue({ imageUrls: uploadedImages });
+        }
+
+        // Add additional data
+        this.productForm.patchValue({
+          sizes: this.selectedSizes,
+          productId: this.productId,
+        });
+
+        // Log the final payload
         const productData = this.productForm.value;
+        console.log('Final Payload:', productData);
+
+        // API call
         if (this.formMode === 'add') {
           this.uploadService.addProduct(productData).subscribe(
             (res) => {
@@ -261,9 +282,8 @@ export class AddItemComponent {
             (err) => console.error('Error adding product:', err)
           );
         } else if (this.formMode === 'edit') {
-          console.log('update time', productData);
           this.uploadService
-            .updateProduct(productData.productId, productData)
+            .updateProduct(this.productId, productData)
             .subscribe(
               (res) => {
                 console.log('Product updated successfully:', res);
@@ -279,4 +299,44 @@ export class AddItemComponent {
       console.error('Form is invalid!');
     }
   }
+
+  // async saveProduct() {
+  //   console.log(this.productForm.value);
+  //   if (this.productForm.valid) {
+  //     try {
+  //       const imageUrls = await this.uploadImages();
+  //       this.productForm.patchValue({
+  //         imageUrls,
+  //         sizes: this.selectedSizes,
+  //         productId: this.productId,
+  //       });
+
+  //       const productData = this.productForm.value;
+  //       if (this.formMode === 'add') {
+  //         this.uploadService.addProduct(productData).subscribe(
+  //           (res) => {
+  //             console.log('Product added successfully:', res);
+  //             this.handleClose();
+  //           },
+  //           (err) => console.error('Error adding product:', err)
+  //         );
+  //       } else if (this.formMode === 'edit') {
+  //         console.log('update time', productData, this.productId);
+  //         this.uploadService
+  //           .updateProduct(this.productId, productData)
+  //           .subscribe(
+  //             (res) => {
+  //               console.log('Product updated successfully:', res);
+  //               this.handleClose();
+  //             },
+  //             (err) => console.error('Error updating product:', err)
+  //           );
+  //       }
+  //     } catch (err) {
+  //       console.error('Error in saving product:', err);
+  //     }
+  //   } else {
+  //     console.error('Form is invalid!');
+  //   }
+  // }
 }

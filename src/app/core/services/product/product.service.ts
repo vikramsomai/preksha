@@ -8,6 +8,7 @@ import { Product } from '../../../features/admin/component/add-item/product.mode
 })
 export class ProductService {
   private apiUrl = 'your-api-endpoint';
+  private baseUrl = 'http://localhost:5000/api';
 
   constructor(private http: HttpClient) {}
 

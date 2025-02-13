@@ -281,11 +281,7 @@
           </p>
         </div>
         <!-- <app-card></app-card> -->
-        <div
-          class="grid-layout loadmore-item wow fadeInUp"
-          data-wow-delay="0s"
-          data-grid="grid-4"
-        >
+        <div class="grid-layout" data-wow-delay="0s" data-grid="grid-4">
           @for (item of productList; track item) {
           <div class="card-product fl-item">
             <div class="card-product-wrapper">
@@ -351,8 +347,8 @@
               </div>
             </div>
             <div class="card-product-info">
-              <a href="#" class="title link">{{ item.productName }}</a>
-              <span class="price">NPR. {{ item.price }}</span>
+              <a href="#" class="title link">{{ item?.productName }}</a>
+              <span class="price">NPR. {{ item?.price }}</span>
               <!-- <ul class="list-color-product"> -->
               <!-- @for (color of item.colors; track $index) {
               <li
@@ -1128,7 +1124,7 @@
   </div>
   <!-- /toolbarShopmb -->
 
-  <app-login></app-login>
+  <!-- <app-login></app-login> -->
 
   <!-- shoppingCart -->
   <div class="modal fullRight fade modal-shopping-cart" id="shoppingCart">
@@ -1178,7 +1174,8 @@
                       <a href="#">
                         <img
                           [src]="
-                            'http:/localhost:5000/' + item.product?.imageUrls[0]
+                            'http://localhost:5000/' +
+                            item.product?.imageUrls[0]
                           "
                           alt=""
                         />
@@ -1186,7 +1183,7 @@
                     </div>
                     <div class="tf-mini-cart-info">
                       <a class="title link">{{ item.product?.productName }}</a>
-                      <div class="meta-variant">{{ item.product?.color }}</div>
+                      <!-- <div class="meta-variant">{{ item.product?.color }}</div> -->
                       <div class="price fw-6">
                         NPR.
                         {{ item.product?.price }}
@@ -1195,25 +1192,24 @@
                         <div class="wg-quantity small">
                           <span
                             class="btn-quantity minus-btn"
-                            (click)="
-                              updateQunatity('delete', item, item.quantity)
-                            "
+                            (click)="updateQunatity('delete', item)"
                             >-</span
                           >
                           <input
                             type="text"
                             name="number"
-                            value="{{ item.quantity }}"
+                            readonly
+                            value="{{ item?.quantity }}"
                           />
                           <span
                             class="btn-quantity plus-btn"
-                            (click)="updateQunatity('add', item, item.quantity)"
+                            (click)="updateQunatity('add', item)"
                             >+</span
                           >
                         </div>
                         <div
                           class="tf-mini-cart-remove"
-                          (click)="removeCartItem(item.product.id)"
+                          (click)="removeCartItem(item)"
                         >
                           Remove
                         </div>
@@ -1374,14 +1370,26 @@
                 <div class="tf-mini-cart-view-checkout">
                   <a
                     routerLink="/cart"
+                    data-bs-dismiss="modal"
                     class="tf-btn btn-outline radius-3 link w-100 justify-content-center"
                     >View cart</a
                   >
+                  @if(!authService.isAuthenticated()){
                   <a
                     href="#"
+                    routerLink="/login"
+                    data-bs-dismiss="modal"
                     class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                     ><span>Check out</span></a
                   >
+                  } @else{
+                  <a
+                    href="#"
+                    routerLink="/checkout"
+                    data-bs-dismiss="modal"
+                    class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                    ><span>Check out</span></a
+                  >}
                 </div>
               </div>
             </div>
@@ -1656,7 +1664,7 @@
               </div>
             </div>
           </div>
-          <div class="tf-product-info-variant-picker mb_15">
+          <!-- <div class="tf-product-info-variant-picker mb_15">
             <div class="variant-picker-item">
               <div class="variant-picker-label">
                 Color:
@@ -1685,7 +1693,7 @@
                 }
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="variant-picker-item">
             <div class="d-flex justify-content-between align-items-center">
               <div class="variant-picker-label">
@@ -1739,17 +1747,11 @@
           <div class="tf-product-info-quantity mb_15">
             <div class="quantity-title fw-6">Quantity</div>
             <div class="wg-quantity">
-              <span class="btn-quantity minus-btn" (click)="decreaseQunatity(1)"
+              <span class="btn-quantity minus-btn" (click)="decreaseQunatity()"
                 >-</span
               >
-              <input
-                type="text"
-                name="number"
-                [(ngModel)]="quantity"
-                value="1"
-                min="1"
-              />
-              <span class="btn-quantity plus-btn" (click)="addQunatity(1)"
+              <input type="text" name="number" value="1" min="1" readonly />
+              <span class="btn-quantity plus-btn" (click)="addQunatity()"
                 >+</span
               >
             </div>
@@ -1824,11 +1826,11 @@
                   </div>
                 </div>
 
-                <!-- <div class="swiper-slide">
+                <div class="swiper-slide">
                   <div class="item">
                     <img src="{{ selectedProduct?.imageUrls[1] }}" alt="" />
                   </div>
-                </div> -->
+                </div>
               </div>
               <div
                 class="swiper-button-next button-style-arrow single-slide-prev"
@@ -1867,7 +1869,7 @@
                 </p>
               </div>
               <div class="tf-product-info-variant-picker">
-                <div class="variant-picker-item">
+                <!-- <div class="variant-picker-item">
                   <div class="variant-picker-label">
                     Color:
                     <span class="fw-6 variant-picker-label-value">Orange</span>
@@ -1896,7 +1898,7 @@
                     </label>
                     }
                   </div>
-                </div>
+                </div> -->
                 <div class="variant-picker-item">
                   <div
                     class="d-flex justify-content-between align-items-center"
@@ -1960,17 +1962,11 @@
                 <div class="wg-quantity">
                   <span
                     class="btn-quantity minus-btn"
-                    (click)="decreaseQunatity(1)"
+                    (click)="decreaseQunatity()"
                     >-</span
                   >
-                  <input
-                    id="quantity"
-                    type="number"
-                    value="1"
-                    [(ngModel)]="quantity"
-                    min="1"
-                  />
-                  <span class="btn-quantity plus-btn" (click)="addQunatity(1)"
+                  <input id="quantity" type="number" value="1" min="1" />
+                  <span class="btn-quantity plus-btn" (click)="addQunatity()"
                     >+</span
                   >
                 </div>
@@ -2170,4 +2166,5 @@
       </div>
     </div>
   </div>
+  <app-footer></app-footer>
 </body>
