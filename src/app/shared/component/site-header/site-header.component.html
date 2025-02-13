@@ -135,10 +135,64 @@
               ><i class="icon icon-search"></i
             ></a>
           </li>
-          <li class="nav-account">
-            <a href="#login" data-bs-toggle="modal" class="nav-icon-item"
+          <!-- <li class="nav-account">
+            <a href="#account" data-bs-toggle="modal" class="nav-icon-item"
               ><i class="icon icon-account"></i
             ></a>
+            <ul>
+              <div id="account">
+                <a href="#login" data-bs-toggle="modal" class="btn">Login</a>
+                <a href="#register" data-bs-toggle="modal" class="btn"
+                  >Signup</a
+                >
+              </div>
+            </ul>
+          </li> -->
+          <li class="nav-account dropdown flex">
+            <a
+              href="#"
+              class="nav-icon-item"
+              id="accountDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="icon icon-account"></i>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="accountDropdown"
+            >
+              @if(!isLoggedIn){
+              <li>
+                <a class="dropdown-item" href="#login" data-bs-toggle="modal"
+                  >Login</a
+                >
+              </li>
+              <br />
+              <li>
+                <a class="dropdown-item" href="#register" data-bs-toggle="modal"
+                  >Signup</a
+                >
+              </li>
+
+              } @else{
+              <li>
+                <a
+                  class="dropdown-item"
+                  data-bs-toggle="modal"
+                  routerLink="/profile"
+                  >Profile</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" data-bs-toggle="modal">Orders</a>
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+              </li>
+              }
+            </ul>
           </li>
           <li class="nav-wishlist">
             <a class="nav-icon-item" routerLink="/wishlist"
@@ -199,6 +253,11 @@
       <div class="toolbar-label">Account</div>
     </a>
   </div>
+
+  <!-- <div>
+    <button>Logout</button>
+  </div> -->
+
   <div class="toolbar-item">
     <a routerLink="/wishlist">
       <div class="toolbar-icon">
@@ -213,7 +272,7 @@
     </a>
   </div>
   <div class="toolbar-item">
-    <a href="#shoppingCart" data-bs-toggle="modal">
+    <a href="#shoppingCart" data-bs-toggle="modal" routerLink="/cart">
       <div class="toolbar-icon">
         <i class="icon-bag"></i>
         <div class="toolbar-count">1</div>
@@ -223,3 +282,4 @@
   </div>
 </div>
 <!-- /toolbar-bottom -->
+<app-login></app-login>

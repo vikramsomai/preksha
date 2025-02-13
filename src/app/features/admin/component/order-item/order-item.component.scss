@@ -1,0 +1,94 @@
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: #333;
+    font-size: 1.75rem;
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 1.5rem;
+    align-items: start;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.order-icon {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.order-details h3 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.order-details p {
+    color: #555;
+    margin-bottom: 0.25rem;
+}
+
+.order-meta {
+    color: #666;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.order-info {
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.order-amount {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+}
+
+.order-status {
+    padding: 0.5rem 1rem;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    background-color: white;
+    min-width: 150px;
+    color: #555;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .main-content{
+        margin: 10px;
+    }
+    body {
+        padding: 1rem;
+    }
+
+    .order-card {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .order-icon {
+        display: none;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}

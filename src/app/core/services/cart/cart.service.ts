@@ -132,10 +132,7 @@ export class CartService {
   getTotalCost(): number {
     const currentCart = this.cartSource.getValue();
     return currentCart.reduce(
-      (total, item) =>
-        total +
-        item.quantity *
-          parseFloat(item.product.price.replace('NPR. ', '').replace(',', '')),
+      (total, item) => total + item.quantity * item.product.price,
       0
     );
   }

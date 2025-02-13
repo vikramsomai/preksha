@@ -1,51 +1,67 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:5000/api'; // Replace with your API endpoint
+  private apiUrl = 'http://127.0.0.1:5000/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  // Login method
   login(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/login`, user);
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, user).pipe(
+      tap((response) => {
+        console.log('Received Token:', response.token); // Debugging
+        this.saveToken(response.token);
+      })
+    );
   }
 
-  // Register method
+  // Register Method
   register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/register`, user);
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  // // Get the current user
-  // getCurrentUser(): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     Authorization: `Bearer ${this.getToken()}`,
-  //   });
-  //   return this.http.get(`${this.apiUrl}/auth/me`, { headers });
-  // }
+  // Save Token to Local Storage
+  saveToken(token: string): void {
+    localStorage.setItem('authToken', token);
+  }
 
-  // // Save token to local storage
-  // saveToken(token: string): void {
-  //   localStorage.setItem('authToken', token);
-  // }
+  // Retrieve Token
+  getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
 
-  // // Retrieve token from local storage
-  // getToken(): string | null {
-  //   return localStorage.getItem('authToken');
-  // }
+  // Remove Token (Logout)
+  logout(): void {
+    localStorage.removeItem('authToken');
+  }
 
-  // // Remove token from local storage
-  // logout(): void {
-  //   localStorage.removeItem('authToken');
-  // }
+  // Check if User is Authenticated
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
 
-  // // Check if the user is authenticated
-  // isAuthenticated(): boolean {
-  //   return !!this.getToken();
-  // }
+  // Retrieve and decode the token
+  getUserData(): any {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+
+        console.log('Decoded User Data:', decodedToken);
+        return decodedToken;
+      } catch (error) {
+        console.error('Token decoding error:', error);
+        return null;
+      }
+    }
+    return null; // Return null if no token exists
+  }
+  getUserId(): string | null {
+    const userData = this.getUserData();
+    return userData ? userData.id : null; // Adjust based on your token's structure
+  }
 }

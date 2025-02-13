@@ -1,0 +1,59 @@
+<app-site-header></app-site-header>
+<!-- <div class="profile-container"> -->
+<form [formGroup]="profileForm" class="profile-container">
+  <div class="tf-field style-1">
+    <input
+      class="tf-field-input tf-input"
+      placeholder=" "
+      formControlName="firstname"
+      type="text"
+      id="firstName"
+      [value]="profileInfo?.firstName"
+    />
+    <label class="tf-field-label" for="firstName">First name</label>
+  </div>
+  <div class="tf-field style-1">
+    <input
+      class="tf-field-input tf-input"
+      placeholder=" "
+      formControlName="lastName"
+      type="text"
+      id="lastName"
+      [value]="profileInfo?.lastName"
+    />
+    <label class="tf-field-label" for="lastName">Last name</label>
+  </div>
+  <div class="tf-field style-1">
+    <input
+      class="tf-field-input tf-input"
+      type="email"
+      id="email"
+      [value]="profileInfo?.email"
+    />
+    <label class="tf-field-label" for="email">Email</label>
+  </div>
+  <div class="tf-field style-1">
+    <input class="tf-field-input tf-input" type="text" id="street" />
+    <label class="tf-field-label" for="street">Street</label>
+  </div>
+  <div class="tf-field style-1">
+    <input class="tf-field-input tf-input" type="text" id="city" />
+    <label class="tf-field-label" for="city">City</label>
+  </div>
+  <div class="tf-field style-1">
+    <input class="tf-field-input tf-input" type="number" id="Zipcode" />
+    <label class="tf-field-label" for="street">Zipcode</label>
+  </div>
+  <div class="tf-field style-1">
+    <input class="tf-field-input tf-input" type="number" id="street" />
+    <label class="tf-field-label" for="street">Phone Number</label>
+  </div>
+</form>
+<!-- </div> -->
+<button
+  class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn mx-4"
+  (click)="editProfile(profileForm)"
+>
+  Save
+</button>
+<!-- <app-footer></app-footer> -->
