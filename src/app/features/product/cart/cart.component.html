@@ -14,8 +14,8 @@
         />
         <div class="item-info">
           <h3>{{ item.product.productName }}</h3>
-          <p>{{ item.product.price }}</p>
-          <p>{{ item.product.selectedSize }}</p>
+          <p>NPR. {{ item.product.price }}</p>
+          <p>Size {{ item.selectedSize }}</p>
         </div>
       </div>
 
@@ -25,18 +25,18 @@
           <div class="wg-quantity">
             <span
               class="btn-quantity minus-btn"
-              (click)="updateQunatity('delete', item, item.product.qty)"
+              (click)="updateQunatity('delete', item)"
               >-</span
             >
             <input
               id="quantity"
               type="number"
-              [(ngModel)]="item.product.qty"
+              [(ngModel)]="item.quantity"
               min="1"
             />
             <span
               class="btn-quantity plus-btn"
-              (click)="updateQunatity('add', item, item.product.qty)"
+              (click)="updateQunatity('add', item)"
               >+</span
             >
           </div>
@@ -57,15 +57,32 @@
     </div>
     <div class="totals-row">
       <span>Shipping Fee</span>
-      <span>NPR.500</span>
+      <span
+        >{{ this.cartService.getTotalCost() > 4000 ? "0" : "NPR.500" }}
+      </span>
+    </div>
+    <div class="cart-row total-row">
+      <div class="totals-row">
+        <span>Total</span>
+        <span>NPR.{{ this.cartService.getTotal() }} </span>
+      </div>
     </div>
   </div>
   <div class="tf-mini-cart-view-checkout">
-    <a
+    @if(cartlist.length>0){
+    <button
       routerLink="/checkout"
       class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-      ><span>Check out</span></a
     >
+      <span>Check out</span>
+    </button>
+    } @else {
+    <button
+      class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+    >
+      <span>Check out</span>
+    </button>
+    }
   </div>
 </main>
 <app-footer></app-footer>

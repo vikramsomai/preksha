@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './admin-login.component.html',
-  styleUrl: './admin-login.component.scss'
+  styleUrl: './admin-login.component.scss',
 })
-export class AdminLoginComponent {
-
-}
+export class AdminLoginComponent {}

@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export interface Product {
-  name: string;
-  price: string;
-  sizes: string[];
-  colors: {
-    name: string;
-    image: string;
-    hoverImage: string;
-  }[];
-  id: number; // Assuming each product has a unique ID
-}
+// export interface Product {
+//   name: string;
+//   price: string;
+//   sizes: string[];
+//   colors: {
+//     name: string;
+//     image: string;
+//     hoverImage: string;
+//   }[];
+//   id: number; // Assuming each product has a unique ID
+// }
 
 @Injectable({
   providedIn: 'root',
 })
 export class WishlistService {
   private wishlistKey = 'wishlist'; // Key for localStorage
-  private wishlistSource = new BehaviorSubject<Product[]>(
+  private wishlistSource = new BehaviorSubject<any[]>(
     this.getWishlistFromLocalStorage()
   );
   wishlist$ = this.wishlistSource.asObservable();
@@ -26,12 +26,12 @@ export class WishlistService {
   constructor() {}
 
   // Add a product to the wishlist
-  addToWishlist(product: Product): void {
+  addToWishlist(product: any): void {
     const currentWishlist = this.wishlistSource.getValue();
 
     // Check if the product is already in the wishlist
     const isAlreadyInWishlist = currentWishlist.some(
-      (item) => item.id === product.id
+      (item) => item.productId === product.productId
     );
 
     if (!isAlreadyInWishlist) {
@@ -55,13 +55,13 @@ export class WishlistService {
   }
 
   // Update wishlist in BehaviorSubject and localStorage
-  private updateWishlist(updatedWishlist: Product[]): void {
+  private updateWishlist(updatedWishlist: any[]): void {
     this.wishlistSource.next(updatedWishlist);
     localStorage.setItem(this.wishlistKey, JSON.stringify(updatedWishlist));
   }
 
   // Retrieve wishlist from localStorage
-  public getWishlistFromLocalStorage(): Product[] {
+  public getWishlistFromLocalStorage(): any[] {
     const wishlist = localStorage.getItem(this.wishlistKey);
     return wishlist ? JSON.parse(wishlist) : [];
   }
@@ -69,6 +69,6 @@ export class WishlistService {
   // Check if a product is in the wishlist
   isInWishlist(productId: number): boolean {
     const currentWishlist = this.wishlistSource.getValue(); // Check in BehaviorSubject data
-    return currentWishlist.some((product) => product.id === productId);
+    return currentWishlist.some((product) => product.productId === productId);
   }
 }

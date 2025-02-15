@@ -11,12 +11,7 @@ import { CartService } from '../../core/services/cart/cart.service';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [
-    SiteHeaderComponent,
-    FooterComponent,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
+  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -25,17 +20,17 @@ export class ProfileComponent {
   profileInfo: any = {};
   constructor(
     private authService: AuthService,
-    private cartService: CartService,
     private profileService: ProfileService
   ) {}
 
   profileForm = new FormGroup({
-    firstName: new FormGroup(''),
+    firstname: new FormGroup(''),
     lastName: new FormControl(''),
     email: new FormControl(''),
     city: new FormControl(''),
     street: new FormControl(''),
-    zipCode: new FormControl(''),
+    province: new FormControl(''),
+    postalCode: new FormControl(''),
     phoneNumber: new FormControl(''),
   });
 
@@ -46,6 +41,15 @@ export class ProfileComponent {
       // Fetch Profile Data
       this.profileService.getProfile().subscribe((data) => {
         this.profileInfo = data;
+        this.profileForm.patchValue({
+          lastName: data.lastName,
+          email: data.email,
+          city: data.city,
+          street: data.address,
+          province: data.province,
+          postalCode: data.postalCode,
+          phoneNumber: data.phoneNumber,
+        });
         console.log('gata data', data);
       });
     }
@@ -55,18 +59,21 @@ export class ProfileComponent {
   editProfile(updatedData: any) {
     const userId = this.authService.getUserId();
     if (userId) {
-      this.profileService.updateProfile(updatedData).subscribe((response) => {
-        console.log('Profile updated:', response);
-        this.profileInfo = response; // Update the displayed profile info
+      const profile = this.profileForm.value;
+      const profileData = {
+        userId: userId,
+        firstName: profile.firstname,
+        lastName: profile.lastName,
+        email: profile.email,
+        city: profile.city,
+        address: profile.street,
+        province: profile.province,
+        postalCode: profile.postalCode,
+        phoneNumber: profile.phoneNumber,
+      };
+      this.profileService.updateProfile(profileData).subscribe((res) => {
+        console.log('success', res);
       });
     }
-  }
-  removeCartItem(item: any) {
-    const product = item.product;
-    this.cartService.removeFromCart(
-      product.id,
-      product.selectedColor,
-      product.selectedSize
-    );
   }
 }

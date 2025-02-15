@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SiteHeaderComponent } from '../../../shared/component/site-header/site-header.component';
 import { FooterComponent } from '../../../shared/component/footer/footer.component';
 import { CartService } from '../../../core/services/cart/cart.service';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
     SiteHeaderComponent,
     FooterComponent,
     RouterModule,
-    JsonPipe,
+    RouterLink,
     FormsModule,
   ],
   templateUrl: './cart.component.html',
@@ -21,10 +21,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class CartComponent {
   cartlist!: any[];
-
   constructor(public cartService: CartService) {
     this.cartService.cart$.subscribe((items) => {
       this.cartlist = items;
+      console.log('cart data', this.cartlist);
     });
   }
 
@@ -46,32 +46,25 @@ export class CartComponent {
       this.cartlist[index].quantity--;
     }
   }
-  updateQunatity(action: string, product: any, qty: number) {
+  updateQunatity(action: string, item: any): void {
+    const currentQuantity = item.quantity;
+    let updatedQuantity = currentQuantity;
+
     if (action === 'add') {
-      qty = qty + 1;
-      this.cartService.updateCartItemQuantity(
-        product.product.id,
-        product.product.selectedColor,
-        product.product.selectedSize,
-        qty
-      );
-    } else if (action === 'delete' && qty > 1) {
-      qty = qty - 1;
-      this.cartService.updateCartItemQuantity(
-        product.product.id,
-        product.product.selectedColor,
-        product.product.selectedSize,
-        qty
-      );
+      updatedQuantity++;
+    } else if (action === 'delete' && currentQuantity > 1) {
+      updatedQuantity--;
     }
+
+    this.cartService.updateCartItemQuantity(
+      item.product.productId,
+      item.selectedSize,
+      updatedQuantity
+    );
   }
   removeCartItem(item: any) {
     const product = item.product;
     console.log(product);
-    this.cartService.removeFromCart(
-      product.id,
-      product.selectedColor,
-      product.selectedSize
-    );
+    this.cartService.removeFromCart(product.productId, product.selectedSize);
   }
 }

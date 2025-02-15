@@ -4,18 +4,19 @@
 </h3>
 
 <div class="grid-layout" data-grid="grid-4">
-  @for (item of wishlist; track item.id) {
+  @for (item of wishlist; track item) {
   <div class="card-product fl-item">
     <div class="card-product-wrapper">
       <a class="product-img">
         <img
-          class="img-product"
-          src="{{ item.colors[0].image || '' }}"
+          class="lazyload img-product"
+          [src]="'http://localhost:5000/' + item?.imageUrls[0]"
+          data-src="{{ item?.imageUrls[0] }}"
           alt="image-product"
         />
         <img
           class="img-hover"
-          src="{{ item.colors[0].hoverImage || '' }}"
+          [src]="'http://localhost:5000/' + item?.imageUrls[1]"
           alt="image-product"
         />
       </a>
@@ -37,6 +38,7 @@
         <a
           href="#quick_view"
           data-bs-toggle="modal"
+          (click)="setSelectedProduct(item)"
           class="box-icon bg_white quickview tf-btn-loading"
         >
           <span class="icon icon-view"></span>
@@ -46,6 +48,226 @@
     </div>
   </div>
   } @empty {
-  <p>empty data list</p>
+  <div class="mx-4"><p>Wishlist is empty</p></div>
   }
+</div>
+<div class="modal fade modalDemo" id="quick_view">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="header">
+        <span
+          class="icon-close icon-close-popup"
+          data-bs-dismiss="modal"
+        ></span>
+      </div>
+      <div class="wrap">
+        <div class="tf-product-media-wrap">
+          <div dir="ltr" class="swiper tf-single-slide">
+            <div class="swiper-wrapper">
+              <!-- Dynamically create slides based on selected color -->
+              <!-- @for( color of selectedProduct?.colors;track color;let
+              index=$index){
+              <div class="swiper-slide">
+                <div class="item">
+                  <img
+                    [src]="
+                      color.name === selectedProduct.selectedColor
+                        ? color.image
+                        : color.image
+                    "
+                    alt="{{ color.name }}"
+                  />
+                </div>
+              </div>
+              } -->
+
+              <div class="swiper-slide">
+                <div class="item">
+                  <img
+                    [src]="
+                      'http://localhost:5000/' +
+                      selectedProduct?.imageUrls[currentIndex]
+                    "
+                    alt=""
+                  />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="item">
+                  <img src="{{ selectedProduct?.imageUrls[1] }}" alt="" />
+                </div>
+              </div>
+            </div>
+            <div
+              class="swiper-button-next button-style-arrow single-slide-prev"
+              (click)="prevImage()"
+            ></div>
+            <div
+              class="swiper-button-prev button-style-arrow single-slide-next"
+              (click)="nextImage()"
+            ></div>
+          </div>
+        </div>
+        <div class="tf-product-info-wrap position-relative">
+          <div class="tf-product-info-list">
+            <div class="tf-product-info-title">
+              <h5>
+                <a class="link" href="#">{{ selectedProduct?.productName }}</a>
+              </h5>
+            </div>
+            <div class="tf-product-info-badges">
+              <div class="badges text-uppercase">Best seller</div>
+              <div class="product-status-content">
+                <i class="icon-lightning"></i>
+                <!-- <p class="fw-6">
+                  {{ selectedProduct?.description }}
+                </p> -->
+              </div>
+            </div>
+            <div class="tf-product-info-price">
+              <div class="price">NPR.{{ selectedProduct?.price }}</div>
+            </div>
+            <div class="tf-product-description">
+              <p>
+                {{ selectedProduct?.description }}
+              </p>
+            </div>
+            <div class="tf-product-info-variant-picker">
+              <!-- <div class="variant-picker-item">
+                <div class="variant-picker-label">
+                  Color:
+                  <span class="fw-6 variant-picker-label-value">Orange</span>
+                </div>
+                <div class="variant-picker-values">
+                  @for(color of selectedProduct?.colors;track color){
+                  <input
+                    id="values-{{ color.name | lowercase }}-1"
+                    type="radio"
+                    name="color-1"
+                    value="{{ color.name }}"
+                    [(ngModel)]="selectedProduct.selectedColor"
+                    (click)="onColorChange(color.name)"
+                  />
+                  <label
+                    class="hover-tooltip radius-60"
+                    [for]="'values-' + (color.name | lowercase) + '-1'"
+                    data-value="color.name"
+                  >
+                    <span
+                      class="btn-checkbox bg-color-{{
+                        color.name | lowercase
+                      }}"
+                    ></span>
+                    <span class="tooltip">{{ color.name }}</span>
+                  </label>
+                  }
+                </div>
+              </div> -->
+              <div class="variant-picker-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="variant-picker-label">
+                    Size:
+                    <span class="fw-6 variant-picker-label-value">{{
+                      selectedProduct?.selectedSize
+                    }}</span>
+                  </div>
+                  <div class="find-size btn-choose-size fw-6">
+                    Find your size
+                  </div>
+                </div>
+                <div class="variant-picker-values">
+                  <input
+                    type="radio"
+                    name="size-1"
+                    id="values-s-1"
+                    [checked]="selectedProduct?.selectedSize == 'S'"
+                    (click)="onSizeChange('S')"
+                  />
+                  <label class="style-text" for="values-s-1" data-value="S">
+                    <p>S</p>
+                  </label>
+                  <input
+                    type="radio"
+                    name="size-1"
+                    id="values-m-1"
+                    [checked]="selectedProduct?.selectedSize == 'M'"
+                    (click)="onSizeChange('M')"
+                  />
+                  <label class="style-text" for="values-m-1" data-value="M">
+                    <p>M</p>
+                  </label>
+                  <input
+                    type="radio"
+                    name="size-1"
+                    id="values-l-1"
+                    [checked]="selectedProduct?.selectedSize == 'L'"
+                    (click)="onSizeChange('L')"
+                  />
+                  <label class="style-text" for="values-l-1" data-value="L">
+                    <p>L</p>
+                  </label>
+                  <input
+                    type="radio"
+                    name="size-1"
+                    id="values-xl-1"
+                    [checked]="selectedProduct?.selectedSize == 'XL'"
+                    (click)="onSizeChange('XL')"
+                  />
+                  <label class="style-text" for="values-xl-1" data-value="XL">
+                    <p>XL</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="tf-product-info-quantity">
+              <div class="quantity-title fw-6">Quantity</div>
+              <div class="wg-quantity">
+                <span
+                  class="btn-quantity minus-btn"
+                  (click)="decreaseQunatity()"
+                  >-</span
+                >
+                <input id="quantity" type="number" value="1" min="1" />
+                <span class="btn-quantity plus-btn" (click)="addQunatity()"
+                  >+</span
+                >
+              </div>
+            </div>
+            <div class="tf-product-info-buy-button">
+              <form class="">
+                <a
+                  (click)="addToCart(selectedProduct)"
+                  class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
+                  ><span>Add to cart -&nbsp;</span
+                  ><span class="tf-qty-price"
+                    >NPR. {{ selectedProduct?.price }}</span
+                  ></a
+                >
+                <a
+                  href="javascript:void(0);"
+                  class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action"
+                >
+                  <span class="icon icon-heart"></span>
+                  <span class="tooltip">Add to Wishlist</span>
+                  <span class="icon icon-delete"></span>
+                </a>
+
+                <div class="w-100">
+                  <a href="#" class="payment-more-option"
+                    >More payment options</a
+                  >
+                </div>
+              </form>
+            </div>
+            <div>
+              <a href="#" class="tf-btn fw-6 btn-line"
+                >View full details<i class="icon icon-arrow1-top-left"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

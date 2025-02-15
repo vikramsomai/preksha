@@ -1,6 +1,6 @@
 <app-site-header></app-site-header>
 <div class="profile-container">
-  <h5 class="title">Edit Profile</h5>
+  <h5 class="title" style="margin-left: 20px">Edit Profile</h5>
   <form [formGroup]="profileForm" class="profile-container">
     <div class="tf-field style-1">
       <input
@@ -8,8 +8,8 @@
         placeholder=" "
         formControlName="firstname"
         type="text"
-        id="firstName"
         [value]="profileInfo?.firstName"
+        id="firstName"
       />
       <label class="tf-field-label" for="firstName">First name</label>
     </div>
@@ -20,7 +20,6 @@
         formControlName="lastName"
         type="text"
         id="lastName"
-        [value]="profileInfo?.lastName"
       />
       <label class="tf-field-label" for="lastName">Last name</label>
     </div>
@@ -28,31 +27,61 @@
       <input
         class="tf-field-input tf-input"
         type="email"
+        formControlName="email"
         id="email"
-        [value]="profileInfo?.email"
+        readonly
       />
       <label class="tf-field-label" for="email">Email</label>
     </div>
     <div class="tf-field style-1">
-      <input class="tf-field-input tf-input" type="text" id="street" />
+      <input
+        class="tf-field-input tf-input"
+        type="text"
+        id="street"
+        formControlName="street"
+      />
       <label class="tf-field-label" for="street">Street</label>
     </div>
     <div class="tf-field style-1">
-      <input class="tf-field-input tf-input" type="text" id="city" />
+      <input
+        class="tf-field-input tf-input"
+        type="text"
+        id="city"
+        formControlName="city"
+      />
       <label class="tf-field-label" for="city">City</label>
     </div>
     <div class="tf-field style-1">
-      <input class="tf-field-input tf-input" type="number" id="Zipcode" />
-      <label class="tf-field-label" for="street">Zipcode</label>
+      <input
+        class="tf-field-input tf-input"
+        type="text"
+        id="province"
+        formControlName="province"
+      />
+      <label class="tf-field-label" for="Province">Province</label>
     </div>
     <div class="tf-field style-1">
-      <input class="tf-field-input tf-input" type="number" id="street" />
-      <label class="tf-field-label" for="street">Phone Number</label>
+      <input
+        class="tf-field-input tf-input"
+        type="number"
+        id="postalCode"
+        formControlName="postalCode"
+      />
+      <label class="tf-field-label" for="postalCode">Zipcode</label>
+    </div>
+    <div class="tf-field style-1">
+      <input
+        class="tf-field-input tf-input"
+        type="number"
+        id="mobile"
+        formControlName="phoneNumber"
+      />
+      <label class="tf-field-label" for="mobile">Phone Number</label>
     </div>
   </form>
   <!-- </div> -->
   <button
-    class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn mx-4"
+    class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn mx-4 my-0"
     (click)="editProfile(profileForm)"
   >
     Save

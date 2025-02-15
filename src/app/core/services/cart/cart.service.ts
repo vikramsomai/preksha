@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 export interface CartItem {
   product: any; // Reference to the product
@@ -13,29 +14,37 @@ export interface CartItem {
   providedIn: 'root',
 })
 export class CartService {
-  private cartKey = 'cart'; // Key for localStorage
-  private baseUrl = 'http://localhost:5000/api';
-  private cartSource = new BehaviorSubject<CartItem[]>(
+  private cartKey = 'encryptedCart'; // Key for localStorage
+  private secretKey = 'your-secret-key'; // Use a strong secret key
+  private cartSource = new BehaviorSubject<any[]>(
     this.getCartFromLocalStorage()
   );
   cart$ = this.cartSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
+  // Encrypt data
+  private encryptData(data: any): string {
+    return CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      this.secretKey
+    ).toString();
+  }
+
+  // Decrypt data
+  private decryptData(encryptedData: string): any {
+    const bytes = CryptoJS.AES.decrypt(encryptedData, this.secretKey);
+    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  }
+
   // Add a product to the cart without replacing other variants
-  addToCart(
-    product: any,
-    quantity: number,
-    selectedColor: string,
-    selectedSize: string
-  ): void {
+  addToCart(product: any, quantity: number, selectedSize: string): void {
     const currentCart = this.cartSource.getValue();
 
     // Check if the exact product variant (ID + size + color) exists in the cart
     const existingCartItemIndex = currentCart.findIndex(
       (item) =>
         item.product.productId === product.id &&
-        item.selectedColor === selectedColor &&
         item.selectedSize === selectedSize
     );
 
@@ -46,10 +55,9 @@ export class CartService {
       this.updateCart(updatedCart);
     } else {
       // Add a new entry for this specific product variant
-      const newCartItem: CartItem = {
+      const newCartItem: any = {
         product,
         quantity,
-        selectedColor,
         selectedSize,
       };
       this.updateCart([...currentCart, newCartItem]);
@@ -57,35 +65,28 @@ export class CartService {
   }
 
   // Remove a product variant from the cart
-  removeFromCart(
-    productId: string,
-    selectedColor: string,
-    selectedSize: string
-  ): void {
+  removeFromCart(productId: string, selectedSize: string): void {
     const currentCart = this.cartSource.getValue();
     const updatedCart = currentCart.filter(
       (item) =>
         !(
           item.product.productId === productId &&
-          item.selectedColor === selectedColor &&
           item.selectedSize === selectedSize
         )
     );
+    console.log('update cart', updatedCart);
     this.updateCart(updatedCart);
   }
 
   // Update quantity of a specific product variant in the cart
   updateCartItemQuantity(
-    productId: number,
-    selectedColor: string,
+    productId: string,
     selectedSize: string,
     quantity: number
   ): void {
     const currentCart = this.cartSource.getValue();
     const updatedCart = currentCart.map((item) =>
-      item.product.productId === productId &&
-      item.selectedColor === selectedColor &&
-      item.selectedSize === selectedSize
+      item.product.productId === productId && item.selectedSize === selectedSize
         ? { ...item, quantity }
         : item
     );
@@ -98,28 +99,24 @@ export class CartService {
   }
 
   // Update cart in BehaviorSubject and localStorage
-  private updateCart(updatedCart: CartItem[]): void {
+  private updateCart(updatedCart: any[]): void {
     this.cartSource.next(updatedCart);
-    localStorage.setItem(this.cartKey, JSON.stringify(updatedCart));
+    const encryptedCart = this.encryptData(updatedCart); // Encrypt before storing
+    localStorage.setItem(this.cartKey, encryptedCart);
   }
 
   // Retrieve cart from localStorage
-  private getCartFromLocalStorage(): CartItem[] {
-    const cart = localStorage.getItem(this.cartKey);
-    return cart ? JSON.parse(cart) : [];
+  private getCartFromLocalStorage(): any[] {
+    const encryptedCart = localStorage.getItem(this.cartKey);
+    return encryptedCart ? this.decryptData(encryptedCart) : [];
   }
 
   // Check if a specific product variant is in the cart
-  isInCart(
-    productId: number,
-    selectedColor: string,
-    selectedSize: string
-  ): boolean {
+  isInCart(productId: string, selectedSize: string): boolean {
     const currentCart = this.cartSource.getValue();
     return currentCart.some(
       (item) =>
         item.product.productId === productId &&
-        item.selectedColor === selectedColor &&
         item.selectedSize === selectedSize
     );
   }
@@ -134,16 +131,21 @@ export class CartService {
   getTotalCost(): number {
     const currentCart = this.cartSource.getValue();
     return currentCart.reduce(
-      (total, item) => total + item.quantity * item.product.price,
+      (total, item: any) => total + item.quantity * item.product.price,
       0
     );
   }
+  getTotal() {
+    let fees = 500;
+    const currentCart = this.cartSource.getValue();
+    let subTotal = currentCart.reduce(
+      (total, item: any) => total + item.quantity * item.product.price,
+      0
+    );
+    return subTotal >= 4000 ? subTotal : subTotal + fees;
+  }
+
   getCartProducts(productIds: string[]): Observable<any> {
     return this.http.post('${/get-cart-products', { productIds });
-  }
-  // Retrieve cart from localStorage
-  public getCartFromLocalStorages(): CartItem[] {
-    const cart = localStorage.getItem(this.cartKey); // `cartKey` is the key for localStorage
-    return cart ? JSON.parse(cart) : []; // Parse the JSON string or return an empty array
   }
 }

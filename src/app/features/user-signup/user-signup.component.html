@@ -1,0 +1,75 @@
+<app-site-header></app-site-header>
+<div class="container-login">
+  <div class="login-form">
+    <div class="modal-content">
+      <div class="header">
+        <div class="demo-title">Register</div>
+      </div>
+      <div class="tf-login-form">
+        <form class="" [formGroup]="signupForm">
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              formControlName="firstname"
+              type="text"
+              name=""
+            />
+            <label class="tf-field-label" for="">First name</label>
+          </div>
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              formControlName="lastname"
+              type="text"
+              name=""
+            />
+            <label class="tf-field-label" for="">Last name</label>
+          </div>
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              formControlName="email"
+              type="email"
+              name=""
+            />
+            <label class="tf-field-label" for="">Email *</label>
+          </div>
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              type="password"
+              formControlName="password"
+              name=""
+            />
+            <label class="tf-field-label" for="">Password *</label>
+          </div>
+          <div class="bottom">
+            <div class="w-100">
+              <a
+                href="#"
+                (click)="handleSignup()"
+                class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center mt-2"
+                ><span>Register</span></a
+              >
+            </div>
+            <div class="w-100">
+              <a
+                routerLink="/login"
+                data-bs-toggle="modal"
+                class="btn-link fw-6 w-100 link mt-2"
+              >
+                Already have an account? Log in here
+                <i class="icon icon-arrow1-top-left"></i>
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

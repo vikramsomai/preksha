@@ -22,19 +22,11 @@ import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { AuthService } from '../../core/services/auth/auth.service';
-
+import { SliderComponent } from '../../shared/component/slider/slider.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    LoginComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterLink,
-    LowerCasePipe,
-    JsonPipe,
-    FooterComponent,
-  ],
+  imports: [ReactiveFormsModule, FormsModule, RouterLink, FooterComponent],
   templateUrl: 'home.component.html',
   styleUrl: 'home.component.scss',
 })
@@ -99,6 +91,7 @@ export class HomeComponent implements OnInit {
   currentIndex: number = 0; // To track the current image index
   wishlist: IWishlistList[] = [];
   cartlist: any[] = [];
+  newCartList: any[] = [];
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
@@ -117,41 +110,53 @@ export class HomeComponent implements OnInit {
     });
     this.cartService.cart$.subscribe((items) => {
       this.cartlist = items;
+      // this.fetchProducts();
+      console.log('carts f data', this.cartlist);
+      this.updateNewCartList();
     });
   }
   ngOnInit(): void {
     this.fetchProducts();
     this.mainImage = this.selectedProduct?.imageUrls[0];
-    // this.fetchCartItems();
+    this.newCartList = this.productList.map((product) => {
+      console.log('product data', product);
+    });
+    // this.selectedProduct.selectedSize = 'S';
   }
+  updateNewCartList(): void {
+    this.newCartList = this.cartlist.map((cartItem) => {
+      const matchedProduct = this.productList.find(
+        (product) => product.productId === cartItem.product.productId
+      );
 
-  fetchCartItems() {
-    const cart = this.cartService.getCartFromLocalStorages(); // Retrieve cart from localStorage
-    const productIds = cart.map((item) => item.product.productId);
-    console.log('gedwhdh ', productIds);
-    // Make an API call to fetch product details
-    // this.cartService.getCartProducts(productIds).subscribe((products) => {
-    //   this.cartlist = cart.map((item) => {
-    //     const productDetails = products.find(
-    //       (prod: any) => prod.productId === item.product.productId
-    //     );
+      if (matchedProduct) {
+        cartItem.product.price = matchedProduct.price;
+      }
 
-    //     return {
-    //       ...item,
-    //       product: {
-    //         ...item.product,
-    //         price: productDetails?.price, // Add price from the server
-    //       },
-    //     };
-    //   });
-    //   console.log(this.cartlist);
-    // });
+      return cartItem; // Return the updated cartItem
+    });
   }
 
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
       (data) => {
         this.productList = data;
+        console.log('product dadadadaa', data);
+        this.newCartList = this.cartlist.map((cartItem) => {
+          const matchedProduct = this.productList.find(
+            (product) => product.productId === cartItem.product.productId
+          );
+
+          if (matchedProduct) {
+            cartItem.product.price = matchedProduct.price;
+            return {
+              ...cartItem,
+            };
+          }
+          return cartItem; // Keep the original cartItem if no match is found
+        });
+
+        console.log('cart data', this.newCartList);
         console.log(this.productList);
         this.cdr.detectChanges();
       },
@@ -190,6 +195,22 @@ export class HomeComponent implements OnInit {
     });
     console.log(this.cartForm.value);
   }
+  updateQunatity(action: string, item: any): void {
+    const currentQuantity = item.quantity;
+    let updatedQuantity = currentQuantity;
+
+    if (action === 'add') {
+      updatedQuantity++;
+    } else if (action === 'delete' && currentQuantity > 1) {
+      updatedQuantity--;
+    }
+
+    this.cartService.updateCartItemQuantity(
+      item.product.productId,
+      item.selectedSize,
+      updatedQuantity
+    );
+  }
 
   onSubmit() {
     console.log(this.cartForm.value);
@@ -198,22 +219,25 @@ export class HomeComponent implements OnInit {
       console.log('Added to Cart:', { ...this.selectedProduct, ...formData });
     }
   }
-  addToCart(item: any) {
-    const newItem = {
-      productId: item.productId,
-      productName: item.productName,
-      imageUrls: item.imageUrls,
-      qty: item.qty,
-    };
+  // addToCart(item: any) {
+  //   const newItem = {
+  //     productId: item.productId,
+  //     productName: item.productName,
+  //     imageUrls: item.imageUrls,
+  //     qty: item.qty,
+  //   };
 
-    this.cartService.addToCart(
-      newItem,
-      this.quantity,
-      item.selectedColor,
-      item.selectedSize
-    ); // Add 2 units of the product
-    console.log('qunatity', item);
+  //   this.cartService.addToCart(newItem, this.quantity, item.selectedSize); // Add 2 units of the product
+  //   console.log('qunatity', item);
+  // }
+  addToCart(item: any): void {
+    if (item.selectedSize == undefined) {
+      item.selectedSize = 'S';
+    }
+    console.log('selected size', item.selectedSize);
+    this.cartService.addToCart(item, this.quantity, item.selectedSize);
   }
+
   addItem(item: any): void {
     this.wishlistService.addToWishlist(item);
   }
@@ -225,7 +249,7 @@ export class HomeComponent implements OnInit {
     this.wishlistService.clearWishlist();
   }
   isInWishlist(product: any): boolean {
-    return this.wishlistService.isInWishlist(product.id);
+    return this.wishlistService.isInWishlist(product.productId);
   }
   setSelectedProduct(product: any) {
     this.selectedProduct = product;
@@ -251,32 +275,31 @@ export class HomeComponent implements OnInit {
   onSizeChange(size: string): void {
     this.selectedProduct.selectedSize = size;
   }
-  updateQunatity(action: string, item: any): void {
-    const currentQuantity = item.quantity; // Get the current quantity directly
-    let updatedQuantity = currentQuantity;
+  // updateQunatity(action: string, item: any): void {
+  //   console.log('item add', item);
+  //   const currentQuantity = item.quantity; // Get the current quantity directly
+  //   let updatedQuantity = currentQuantity;
 
-    if (action === 'add') {
-      updatedQuantity = currentQuantity + 1;
-    } else if (action === 'delete' && currentQuantity > 1) {
-      updatedQuantity = currentQuantity - 1;
-    }
+  //   if (action === 'add') {
+  //     updatedQuantity = currentQuantity + 1;
+  //     console.log('update qty', updatedQuantity);
+  //   } else if (action === 'delete' && currentQuantity > 1) {
+  //     updatedQuantity = currentQuantity - 1;
+  //     console.log('update qty', updatedQuantity);
+  //   }
 
-    // Update the cart with the new quantity
-    this.cartService.updateCartItemQuantity(
-      item.product.id,
-      item.selectedColor,
-      item.selectedSize,
-      updatedQuantity
-    );
-  }
+  //   // Update the cart with the new quantity
+  //   this.cartService.updateCartItemQuantity(
+  //     item.product.id,
+  //     item.selectedColor,
+  //     item.selectedSize,
+  //     updatedQuantity
+  //   );
+  // }
 
   removeCartItem(item: any) {
     const product = item.product;
-    console.log('product id', product);
-    this.cartService.removeFromCart(
-      product.productId,
-      product.selectedColor,
-      product.selectedSize
-    );
+    console.log(product);
+    this.cartService.removeFromCart(product.productId, product.selectedSize);
   }
 }

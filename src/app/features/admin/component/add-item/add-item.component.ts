@@ -8,13 +8,14 @@ import {
 import { Product, ProductSize } from './product.model';
 import { UploadService } from './upload.service';
 import { __await } from 'tslib';
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-item',
   standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe, NgxDropzoneModule],
+  imports: [ReactiveFormsModule, JsonPipe, NgxDropzoneModule, AsyncPipe],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss',
 })
@@ -22,6 +23,7 @@ export class AddItemComponent {
   formMode = 'none';
   productForm: FormGroup;
   productId!: string;
+  products$: Observable<any[]> | undefined; // Observable for products
   uploadedImages: string[] = [];
   selectedFiles: File[] = [];
   products: any[] = []; // Store fetched products
@@ -49,6 +51,8 @@ export class AddItemComponent {
 
   ngOnInit(): void {
     this.fetchProducts();
+    this.products$ = this.uploadService.products$;
+    this.uploadService.fetchProducts(); // Fetch initial products
   }
   files: File[] = [];
   onSelect(event: any) {

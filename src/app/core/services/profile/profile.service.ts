@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ProfileService {
   private apiUrl = 'http://127.0.0.1:5000/api/user';
-
+  private baseUrl = 'http://127.0.0.1:5000/api/auth';
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getProfile(): Observable<any> {
@@ -24,6 +24,6 @@ export class ProfileService {
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
-    return this.http.put(`${this.apiUrl}/profile`, profileData, { headers });
+    return this.http.post(`${this.baseUrl}/update`, profileData, { headers });
   }
 }

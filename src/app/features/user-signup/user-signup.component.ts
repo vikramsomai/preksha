@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { SiteHeaderComponent } from '../../shared/component/site-header/site-header.component';
+import { AuthService } from '../../core/services/auth/auth.service';
+import { Router, RouterLink } from '@angular/router';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../core/services/auth/auth.service';
-import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-user-login',
+  selector: 'app-user-signup',
   standalone: true,
   imports: [
     FooterComponent,
@@ -19,16 +19,11 @@ import { Router, RouterLink } from '@angular/router';
     ReactiveFormsModule,
     RouterLink,
   ],
-  templateUrl: './user-login.component.html',
-  styleUrl: './user-login.component.scss',
+  templateUrl: './user-signup.component.html',
+  styleUrl: './user-signup.component.scss',
 })
-export class UserLoginComponent {
+export class UserSignupComponent {
   constructor(private authService: AuthService, private route: Router) {}
-  loginForm = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-  });
-
   signupForm = new FormGroup({
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
@@ -36,16 +31,17 @@ export class UserLoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  handleLogin() {
+  handleSignup() {
     const payload = {
-      email: this.loginForm.value.email || '',
-      password: this.loginForm.value.password || '',
+      firstname: this.signupForm.value.firstname || '',
+      lastname: this.signupForm.value.lastname || '',
+      email: this.signupForm.value.email || '',
+      password: this.signupForm.value.password || '',
     };
-    this.authService.login(payload).subscribe({
+    this.authService.register(payload).subscribe({
       next: (Response) => {
-        this.route.navigateByUrl('/dd');
+        this.route.navigateByUrl('/login');
       },
     });
-    console.log('get data', this.loginForm.value);
   }
 }

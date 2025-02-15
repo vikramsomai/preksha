@@ -7,9 +7,12 @@ import { CartComponent } from './features/product/cart/cart.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
 import { authGuard } from './core/guards/auth.guard';
-import { LoginComponent } from './features/auth/login/login.component';
 import { UserLoginComponent } from './features/user-login/user-login.component';
 import { noAuthGuard } from './core/guards/no-auth.guard';
+import { UserSignupComponent } from './features/user-signup/user-signup.component';
+import { OrderComponent } from './features/order/order.component';
+import { SuccessPaymentComponent } from './shared/component/success-payment/success-payment.component';
+import { FailurePaymentComponent } from './shared/component/failure-payment/failure-payment.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +26,11 @@ export const routes: Routes = [
   {
     path: 'login',
     component: UserLoginComponent,
+    canActivate: [noAuthGuard],
+  },
+  {
+    path: 'register',
+    component: UserSignupComponent,
     canActivate: [noAuthGuard],
   },
   {
@@ -48,6 +56,19 @@ export const routes: Routes = [
     path: 'cart',
     component: CartComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'order',
+    component: OrderComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'payment-success',
+    component: SuccessPaymentComponent,
+  },
+  {
+    path: 'payment-failure',
+    component: FailurePaymentComponent,
   },
   {
     path: '**',
