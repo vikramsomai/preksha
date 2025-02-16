@@ -1,8 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,16 +14,24 @@ import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { FilterPipe } from '../../shared/pipes/filter.pipe';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, RouterLink, FooterComponent],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    RouterLink,
+    FooterComponent,
+    FilterPipe,
+  ],
   templateUrl: 'home.component.html',
   styleUrl: 'home.component.scss',
 })
 export class HomeComponent implements OnInit {
   quantity: number = 1; // Default quantity
-
+  selectedFilterCategory = '';
+  loading: boolean = true;
   productList: any[] = [];
   selectedProduct: any;
   cartForm: FormGroup;
@@ -59,14 +63,18 @@ export class HomeComponent implements OnInit {
       this.updateNewCartList();
     });
   }
+
   ngOnInit(): void {
     this.fetchProducts();
     this.mainImage = this.selectedProduct?.imageUrls[0];
     this.newCartList = this.productList.map((product) => {
       console.log('product data', product);
     });
-    // this.selectedProduct.selectedSize = 'S';
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
   }
+
   updateNewCartList(): void {
     this.newCartList = this.cartlist.map((cartItem) => {
       const matchedProduct = this.productList.find(
@@ -213,5 +221,16 @@ export class HomeComponent implements OnInit {
     const product = item.product;
     console.log(product);
     this.cartService.removeFromCart(product.productId, product.selectedSize);
+  }
+  changeGender(event: any) {
+    console.log('changes');
+    console.log(event.target.value);
+  }
+  chnageCategory(event: any) {
+    this.selectedFilterCategory = event.target.value;
+    console.log(this.selectedFilterCategory);
+  }
+  changePriceRange(event: any) {
+    console.log(event);
   }
 }

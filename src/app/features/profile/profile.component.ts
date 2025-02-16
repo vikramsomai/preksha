@@ -4,9 +4,12 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { JsonPipe } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { CartService } from '../../core/services/cart/cart.service';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -26,8 +29,7 @@ export class ProfileComponent {
   profileForm = new FormGroup({
     firstname: new FormGroup(''),
     lastName: new FormControl(''),
-    email: new FormControl(''),
-    city: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
     street: new FormControl(''),
     province: new FormControl(''),
     postalCode: new FormControl(''),
@@ -44,7 +46,6 @@ export class ProfileComponent {
         this.profileForm.patchValue({
           lastName: data.lastName,
           email: data.email,
-          city: data.city,
           street: data.address,
           province: data.province,
           postalCode: data.postalCode,
@@ -55,7 +56,6 @@ export class ProfileComponent {
     }
   }
 
-  // To handle profile updates, we'll create a method to edit the profile.
   editProfile(updatedData: any) {
     const userId = this.authService.getUserId();
     if (userId) {
@@ -65,7 +65,6 @@ export class ProfileComponent {
         firstName: profile.firstname,
         lastName: profile.lastName,
         email: profile.email,
-        city: profile.city,
         address: profile.street,
         province: profile.province,
         postalCode: profile.postalCode,

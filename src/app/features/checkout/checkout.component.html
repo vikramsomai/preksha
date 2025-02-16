@@ -21,19 +21,12 @@
           placeholder="Email address"
           formControlName="email"
         />
-        <input
+        <!-- <input
           type="text"
           placeholder="Street address"
           formControlName="street"
-        />
-        <div class="form-row">
-          <input type="text" placeholder="City" formControlName="city" />
-          <input
-            type="text"
-            placeholder="Province"
-            formControlName="province"
-          />
-        </div>
+        /> -->
+
         <div class="form-row">
           <input
             type="text"
@@ -46,6 +39,22 @@
             formControlName="phoneNumber"
           />
         </div>
+        <div class="form-row">
+          <div class="select-container">
+            <select #province formControlName="province">
+              <option disabled selected value="">Province</option>
+              <option value="Madhesh Province">Madhesh Province</option>
+              <option value="Bagmati Province">Bagmati Province</option>
+              <option value="Gandaki Province">Gandaki Province</option>
+              <option value="Lumbini Province">Lumbini Province</option>
+              <option value="Karnali Province">Karnali Province</option>
+              <option value="Sudurpashchim Province">
+                Sudurpashchim Province
+              </option>
+            </select>
+          </div>
+        </div>
+        <textarea formControlName="street"></textarea>
       </form>
     </div>
 

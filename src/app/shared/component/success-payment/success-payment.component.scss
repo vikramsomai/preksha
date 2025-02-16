@@ -1,31 +1,72 @@
-._failed{ border-bottom: solid 4px red !important; }
-._failed i{  color:red !important;  }
-
-._success {
-    box-shadow: 0 15px 25px #00000019;
-    padding: 45px;
+.card-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background: #f9f9f9;
+}
+.card {
+    max-width: 400px;
     width: 100%;
     text-align: center;
-    margin: 40px auto;
-    border-bottom: solid 4px #28a745;
-}
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
-._success i {
-    font-size: 55px;
-    color: #28a745;
-}
+  .success {
+    background: #e6f7e6;
+    color: #27ae60;
+  }
 
-._success h2 {
-    margin-bottom: 12px;
-    font-size: 40px;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-top: 10px;
-}
+  .failure {
+    background: #ffe6e6;
+    color: #e74c3c;
+  }
 
-._success p {
-    margin-bottom: 0px;
-    font-size: 18px;
-    color: #495057;
-    font-weight: 500;
-}
+  .card h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .card button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .success button {
+    background: #27ae60;
+    color: white;
+  }
+
+  .failure button {
+    background: #e74c3c;
+    color: white;
+  }
+
+  .card button:hover {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 500px) {
+    .card {
+      padding: 20px;
+    }
+
+    .card h1 {
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+    }
+  }

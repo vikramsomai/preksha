@@ -95,6 +95,7 @@ export class SiteHeaderComponent {
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
+    this.route.navigateByUrl('/login');
   }
   updateQunatity(action: string, item: any): void {
     const currentQuantity = item.quantity;

@@ -33,7 +33,7 @@
       />
       <label class="tf-field-label" for="email">Email</label>
     </div>
-    <div class="tf-field style-1">
+    <!-- <div class="tf-field style-1">
       <input
         class="tf-field-input tf-input"
         type="text"
@@ -41,25 +41,8 @@
         formControlName="street"
       />
       <label class="tf-field-label" for="street">Street</label>
-    </div>
-    <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        type="text"
-        id="city"
-        formControlName="city"
-      />
-      <label class="tf-field-label" for="city">City</label>
-    </div>
-    <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        type="text"
-        id="province"
-        formControlName="province"
-      />
-      <label class="tf-field-label" for="Province">Province</label>
-    </div>
+    </div> -->
+
     <div class="tf-field style-1">
       <input
         class="tf-field-input tf-input"
@@ -78,7 +61,20 @@
       />
       <label class="tf-field-label" for="mobile">Phone Number</label>
     </div>
+    <div class="select-container">
+      <select #province formControlName="province">
+        <option disabled selected value="">Province</option>
+        <option value="Madhesh Province">Madhesh Province</option>
+        <option value="Bagmati Province">Bagmati Province</option>
+        <option value="Gandaki Province">Gandaki Province</option>
+        <option value="Lumbini Province">Lumbini Province</option>
+        <option value="Karnali Province">Karnali Province</option>
+        <option value="Sudurpashchim Province">Sudurpashchim Province</option>
+      </select>
+    </div>
+    <textarea formControlName="street"></textarea>
   </form>
+
   <!-- </div> -->
   <button
     class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn mx-4 my-0"

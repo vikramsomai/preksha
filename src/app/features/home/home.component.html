@@ -1,10 +1,11 @@
-
 <!-- preload -->
+@if(loading){
 <div class="preload preload-container">
   <div class="preload-logo">
     <div class="spinner"></div>
   </div>
 </div>
+}
 <!-- /preload -->
 <div id="wrapper">
   <!-- Slider -->
@@ -276,9 +277,41 @@
           arrivals
         </p>
       </div>
+      <div class="filter-container">
+        <div class="select-container">
+          <select #gender (change)="changeGender($event)">
+            <option disabled selected value="">Gender</option>
+            <option value="">All</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+          </select>
+        </div>
+        <!-- Category Dropdown -->
+        <div class="select-container">
+          <select #category (change)="chnageCategory($event)">
+            <option disabled selected value="">Category</option>
+            <option value="">All</option>
+            <option value="Topwear">Top Wear</option>
+            <option value="Bottomwear">Bottom Wear</option>
+            <option value="pants">Shorts & Pants</option>
+          </select>
+        </div>
+        <!-- Price Range Dropdown -->
+        <div class="select-container">
+          <select #priceRange (change)="changePriceRange($event)">
+            <option disabled selected value="">Price Range</option>
+            <option value="">All Prices</option>
+            <option value="0-500">NPR 0 - 500</option>
+            <option value="501-1000">NPR 501 - 1000</option>
+            <option value="1001-2000">NPR 1001 - 2000</option>
+            <option value="2000+">NPR 2000+</option>
+          </select>
+        </div>
+      </div>
       <!-- <app-card></app-card> -->
       <div class="grid-layout" data-wow-delay="0s" data-grid="grid-4">
-        @for (item of productList; track item) {
+        @for (item of productList |
+        filter:gender.value:category.value:priceRange.value; track item) {
         <div class="card-product fl-item">
           <div class="card-product-wrapper">
             <a href="#" class="product-img">

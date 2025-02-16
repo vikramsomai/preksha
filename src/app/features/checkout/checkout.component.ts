@@ -37,7 +37,6 @@ export class CheckoutComponent {
     firstName: new FormControl(''),
     lastName: new FormControl(''),
     email: new FormControl(''),
-    city: new FormControl(''),
     street: new FormControl(''),
     province: new FormControl(''),
     postalCode: new FormControl(''),
@@ -53,7 +52,6 @@ export class CheckoutComponent {
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
-          city: data.city,
           street: data.address,
           province: data.province,
           postalCode: data.postalCode,
@@ -70,7 +68,6 @@ export class CheckoutComponent {
         firstname: profile.firstName,
         lastName: profile.lastName,
         email: profile.email,
-        city: profile.city,
         address: profile.street,
         province: profile.province,
         postalCode: profile.postalCode,
@@ -107,7 +104,6 @@ export class CheckoutComponent {
     });
     const shippingAddress = {
       address: profile.street,
-      city: profile.city,
       province: profile.province,
       postalCode: profile.postalCode,
     };
@@ -127,14 +123,15 @@ export class CheckoutComponent {
     console.log(order);
     const amount = this.cartService.getTotal(); // Example amount
     const productId = '0x23bjd'; // Example product code
-
-    this.paymentService.initiatePayment(amount).subscribe({
-      next: (response) => {
-        window.location.href = response.url;
-      },
-      error: (err) => {
-        console.error('Payment initiation failed', err);
-      },
-    });
+    if (products.length >= 1) {
+      this.paymentService.initiatePayment(amount).subscribe({
+        next: (response) => {
+          window.location.href = response.url;
+        },
+        error: (err) => {
+          console.error('Payment initiation failed', err);
+        },
+      });
+    }
   }
 }

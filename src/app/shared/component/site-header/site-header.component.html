@@ -105,7 +105,7 @@
         </a>
       </div>
       <div class="col-xl-3 col-md-4 col-6">
-        <a routerLink="/" class="logo-header">
+        <a onclick="location.href='/'" class="logo-header">
           <img
             src="assets/images/logo/logo.png"
             alt="logo"
@@ -201,8 +201,14 @@
                   >Orders</a
                 >
               </li>
+              <br />
               <li>
-                <a class="dropdown-item" (click)="logout()">Logout</a>
+                <a
+                  class="dropdown-item"
+                  data-bs-toggle="modal"
+                  (click)="logout()"
+                  >Logout</a
+                >
               </li>
               }
             </ul>
@@ -236,6 +242,7 @@
   <div class="toolbar-item">
     <a
       href="#toolbarShopmb"
+      onclick="location.href='/'"
       data-bs-toggle="offcanvas"
       aria-controls="offcanvasLeft"
     >
