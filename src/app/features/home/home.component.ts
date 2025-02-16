@@ -1,11 +1,8 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
 } from '@angular/core';
-import { LoginComponent } from './../auth/login/login.component';
 import {
   FormBuilder,
   FormControl,
@@ -16,13 +13,11 @@ import {
 } from '@angular/forms';
 import { IWishlistList } from '../../core/services/wishlist/wishlist.interface';
 import { WishlistService } from '../../core/services/wishlist/wishlist.service';
-import { JsonPipe, LowerCasePipe } from '@angular/common';
 import { CartService } from '../../core/services/cart/cart.service';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { SliderComponent } from '../../shared/component/slider/slider.component';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -32,58 +27,7 @@ import { SliderComponent } from '../../shared/component/slider/slider.component'
 })
 export class HomeComponent implements OnInit {
   quantity: number = 1; // Default quantity
-  // productList = [
-  //   {
-  //     name: 'Ribbed modal T-shirt',
-  //     price: 4000,
-  //     sizes: ['M', 'L', 'XL'],
-  //     description: 'Selling fast! 48 people have this in their carts.',
-  //     image: 'assets/images/products/white-8.jpg',
-  //     hoverImage: 'assets/images/products/white-8.jpg',
-  //     colors: [
-  //       {
-  //         name: 'orange',
-  //         image: 'assets/images/products/brown.jpg',
-  //         hoverImage: 'assets/images/products/purple.jpg',
-  //       },
-  //       {
-  //         name: 'light-green',
-  //         image: 'assets/images/products/purple.jpg',
-  //         hoverImage: 'assets/images/products/brown.jpg',
-  //       },
-  //       {
-  //         name: 'light-purple',
-  //         image: 'assets/images/products/green.jpg',
-  //         hoverImage: 'assets/images/products/purple.jpg',
-  //       },
-  //     ],
-  //     id: 0,
-  //     selectedColor: 'Orange', // Default selected color
-  //     selectedSize: 'S', // Default selected size
-  //   },
-  //   {
-  //     name: 'Regular Fit Oxford Shirt',
-  //     price: 5000,
-  //     sizes: ['S', 'M', 'L'],
-  //     image: 'assets/images/products/white-8.jpg',
-  //     hoverImage: 'assets/images/products/white-8.jpg',
-  //     colors: [
-  //       {
-  //         name: 'Black',
-  //         image: 'assets/images/products/black-4.jpg',
-  //         hoverImage: 'assets/images/products/black-5.jpg',
-  //       },
-  //       {
-  //         name: 'Dark Blue',
-  //         image: 'assets/images/products/dark-blue-2.jpg',
-  //         hoverImage: 'assets/images/products/dark-blue-2.jpg',
-  //       },
-  //     ],
-  //     selectedColor: 'Orange', // Default selected color
-  //     selectedSize: 'S', // Default selected size
-  //     id: 1,
-  //   },
-  // ];
+
   productList: any[] = [];
   selectedProduct: any;
   cartForm: FormGroup;
@@ -219,17 +163,6 @@ export class HomeComponent implements OnInit {
       console.log('Added to Cart:', { ...this.selectedProduct, ...formData });
     }
   }
-  // addToCart(item: any) {
-  //   const newItem = {
-  //     productId: item.productId,
-  //     productName: item.productName,
-  //     imageUrls: item.imageUrls,
-  //     qty: item.qty,
-  //   };
-
-  //   this.cartService.addToCart(newItem, this.quantity, item.selectedSize); // Add 2 units of the product
-  //   console.log('qunatity', item);
-  // }
   addToCart(item: any): void {
     if (item.selectedSize == undefined) {
       item.selectedSize = 'S';
@@ -275,27 +208,6 @@ export class HomeComponent implements OnInit {
   onSizeChange(size: string): void {
     this.selectedProduct.selectedSize = size;
   }
-  // updateQunatity(action: string, item: any): void {
-  //   console.log('item add', item);
-  //   const currentQuantity = item.quantity; // Get the current quantity directly
-  //   let updatedQuantity = currentQuantity;
-
-  //   if (action === 'add') {
-  //     updatedQuantity = currentQuantity + 1;
-  //     console.log('update qty', updatedQuantity);
-  //   } else if (action === 'delete' && currentQuantity > 1) {
-  //     updatedQuantity = currentQuantity - 1;
-  //     console.log('update qty', updatedQuantity);
-  //   }
-
-  //   // Update the cart with the new quantity
-  //   this.cartService.updateCartItemQuantity(
-  //     item.product.id,
-  //     item.selectedColor,
-  //     item.selectedSize,
-  //     updatedQuantity
-  //   );
-  // }
 
   removeCartItem(item: any) {
     const product = item.product;
