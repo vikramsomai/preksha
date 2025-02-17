@@ -56,38 +56,16 @@ export class HomeComponent implements OnInit {
     this.wishlistService.wishlist$.subscribe((items) => {
       this.wishlist = items; // Update the local wishlist when data changes
     });
-    this.cartService.cart$.subscribe((items) => {
-      this.cartlist = items;
-      // this.fetchProducts();
-      console.log('carts f data', this.cartlist);
-      this.updateNewCartList();
-    });
   }
 
   ngOnInit(): void {
     this.fetchProducts();
     this.mainImage = this.selectedProduct?.imageUrls[0];
-    this.newCartList = this.productList.map((product) => {
-      console.log('product data', product);
-    });
     setTimeout(() => {
       this.loading = false;
     }, 500);
   }
 
-  updateNewCartList(): void {
-    this.newCartList = this.cartlist.map((cartItem) => {
-      const matchedProduct = this.productList.find(
-        (product) => product.productId === cartItem.product.productId
-      );
-
-      if (matchedProduct) {
-        cartItem.product.price = matchedProduct.price;
-      }
-
-      return cartItem; // Return the updated cartItem
-    });
-  }
 
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
@@ -217,10 +195,8 @@ export class HomeComponent implements OnInit {
     this.selectedProduct.selectedSize = size;
   }
 
-  removeCartItem(item: any) {
-    const product = item.product;
-    console.log(product);
-    this.cartService.removeFromCart(product.productId, product.selectedSize);
+  removeCartItem(productId: any, selectedSize: any) {
+    this.cartService.removeFromCart(productId, selectedSize);
   }
   changeGender(event: any) {
     console.log('changes');

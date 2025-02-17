@@ -304,7 +304,7 @@
             <option value="0-500">NPR 0 - 500</option>
             <option value="501-1000">NPR 501 - 1000</option>
             <option value="1001-2000">NPR 1001 - 2000</option>
-            <option value="2000+">NPR 2000+</option>
+            <option value="2000">NPR 2000+</option>
           </select>
         </div>
       </div>
@@ -1212,7 +1212,12 @@
                       </div>
                       <div
                         class="tf-mini-cart-remove"
-                        (click)="removeCartItem(item)"
+                        (click)="
+                          removeCartItem(
+                            item.product?.productId,
+                            item?.selectedSize
+                          )
+                        "
                       >
                         Remove
                       </div>

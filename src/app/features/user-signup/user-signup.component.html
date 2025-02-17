@@ -1,9 +1,12 @@
 <app-site-header></app-site-header>
 <div class="container-login">
   <div class="login-form">
+    @if(formMode=='register'){
     <div class="modal-content">
       <div class="header">
-        <div class="demo-title">Register</div>
+        <div class="demo-title">
+          <h1 class="login-admin">Register</h1>
+        </div>
       </div>
       <div class="tf-login-form">
         <form class="" [formGroup]="signupForm">
@@ -70,6 +73,46 @@
         </form>
       </div>
     </div>
+    } @else if(formMode=='otp'){
+    <div class="modal-content">
+      <div class="header">
+        <div class="demo-title">
+          <h1 class="login-admin" style="text-align: center">
+            OTP Verification
+          </h1>
+        </div>
+      </div>
+      <p style="color: #666; text-align: center" class="success-message">
+        We've sent a verification code to your email -
+        <span id="user-email">{{ signupForm.value.email }}</span>
+      </p>
+      <p style="color: red; text-align: center">{{ otpMessage }}</p>
+      <div class="tf-login-form">
+        <form class="" [formGroup]="otpForm">
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              formControlName="otp"
+              type="number"
+              name=""
+            />
+            <label class="tf-field-label" for="">Enter Otp</label>
+          </div>
+
+          <div class="bottom">
+            <div class="w-100">
+              <a
+                (click)="verifyOtp()"
+                class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center mt-2"
+                ><span>Submit</span></a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    }
   </div>
 </div>
 <app-footer></app-footer>

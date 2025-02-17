@@ -34,16 +34,21 @@
             formControlName="postalCode"
           />
           <input
-            type="tel"
+            type="number"
             placeholder="Phone number"
             formControlName="phoneNumber"
           />
         </div>
         <div class="form-row">
           <div class="select-container">
-            <select #province formControlName="province">
+            <select
+              class="tf-select w-100"
+              id="ShippingCountry_CartDrawer-Form"
+              data-default=""
+            >
+              <!-- <select #province formControlName="province"> -->
               <option disabled selected value="">Province</option>
-              <option value="Madhesh Province">Madhesh Province</option>
+              <option value="Madhui88787esh Province">Madhesh Province</option>
               <option value="Bagmati Province">Bagmati Province</option>
               <option value="Gandaki Province">Gandaki Province</option>
               <option value="Lumbini Province">Lumbini Province</option>
@@ -68,7 +73,7 @@
         <div class="cart-row">
           <span>Shipping Fee</span>
           <span
-            >NPR. {{ this.cartService.getTotalCost() > 4000 ? "0" : "500" }}
+            >{{ this.cartService.getTotalCost() > 4000 ? "Free" : "NPR. 500" }}
           </span>
         </div>
         <div class="cart-row total-row">

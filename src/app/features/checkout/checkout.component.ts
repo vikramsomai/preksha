@@ -5,7 +5,12 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ProfileComponent } from '../profile/profile.component';
 import { ProfileService } from '../../core/services/profile/profile.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { debounce, debounceTime } from 'rxjs';
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { PaymentService } from '../../core/services/payment/payment.service';
@@ -20,6 +25,7 @@ import { PaymentService } from '../../core/services/payment/payment.service';
 export class CheckoutComponent {
   cartlist!: any[];
   profileInfo: any;
+  phonePattern = /^[6-9]\d{9}$/;
   productList: any[] = [];
   selectedPaymentMethod: string = 'esewa'; // Default selection
   constructor(
@@ -36,11 +42,14 @@ export class CheckoutComponent {
   profileForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    email: new FormControl(''),
+    email: new FormControl({ value: '', disabled: true }),
     street: new FormControl(''),
     province: new FormControl(''),
     postalCode: new FormControl(''),
-    phoneNumber: new FormControl(''),
+    phoneNumber: new FormControl('', [
+      Validators.pattern(this.phonePattern),
+      Validators.required,
+    ]),
   });
   ngOnInit(): void {
     const userId = this.authService.getUserId();
@@ -127,6 +136,8 @@ export class CheckoutComponent {
       this.paymentService.initiatePayment(amount).subscribe({
         next: (response) => {
           window.location.href = response.url;
+          const productId = response.prdoduct_id;
+          // this.paymentService.PaymentVerify(productId).subscribe(() => {});
         },
         error: (err) => {
           console.error('Payment initiation failed', err);

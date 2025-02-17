@@ -44,7 +44,7 @@ export class CartService {
     // Check if the exact product variant (ID + size + color) exists in the cart
     const existingCartItemIndex = currentCart.findIndex(
       (item) =>
-        item.product.productId === product.id &&
+        item.product.productId === product.productId &&
         item.selectedSize === selectedSize
     );
 
@@ -74,7 +74,7 @@ export class CartService {
           item.selectedSize === selectedSize
         )
     );
-    console.log('update cart', updatedCart);
+
     this.updateCart(updatedCart);
   }
 
@@ -99,7 +99,7 @@ export class CartService {
   }
 
   // Update cart in BehaviorSubject and localStorage
-  private updateCart(updatedCart: any[]): void {
+  public updateCart(updatedCart: any[]): void {
     this.cartSource.next(updatedCart);
     const encryptedCart = this.encryptData(updatedCart); // Encrypt before storing
     localStorage.setItem(this.cartKey, encryptedCart);

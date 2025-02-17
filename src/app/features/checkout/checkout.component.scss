@@ -213,7 +213,11 @@ select {
     height: 50px;
     width: 100%;
 }
-
+input,textarea{
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
 select:focus {
     outline: none;
     border-color: #3b82f6;

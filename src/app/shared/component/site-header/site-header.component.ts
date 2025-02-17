@@ -3,14 +3,13 @@ import { IWishlistList } from '../../../core/services/wishlist/wishlist.interfac
 import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
 import { Route, Router, RouterModule } from '@angular/router';
 import { CartService } from '../../../core/services/cart/cart.service';
-import { LoginComponent } from '../../../features/auth/login/login.component';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { UploadService } from '../../../features/admin/component/add-item/upload.service';
 
 @Component({
   selector: 'app-site-header',
   standalone: true,
-  imports: [RouterModule, LoginComponent],
+  imports: [RouterModule],
   templateUrl: './site-header.component.html',
   styleUrl: './site-header.component.scss',
 })
@@ -36,55 +35,88 @@ export class SiteHeaderComponent {
     });
     this.cartService.cart$.subscribe((items) => {
       this.cartlist = items;
-      // this.fetchProducts();
-      console.log('carts f data', this.cartlist);
       this.updateNewCartList();
     });
+
     console.log('user id', authService.getUserId());
   }
   ngOnInit(): void {
     this.fetchProducts();
     this.mainImage = this.selectedProduct?.imageUrls[0];
-    this.newCartList = this.productList.map((product) => {
-      console.log('product data', product);
-    });
   }
   updateNewCartList(): void {
-    this.newCartList = this.cartlist.map((cartItem) => {
+    this.newCartList = this.cartlist.filter((cartItem) => {
       const matchedProduct = this.productList.find(
         (product) => product.productId === cartItem.product.productId
       );
 
       if (matchedProduct) {
+        // Update the price from the server data
         cartItem.product.price = matchedProduct.price;
+        return true; // Keep the item in the new cart list
       }
 
-      return cartItem; // Return the updated cartItem
+      // If no matching product is found, the cart item is removed.
+      return false;
     });
+    console.log('sdjdghhdhdhagdghad', this.newCartList);
     this.cdr.detectChanges(); // Trigger change detection
   }
 
+  // fetchProducts(): void {
+  //   this.uploadService.getProducts().subscribe(
+  //     (data) => {
+  //       this.productList = data;
+
+  //       this.newCartList = this.cartlist.map((cartItem) => {
+  //         const matchedProduct = this.productList.find(
+  //           (product) => product.productId === cartItem.product.productId
+  //         );
+
+  //         if (matchedProduct) {
+  //           cartItem.product.price = matchedProduct.price;
+  //           return {
+  //             ...cartItem,
+  //           };
+  //         }
+  //         return cartItem; // Keep the original cartItem if no match is found
+  //       });
+
+  //       console.log('cart data', this.newCartList);
+  //       console.log(this.productList);
+  //       this.cdr.detectChanges();
+  //     },
+  //     (err) => {
+  //       console.error('Error fetching products:', err);
+  //     }
+  //   );
+  // }
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
       (data) => {
         this.productList = data;
 
-        this.newCartList = this.cartlist.map((cartItem) => {
+        // Filter and update cart items
+        this.newCartList = this.cartlist.filter((cartItem) => {
           const matchedProduct = this.productList.find(
             (product) => product.productId === cartItem.product.productId
           );
 
           if (matchedProduct) {
+            // Update the cart item's price
             cartItem.product.price = matchedProduct.price;
-            return {
-              ...cartItem,
-            };
+            return true; // Keep this cart item
           }
-          return cartItem; // Keep the original cartItem if no match is found
-        });
 
-        console.log('cart data', this.newCartList);
-        console.log(this.productList);
+          // Remove the cart item if no match is found
+          return false;
+        });
+        this.cartService.updateCart(this.newCartList);
+        // Log the updated cart list and product list
+        console.log('Updated cart data:', this.newCartList);
+        console.log('Product list:', this.productList);
+
+        // Trigger change detection to update the UI
         this.cdr.detectChanges();
       },
       (err) => {
@@ -92,6 +124,7 @@ export class SiteHeaderComponent {
       }
     );
   }
+
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
@@ -113,9 +146,13 @@ export class SiteHeaderComponent {
       updatedQuantity
     );
   }
-  removeCartItem(item: any) {
-    const product = item.product;
-    console.log(product);
-    this.cartService.removeFromCart(product.productId, product.selectedSize);
+
+  // removeCartItem(item: any) {
+  //   const product = item.product;
+  //   console.log(product);
+  //   this.cartService.removeFromCart(product.productId, product.selectedSize);
+  // }
+  removeCartItem(productId: any, selectedSize: any) {
+    this.cartService.removeFromCart(productId, selectedSize);
   }
 }

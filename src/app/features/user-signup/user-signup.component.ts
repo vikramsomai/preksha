@@ -23,6 +23,8 @@ import {
   styleUrl: './user-signup.component.scss',
 })
 export class UserSignupComponent {
+  otpMessage!: string;
+  formMode: string = 'register';
   constructor(private authService: AuthService, private route: Router) {}
   signupForm = new FormGroup({
     firstname: new FormControl('', Validators.required),
@@ -30,18 +32,39 @@ export class UserSignupComponent {
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-
+  otpForm = new FormGroup({
+    otp: new FormControl('', Validators.required),
+  });
   handleSignup() {
+    if (this.signupForm.valid) {
+      this.formMode = 'otp';
+      this.authService.sendOtp(this.signupForm.value.email).subscribe((res) => {
+        console.log(res);
+      });
+    }
+  }
+
+  verifyOtp() {
     const payload = {
       firstname: this.signupForm.value.firstname || '',
       lastname: this.signupForm.value.lastname || '',
       email: this.signupForm.value.email || '',
       password: this.signupForm.value.password || '',
     };
-    this.authService.register(payload).subscribe({
-      next: (Response) => {
-        this.route.navigateByUrl('/login');
-      },
-    });
+    if (this.otpForm.valid) {
+      this.authService
+        .verifyOtp(
+          this.signupForm.value.email,
+          this.otpForm.value.otp?.toString()
+        )
+        .subscribe((res) => {
+
+          this.authService.register(payload).subscribe({
+            next: (Response) => {
+              this.route.navigateByUrl('/login');
+            },
+          });
+        });
+    }
   }
 }

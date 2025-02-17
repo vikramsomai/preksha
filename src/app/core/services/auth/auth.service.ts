@@ -7,9 +7,20 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:5000/api/auth';
+  private otpUrl = 'http://127.0.0.1:5000/api/otp';
 
   constructor(private http: HttpClient) {}
-
+  sendOtp(email: any): Observable<any> {
+    return this.http.post(`${this.otpUrl}/send`, {
+      email: email,
+    });
+  }
+  verifyOtp(email: any, otp: any): Observable<any> {
+    return this.http.post(`${this.otpUrl}/verify`, {
+      email: email,
+      otp: otp,
+    });
+  }
   login(user: any): Observable<any> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, user).pipe(
       tap((response) => {

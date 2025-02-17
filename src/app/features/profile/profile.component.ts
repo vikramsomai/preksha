@@ -4,6 +4,8 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { JsonPipe } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 import {
   FormControl,
   FormGroup,
@@ -14,7 +16,13 @@ import {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule],
+  imports: [
+    SiteHeaderComponent,
+    FooterComponent,
+    ReactiveFormsModule,
+    ToastModule,
+    ButtonModule,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -70,9 +78,7 @@ export class ProfileComponent {
         postalCode: profile.postalCode,
         phoneNumber: profile.phoneNumber,
       };
-      this.profileService.updateProfile(profileData).subscribe((res) => {
-        console.log('success', res);
-      });
+      this.profileService.updateProfile(profileData).subscribe((res) => {});
     }
   }
 }
