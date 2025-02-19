@@ -43,6 +43,7 @@
           <div class="select-container">
             <select
               class="tf-select w-100"
+              formControlName="province"
               id="ShippingCountry_CartDrawer-Form"
               data-default=""
             >
@@ -73,7 +74,7 @@
         <div class="cart-row">
           <span>Shipping Fee</span>
           <span
-            >{{ this.cartService.getTotalCost() > 4000 ? "Free" : "NPR. 500" }}
+            >{{ this.cartService.getTotalCost() > 4000 ? "Free" : "NPR. 120" }}
           </span>
         </div>
         <div class="cart-row total-row">
@@ -258,8 +259,8 @@
         </div>
         <div
           class="payment-option"
-          [class.active]="selectedPaymentMethod === 'cod'"
-          (click)="selectPaymentMethod('cod')"
+          [class.active]="selectedPaymentMethod === 'COD'"
+          (click)="selectPaymentMethod('COD')"
         >
           CASH ON DELIVERY
         </div>

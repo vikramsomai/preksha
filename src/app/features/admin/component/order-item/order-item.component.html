@@ -1,35 +1,53 @@
 <main class="main-content">
   <header class="header"></header>
-
+  @for(order of orderList;track order){
   <div class="orders">
     <div class="order-card">
       <div class="order-icon">📦</div>
       <div class="order-details">
-        <h3>Girls Round Neck Cotton Top × 1 S</h3>
-        <p>Girls Round Neck Cotton Top × 1 M</p>
+        @for(product of order?.products;track product){
+        <h3>
+          {{ product?.name }} × {{ product?.quantity }} {{ product?.size }}
+        </h3>
+        }
         <div class="order-meta">
-          <p>Great Stack</p>
-          <p>Main Street,</p>
-          <p>Demo City, Demo State, US, 123456</p>
-          <p>9876543210</p>
+          <p>
+            {{ order.user.firstName }} {{ order.user.lastName }}
+            {{ order.user.phoneNumber }}
+          </p>
+        </div>
+        <div class="order-meta">
+          <p>{{ order.shippingAddress.address }}</p>
+          <p>{{ order.shippingAddress.province }}</p>
+          <p>{{ order.shippingAddress.postalCode }}</p>
         </div>
       </div>
       <div class="order-info">
-        <p>Items: 2</p>
-        <p>Method: Stripe</p>
-        <p>Payment: Done</p>
-        <p>Date: 7/10/2024</p>
+        <p>Items: {{ order.products.length }}</p>
+        <p>Method: {{ order.payment.method }}</p>
+        <p>Payment: {{ order.payment.status }}</p>
+        <p>Date: {{ order.createdAt | date : "shortDate" }}</p>
       </div>
       <div class="order-actions">
-        <div class="order-amount">$110</div>
-        <select class="order-status">
-          <option>Order Placed</option>
-          <option>Packing</option>
-          <option>Shipped</option>
-          <option>Out for delivery</option>
-          <option>Delivered</option>
+        <div class="order-amount">NPR. {{ order.totalAmount }}</div>
+        <select
+          class="order-status"
+          [(ngModel)]="order.status"
+          (change)="statusChange(order.orderId, $event)"
+        >
+          <option value="Order Placed">Order Placed</option>
+          <option value="Packed">Packed</option>
+          <option value="Shipped">Shipped</option>
+          <option value="Out for Delivery">Out for Delivery</option>
+          <option value="Delivered">Delivered</option>
         </select>
       </div>
     </div>
   </div>
+  } @empty {
+  <div class="order-card">
+    <h3>No order is placed</h3>
+  </div>
+
+  }
 </main>

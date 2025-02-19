@@ -136,7 +136,7 @@ export class CartService {
     );
   }
   getTotal() {
-    let fees = 500;
+    let fees = 120;
     const currentCart = this.cartSource.getValue();
     let subTotal = currentCart.reduce(
       (total, item: any) => total + item.quantity * item.product.price,

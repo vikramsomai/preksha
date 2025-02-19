@@ -1,32 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SiteHeaderComponent } from '../../shared/component/site-header/site-header.component';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ProfileService } from '../../core/services/profile/profile.service';
-import { JsonPipe } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { ButtonModule } from 'primeng/button';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [
-    SiteHeaderComponent,
-    FooterComponent,
-    ReactiveFormsModule,
-    ToastModule,
-    ButtonModule,
-  ],
+  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
+  private _snackBar = inject(MatSnackBar);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   userData: any;
   profileInfo: any = {};
   constructor(
@@ -78,7 +76,13 @@ export class ProfileComponent {
         postalCode: profile.postalCode,
         phoneNumber: profile.phoneNumber,
       };
-      this.profileService.updateProfile(profileData).subscribe((res) => {});
+      this.profileService.updateProfile(profileData).subscribe((res) => {
+        this._snackBar.open('Profile updated successfully', '', {
+          horizontalPosition: 'right',
+          duration: 2 * 1000,
+          verticalPosition: 'top',
+        });
+      });
     }
   }
 }

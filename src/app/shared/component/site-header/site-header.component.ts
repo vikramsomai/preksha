@@ -59,8 +59,6 @@ export class SiteHeaderComponent {
       // If no matching product is found, the cart item is removed.
       return false;
     });
-    console.log('sdjdghhdhdhagdghad', this.newCartList);
-    this.cdr.detectChanges(); // Trigger change detection
   }
 
   // fetchProducts(): void {

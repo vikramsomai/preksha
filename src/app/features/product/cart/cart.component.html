@@ -46,9 +46,13 @@
         </div>
       </div>
     </div>
+    } @empty {
+    <div>
+      <h6>Pleas add some items</h6>
+    </div>
     }
   </div>
-
+  @if(cartlist.length>0){
   <div class="cart-totals">
     <h2 class="totals-title">CART <span>TOTALS</span></h2>
     <div class="totals-row">
@@ -58,7 +62,7 @@
     <div class="totals-row">
       <span>Shipping Fee</span>
       <span
-        >{{ this.cartService.getTotalCost() > 4000 ? "0" : "NPR.500" }}
+        >{{ this.cartService.getTotalCost() > 4000 ? "0" : "NPR. 120" }}
       </span>
     </div>
     <div class="cart-row total-row">
@@ -68,16 +72,11 @@
       </div>
     </div>
   </div>
+  }
   <div class="tf-mini-cart-view-checkout">
     @if(cartlist.length>0){
     <button
       routerLink="/checkout"
-      class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-    >
-      <span>Check out</span>
-    </button>
-    } @else {
-    <button
       class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
     >
       <span>Check out</span>

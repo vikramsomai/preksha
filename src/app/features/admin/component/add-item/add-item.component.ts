@@ -189,9 +189,12 @@ export class AddItemComponent {
     this.productForm.patchValue({ sizes: this.selectedSizes }); // Update form
   }
   handleAddProduct() {
+    this.productForm.value.prdoductName = '';
+    this.productForm.value.description = '';
     this.formMode = 'add';
   }
   handleClose() {
+    this.productForm.reset();
     this.formMode = 'none';
   }
   handleEdit(id: any) {

@@ -7,10 +7,11 @@ import { HttpClient } from '@angular/common/http';
 export class PaymentService {
   private backendUrl = 'http://localhost:5000/initiate-payment';
   constructor(private http: HttpClient) {}
-  initiatePayment(amount: number) {
+  initiatePayment(amount: number, order: any) {
     return this.http.post<any>(this.backendUrl, {
       amount,
       productId: this.generateCustomTransactionId().toString(),
+      order: order,
     });
   }
   generateCustomTransactionId() {

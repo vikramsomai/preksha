@@ -40,12 +40,12 @@ export class CheckoutComponent {
     });
   }
   profileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl({ value: '', disabled: true }),
-    street: new FormControl(''),
-    province: new FormControl(''),
-    postalCode: new FormControl(''),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    street: new FormControl('', Validators.required),
+    province: new FormControl('', Validators.required),
+    postalCode: new FormControl('', Validators.required),
     phoneNumber: new FormControl('', [
       Validators.pattern(this.phonePattern),
       Validators.required,
@@ -66,7 +66,6 @@ export class CheckoutComponent {
           postalCode: data.postalCode,
           phoneNumber: data.phoneNumber,
         });
-        console.log('gata data', data);
       });
     }
     this.profileForm.valueChanges.pipe(debounceTime(1400)).subscribe((res) => {
@@ -102,15 +101,19 @@ export class CheckoutComponent {
       firstName: this.profileForm.value.firstName,
       lastName: this.profileForm.value.lastName,
       email: this.profileForm.value.email,
+      phoneNumber: this.profileForm.value.phoneNumber,
     };
     const products = this.productList.map((res) => {
       return {
         productId: res.product.productId,
         name: res.product.productName,
         price: res.product.price,
-        quantity: res.product.qty,
+        quantity: res.quantity,
+        image: res.product.imageUrls[0],
+        size: res.selectedSize,
       };
     });
+    console.log('iamge', products);
     const shippingAddress = {
       address: profile.street,
       province: profile.province,
@@ -118,8 +121,8 @@ export class CheckoutComponent {
     };
     const payment = {
       method: this.selectedPaymentMethod,
-      transactionId: 'TXN1234567890',
-      status: 'Paid',
+      transactionId: this.generateTransactionId(),
+      status: 'PENDING',
     };
     const order = {
       users,
@@ -127,22 +130,26 @@ export class CheckoutComponent {
       payment,
       shippingAddress,
       totalAmount: this.cartService.getTotal(),
-      status: 'Processing',
+      status: 'Order Placed',
     };
-    console.log(order);
     const amount = this.cartService.getTotal(); // Example amount
-    const productId = '0x23bjd'; // Example product code
-    if (products.length >= 1) {
-      this.paymentService.initiatePayment(amount).subscribe({
+    console.log(order);
+    console.log(this.profileForm.value);
+    if (this.profileForm.valid) {
+      this.paymentService.initiatePayment(amount, order).subscribe({
         next: (response) => {
           window.location.href = response.url;
-          const productId = response.prdoduct_id;
-          // this.paymentService.PaymentVerify(productId).subscribe(() => {});
         },
         error: (err) => {
           console.error('Payment initiation failed', err);
         },
       });
     }
+  }
+  generateTransactionId(): string {
+    const prefix = 'TXN';
+    const timestamp = Date.now(); // Current timestamp for uniqueness
+    const randomNumber = Math.floor(100000 + Math.random() * 900000); // Random 6-digit number
+    return `${prefix}${timestamp}${randomNumber}`;
   }
 }
