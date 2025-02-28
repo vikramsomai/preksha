@@ -28,7 +28,10 @@
         <p>Payment: {{ order.payment.status }}</p>
         <p>Date: {{ order.createdAt | date : "shortDate" }}</p>
       </div>
-      <div class="order-actions">
+      <div
+        class="order-actions"
+        style="display: flex; flex-direction: column; gap: 20px"
+      >
         <div class="order-amount">NPR. {{ order.totalAmount }}</div>
         <select
           class="order-status"
@@ -41,6 +44,14 @@
           <option value="Out for Delivery">Out for Delivery</option>
           <option value="Delivered">Delivered</option>
         </select>
+        <!-- New button to print -->
+        <button
+          [routerLink]="['/print', order.orderId]"
+          title="Print Invoice"
+          class="btn btn-outline"
+        >
+          Print Invoice
+        </button>
       </div>
     </div>
   </div>

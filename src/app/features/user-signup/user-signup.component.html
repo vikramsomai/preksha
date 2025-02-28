@@ -7,6 +7,9 @@
         <div class="demo-title">
           <h1 class="login-admin">Register</h1>
         </div>
+        <div style="color: red">
+          {{ errorMessage }}
+        </div>
       </div>
       <div class="tf-login-form">
         <form class="" [formGroup]="signupForm">
@@ -19,6 +22,10 @@
               name=""
             />
             <label class="tf-field-label" for="">First name</label>
+            <app-form-error
+              errorMessages="Please enter firstname"
+              [control]="signupForm.get('firstname')"
+            ></app-form-error>
           </div>
           <div class="tf-field style-1">
             <input
@@ -29,6 +36,10 @@
               name=""
             />
             <label class="tf-field-label" for="">Last name</label>
+            <app-form-error
+              errorMessages="Please enter lastname"
+              [control]="signupForm.get('lastname')"
+            ></app-form-error>
           </div>
           <div class="tf-field style-1">
             <input
@@ -39,6 +50,10 @@
               name=""
             />
             <label class="tf-field-label" for="">Email *</label>
+            <app-form-error
+              errorMessages="Please enter email"
+              [control]="signupForm.get('email')"
+            ></app-form-error>
           </div>
           <div class="tf-field style-1">
             <input
@@ -49,6 +64,10 @@
               name=""
             />
             <label class="tf-field-label" for="">Password *</label>
+            <app-form-error
+              errorMessages="Please enter password"
+              [control]="signupForm.get('password')"
+            ></app-form-error>
           </div>
           <div class="bottom">
             <div class="w-100">

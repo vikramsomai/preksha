@@ -1,0 +1,113 @@
+<div class="invoice-container">
+  <div class="invoice-header">
+    <div class="company-info">
+      <div class="logo">
+        <img src="../../../../assets/images/logo/logo.png" />
+      </div>
+      <div>
+        <div class="company-name">Preksha fashion</div>
+        <div>Wear your confidence</div>
+      </div>
+    </div>
+    <div>
+      <div class="invoice-title">INVOICE {{ generateInvoiceNumber() }}</div>
+      <div>Date: {{ dateToday | date }}</div>
+    </div>
+  </div>
+
+  <div class="flex-container">
+    <div class="flex-item">
+      <div class="section-title">Bill To:</div>
+      <div class="detail-row">
+        <div>
+          <strong
+            >{{ ordersData.user.firstName }}
+            {{ ordersData.user.lastName }}</strong
+          >
+        </div>
+        <div>{{ ordersData.shippingAddress.address }}</div>
+        <div>
+          {{ ordersData.shippingAddress.province }},{{
+            ordersData.shippingAddress.postalCode
+          }}
+        </div>
+        <div>Email: {{ ordersData.user.email }}</div>
+        <div>Phone: {{ ordersData.user.phoneNumber }}</div>
+      </div>
+    </div>
+    <div class="flex-item">
+      <div class="section-title">Order Details:</div>
+      <div class="detail-row">
+        <div class="detail-label">ORDER NUMBER</div>
+        <div>{{ ordersData.orderId }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">ORDER DATE</div>
+        <div>{{ ordersData.createdAt | date }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">PAYMENT STATUS</div>
+        <div style="color: #10b981; font-weight: bold">
+          {{ ordersData.payment.status }}
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">PAYMENT METHOD</div>
+        <div>{{ ordersData.payment.method }}</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>ITEM</th>
+        <th>QTY</th>
+        <th>UNIT PRICE</th>
+        <th class="text-right" style="text-align: right">AMOUNT</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(item of ordersData.products;track item){
+      <tr>
+        <td>
+          <div style="font-weight: bold">{{ item.name }}</div>
+          <div style="color: #666; font-size: 11px">{{ item.size }}</div>
+        </td>
+        <td>{{ item.quantity }}</td>
+        <td>NPR. {{ item.price }}</td>
+        <td class="text-right">NPR. {{ item.quantity * item.price }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="totals-section">
+    <div class="totals-row">
+      <div>Subtotal:</div>
+      <div>NPR.{{ getSubTotal() }}</div>
+    </div>
+    <div class="totals-row">
+      <div>Discount (10%):</div>
+      <div>--</div>
+    </div>
+    <div class="totals-row">
+      <div>Tax (8.875%):</div>
+      <div>--</div>
+    </div>
+    <div class="totals-row">
+      <div>Shipping:</div>
+      <div>NPR.120</div>
+    </div>
+    <div class="totals-row grand-total">
+      <div>TOTAL:</div>
+      <div>NPR.{{ ordersData.totalAmount }}</div>
+    </div>
+  </div>
+
+  <div class="invoice-footer">
+    <div class="thank-you">Thank you for your business!</div>
+    <div>Preksha Fashion Inc. | Kathmandu | 394110</div>
+    <div>{{ email }} | (+977) 9768760428 | www.prekshashopping.shop</div>
+  </div>
+</div>

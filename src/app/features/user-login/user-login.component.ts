@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { FormErrorComponent } from '../../shared/component/form-error/form-error.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-login',
@@ -18,11 +20,13 @@ import { Router, RouterLink } from '@angular/router';
     SiteHeaderComponent,
     ReactiveFormsModule,
     RouterLink,
+    FormErrorComponent,
   ],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.scss',
 })
 export class UserLoginComponent {
+  loginError!: string;
   constructor(private authService: AuthService, private route: Router) {}
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -42,10 +46,12 @@ export class UserLoginComponent {
       password: this.loginForm.value.password || '',
     };
     this.authService.login(payload).subscribe({
-      next: (Response) => {
+      next: (Response: any) => {
         this.route.navigateByUrl('/dd');
       },
+      error: (error: HttpErrorResponse) => {
+        // this.loginError = error.error.error;
+      },
     });
-    console.log('get data', this.loginForm.value);
   }
 }

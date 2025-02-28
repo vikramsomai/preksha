@@ -4,11 +4,12 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { OrdersService } from '../../core/services/orders/orders.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [SiteHeaderComponent, FooterComponent, DatePipe],
+  imports: [SiteHeaderComponent, FooterComponent, DatePipe, RouterLink],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
 })

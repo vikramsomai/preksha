@@ -19,7 +19,7 @@ export class OrdersService {
   updateOrderStatus(orderId: string, status: string) {
     return this.http.put(`${this.baseUrl}/${orderId}/status`, { status });
   }
-  getTopSelling() {
-    return this.http.get(`${this.baseUrl}/top-selling`);
+  getOrderById(orderId: any) {
+    return this.http.get(`${this.baseUrl}/print/${orderId}`);
   }
 }

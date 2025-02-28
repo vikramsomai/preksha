@@ -7,13 +7,13 @@
         </div>
       </div>
       <div class="tf-login-form">
-        <form class="" accept-charset="utf-8">
+        <form class="" [formGroup]="adminForm" accept-charset="utf-8">
           <div class="tf-field style-1">
             <input
               class="tf-field-input tf-input"
               placeholder=" "
               type="email"
-              formControlName="email"
+              formControlName="username"
               name=""
             />
             <label class="tf-field-label" for="">Email *</label>
@@ -32,7 +32,7 @@
           <div class="bottom mt-3">
             <div class="w-100">
               <button
-                type="submit"
+                (click)="login()"
                 class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
               >
                 <span>Log in</span>

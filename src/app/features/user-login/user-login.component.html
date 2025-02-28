@@ -6,6 +6,9 @@
         <div class="demo-title">
           <h1 class="login-admin">Log in</h1>
         </div>
+        <div style="color: red; text-align: center">
+          {{ loginError }}
+        </div>
       </div>
       <div class="tf-login-form">
         <form class="" [formGroup]="loginForm" accept-charset="utf-8">
@@ -18,6 +21,10 @@
               name=""
             />
             <label class="tf-field-label" for="">Email *</label>
+            <app-form-error
+              errorMessages="Please enter email"
+              [control]="loginForm.get('email')"
+            ></app-form-error>
           </div>
           <div class="tf-field style-1">
             <input
@@ -28,6 +35,10 @@
               name=""
             />
             <label class="tf-field-label" for="">Password *</label>
+            <app-form-error
+              errorMessages="Please enter password"
+              [control]="loginForm.get('password')"
+            ></app-form-error>
           </div>
           <div>
             <a

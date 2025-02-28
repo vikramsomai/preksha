@@ -13,6 +13,9 @@ import { UserSignupComponent } from './features/user-signup/user-signup.componen
 import { OrderComponent } from './features/order/order.component';
 import { SuccessPaymentComponent } from './shared/component/success-payment/success-payment.component';
 import { FailurePaymentComponent } from './shared/component/failure-payment/failure-payment.component';
+import { PrintInvoiceComponent } from './shared/component/print-invoice/print-invoice.component';
+import { adminAuthGuard } from './core/guards/admin-auth.guard';
+import { adminNoAuthGuard } from './core/guards/admin--no-auth.guard';
 
 export const routes: Routes = [
   {
@@ -22,6 +25,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLoginComponent,
+    canActivate: [adminAuthGuard],
   },
   {
     path: 'login',
@@ -36,7 +40,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: AdminDashboardComponent,
-    canActivate: [authGuard],
+    canActivate: [adminAuthGuard],
   },
   {
     path: 'wishlist',
@@ -70,6 +74,7 @@ export const routes: Routes = [
     path: 'payment-failure',
     component: FailurePaymentComponent,
   },
+  { path: 'print/:id', component: PrintInvoiceComponent },
   {
     path: '**',
     redirectTo: '',

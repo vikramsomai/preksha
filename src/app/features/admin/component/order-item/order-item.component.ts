@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { OrdersService } from '../../../../core/services/orders/orders.service';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order-item',
   standalone: true,
-  imports: [DatePipe, FormsModule],
+  imports: [DatePipe, FormsModule, RouterLink],
   templateUrl: './order-item.component.html',
   styleUrl: './order-item.component.scss',
 })
@@ -20,6 +21,7 @@ export class OrderItemComponent {
       console.log(res);
       this.orderList = res;
     });
+    
   }
   statusChange(orderId: any, event: any) {
     const status = event.target.value;

@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormErrorComponent } from '../../shared/component/form-error/form-error.component';
 
 @Component({
   selector: 'app-user-signup',
@@ -18,18 +19,20 @@ import {
     SiteHeaderComponent,
     ReactiveFormsModule,
     RouterLink,
+    FormErrorComponent,
   ],
   templateUrl: './user-signup.component.html',
   styleUrl: './user-signup.component.scss',
 })
 export class UserSignupComponent {
   otpMessage!: string;
+  errorMessage!: string;
   formMode: string = 'register';
   constructor(private authService: AuthService, private route: Router) {}
   signupForm = new FormGroup({
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
   otpForm = new FormGroup({
@@ -41,6 +44,8 @@ export class UserSignupComponent {
       this.authService.sendOtp(this.signupForm.value.email).subscribe((res) => {
         console.log(res);
       });
+    } else {
+      this.errorMessage = 'Please fill all the details';
     }
   }
 
@@ -58,7 +63,6 @@ export class UserSignupComponent {
           this.otpForm.value.otp?.toString()
         )
         .subscribe((res) => {
-
           this.authService.register(payload).subscribe({
             next: (Response) => {
               this.route.navigateByUrl('/login');

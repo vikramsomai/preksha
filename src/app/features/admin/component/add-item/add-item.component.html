@@ -53,7 +53,7 @@
           }
         </div> -->
         <ngx-dropzone (change)="onSelect($event)">
-          <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+          <ngx-dropzone-label>Drop here</ngx-dropzone-label>
           @for(f of selectedFiles;track f){
           <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
             <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>

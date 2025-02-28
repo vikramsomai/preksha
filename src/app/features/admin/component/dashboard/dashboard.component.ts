@@ -41,11 +41,7 @@ export class DashboardComponent {
   getTotalStock() {
     return this.productData.reduce((sum, item) => (sum += item.qty), 0);
   }
-  getTopSelling() {
-    this.orderService.getTopSelling().subscribe((res) => {
-      console.log('dhjh', res);
-    });
-  }
+  getTopSelling() {}
   statusChange(orderId: any, event: any) {
     const status = event.target.value;
     console.log(status, orderId);

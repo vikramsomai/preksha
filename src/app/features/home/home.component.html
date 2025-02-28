@@ -1373,18 +1373,16 @@
                   <a href="#" title="Terms of Service">terms and conditions</a>
                 </label>
               </div>
-              <div class="tf-mini-cart-view-checkout" data-bs-dismiss="modal">
+              <div class="tf-mini-cart-view-checkout">
                 <a
                   routerLink="/cart"
-                  data-bs-dismiss="modal"
                   class="tf-btn btn-outline radius-3 link w-100 justify-content-center"
                   >View cart</a
                 >
                 @if(!authService.isAuthenticated()){
                 <a
-                  href="#"
+  
                   routerLink="/login"
-                  data-bs-dismiss="modal"
                   class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                   ><span>Check out</span></a
                 >
@@ -1392,7 +1390,6 @@
                 <a
                   href="#"
                   routerLink="/checkout"
-                  data-bs-dismiss="modal"
                   class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                   ><span>Check out</span></a
                 >}

@@ -12,7 +12,12 @@
         id="firstName"
       />
       <label class="tf-field-label" for="firstName">First name</label>
+      <app-form-error
+        errorMessages="Please enter last name"
+        [control]="profileForm.get('firstName')"
+      ></app-form-error>
     </div>
+
     <div class="tf-field style-1">
       <input
         class="tf-field-input tf-input"
@@ -22,6 +27,11 @@
         id="lastName"
       />
       <label class="tf-field-label" for="lastName">Last name</label>
+      <!-- last name -->
+      <app-form-error
+        errorMessages="Please enter last name"
+        [control]="profileForm.get('lastName')"
+      ></app-form-error>
     </div>
     <div class="tf-field style-1">
       <input
@@ -32,6 +42,10 @@
         readonly
       />
       <label class="tf-field-label" for="email">Email</label>
+      <app-form-error
+        errorMessages="Please enter email"
+        [control]="profileForm.get('email')"
+      ></app-form-error>
     </div>
     <!-- <div class="tf-field style-1">
       <input
@@ -51,6 +65,10 @@
         formControlName="postalCode"
       />
       <label class="tf-field-label" for="postalCode">Zipcode</label>
+      <app-form-error
+        errorMessages="Please enter postal code"
+        [control]="profileForm.get('postalCode')"
+      ></app-form-error>
     </div>
     <div class="tf-field style-1">
       <input
@@ -60,6 +78,10 @@
         formControlName="phoneNumber"
       />
       <label class="tf-field-label" for="mobile">Phone Number</label>
+      <app-form-error
+        errorMessages="Please enter phone number"
+        [control]="profileForm.get('phoneNumber')"
+      ></app-form-error>
     </div>
     <div class="select-container">
       <select #province formControlName="province">
@@ -73,6 +95,10 @@
       </select>
     </div>
     <textarea formControlName="street"></textarea>
+    <app-form-error
+      errorMessages="Please select province"
+      [control]="profileForm.get('street')"
+    ></app-form-error>
   </form>
   <!-- </div> -->
   <button

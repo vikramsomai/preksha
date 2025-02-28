@@ -27,7 +27,7 @@ export class CheckoutComponent {
   profileInfo: any;
   phonePattern = /^[6-9]\d{9}$/;
   productList: any[] = [];
-  selectedPaymentMethod: string = 'esewa'; // Default selection
+  selectedPaymentMethod: string = 'ESEWA'; // Default selection
   constructor(
     public cartService: CartService,
     private authService: AuthService,
@@ -113,7 +113,6 @@ export class CheckoutComponent {
         size: res.selectedSize,
       };
     });
-    console.log('iamge', products);
     const shippingAddress = {
       address: profile.street,
       province: profile.province,

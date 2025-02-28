@@ -14,10 +14,11 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { FormErrorComponent } from "../../shared/component/form-error/form-error.component";
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule],
+  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule, FormErrorComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -33,13 +34,13 @@ export class ProfileComponent {
   ) {}
 
   profileForm = new FormGroup({
-    firstname: new FormGroup(''),
-    lastName: new FormControl(''),
+    firstname: new FormGroup('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    street: new FormControl(''),
-    province: new FormControl(''),
-    postalCode: new FormControl(''),
-    phoneNumber: new FormControl(''),
+    street: new FormControl('',[Validators.required]),
+    province: new FormControl('',[Validators.required]),
+    postalCode: new FormControl('',[Validators.required]),
+    phoneNumber: new FormControl('',[Validators.required]),
   });
 
   ngOnInit() {
@@ -64,24 +65,32 @@ export class ProfileComponent {
 
   editProfile(updatedData: any) {
     const userId = this.authService.getUserId();
-    if (userId) {
-      const profile = this.profileForm.value;
-      const profileData = {
-        userId: userId,
-        firstName: profile.firstname,
-        lastName: profile.lastName,
-        email: profile.email,
-        address: profile.street,
-        province: profile.province,
-        postalCode: profile.postalCode,
-        phoneNumber: profile.phoneNumber,
-      };
-      this.profileService.updateProfile(profileData).subscribe((res) => {
-        this._snackBar.open('Profile updated successfully', '', {
-          horizontalPosition: 'right',
-          duration: 2 * 1000,
-          verticalPosition: 'top',
+    if (this.profileForm.valid) {
+      if (userId) {
+        const profile = this.profileForm.value;
+        const profileData = {
+          userId: userId,
+          firstName: profile.firstname,
+          lastName: profile.lastName,
+          email: profile.email,
+          address: profile.street,
+          province: profile.province,
+          postalCode: profile.postalCode,
+          phoneNumber: profile.phoneNumber,
+        };
+        this.profileService.updateProfile(profileData).subscribe((res) => {
+          this._snackBar.open('Profile updated successfully', '', {
+            horizontalPosition: 'right',
+            duration: 2 * 1000,
+            verticalPosition: 'top',
+          });
         });
+      }
+    } else {
+      this._snackBar.open('Please fill the details', '', {
+        horizontalPosition: 'right',
+        duration: 2 * 1000,
+        verticalPosition: 'top',
       });
     }
   }
