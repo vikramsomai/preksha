@@ -176,7 +176,12 @@ width: 80px;
     .main-content {
         flex-direction: column;
     }
-    
+    .payment-methods{
+        flex-direction: column;
+    }
+    .payment-option{
+        width: 100%;
+    }
     nav {
         display: none;
     }
