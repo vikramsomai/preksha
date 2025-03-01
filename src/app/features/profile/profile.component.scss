@@ -3,7 +3,6 @@
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    padding: 20px;
     gap: 40px;
 }
 .profile-container input{
@@ -195,7 +194,10 @@ width: 80px;
     .main-content {
         flex-direction: column;
     }
-    
+    .profile-container input{
+        width: 100%;
+        margin: 0px 20px;
+    }
     nav {
         display: none;
     }
