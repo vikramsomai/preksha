@@ -1,111 +1,49 @@
 <app-site-header></app-site-header>
-<div class="profile-container">
-  <h5 class="title" style="margin-left: 20px">Edit Profile</h5>
-  <form [formGroup]="profileForm" class="profile-container">
-    <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        placeholder=" "
-        formControlName="firstname"
-        type="text"
-        [value]="profileInfo?.firstName"
-        id="firstName"
-      />
-      <label class="tf-field-label" for="firstName">First name</label>
-      <app-form-error
-        errorMessages="Please enter last name"
-        [control]="profileForm.get('firstName')"
-      ></app-form-error>
+<div class="delivery-info">
+  <h2>Edit Profile</h2>
+  <form class="form-grid" [formGroup]="profileForm">
+    <div class="form-row">
+      <input type="text" placeholder="First Name" formControlName="firstname" />
+      <input type="text" placeholder="Last Name" formControlName="lastName" />
     </div>
-
-    <div class="tf-field style-1">
+    <input type="email" placeholder="Email address" formControlName="email" />
+    <div class="form-row">
       <input
-        class="tf-field-input tf-input"
-        placeholder=" "
-        formControlName="lastName"
         type="text"
-        id="lastName"
-      />
-      <label class="tf-field-label" for="lastName">Last name</label>
-      <!-- last name -->
-      <app-form-error
-        errorMessages="Please enter last name"
-        [control]="profileForm.get('lastName')"
-      ></app-form-error>
-    </div>
-    <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        type="email"
-        formControlName="email"
-        id="email"
-        readonly
-      />
-      <label class="tf-field-label" for="email">Email</label>
-      <app-form-error
-        errorMessages="Please enter email"
-        [control]="profileForm.get('email')"
-      ></app-form-error>
-    </div>
-    <!-- <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        type="text"
-        id="street"
-        formControlName="street"
-      />
-      <label class="tf-field-label" for="street">Street</label>
-    </div> -->
-
-    <div class="tf-field style-1">
-      <input
-        class="tf-field-input tf-input"
-        type="number"
-        id="postalCode"
+        placeholder="Postal code"
         formControlName="postalCode"
       />
-      <label class="tf-field-label" for="postalCode">Zipcode</label>
-      <app-form-error
-        errorMessages="Please enter postal code"
-        [control]="profileForm.get('postalCode')"
-      ></app-form-error>
-    </div>
-    <div class="tf-field style-1">
       <input
-        class="tf-field-input tf-input"
         type="number"
-        id="mobile"
+        placeholder="Phone number"
         formControlName="phoneNumber"
       />
-      <label class="tf-field-label" for="mobile">Phone Number</label>
-      <app-form-error
-        errorMessages="Please enter phone number"
-        [control]="profileForm.get('phoneNumber')"
-      ></app-form-error>
     </div>
-    <div class="select-container">
-      <select #province formControlName="province">
-        <option disabled selected value="">Province</option>
-        <option value="Madhesh Province">Madhesh Province</option>
-        <option value="Bagmati Province">Bagmati Province</option>
-        <option value="Gandaki Province">Gandaki Province</option>
-        <option value="Lumbini Province">Lumbini Province</option>
-        <option value="Karnali Province">Karnali Province</option>
-        <option value="Sudurpashchim Province">Sudurpashchim Province</option>
-      </select>
+    <div class="form-row">
+      <div class="select-container">
+        <select
+          class="tf-select w-100"
+          formControlName="province"
+          id="ShippingCountry_CartDrawer-Form"
+          data-default=""
+        >
+          <!-- <select #province formControlName="province"> -->
+          <option disabled selected value="">Province</option>
+          <option value="Madhui88787esh Province">Madhesh Province</option>
+          <option value="Bagmati Province">Bagmati Province</option>
+          <option value="Gandaki Province">Gandaki Province</option>
+          <option value="Lumbini Province">Lumbini Province</option>
+          <option value="Karnali Province">Karnali Province</option>
+          <option value="Sudurpashchim Province">Sudurpashchim Province</option>
+        </select>
+      </div>
     </div>
     <textarea formControlName="street"></textarea>
-    <app-form-error
-      errorMessages="Please select province"
-      [control]="profileForm.get('street')"
-    ></app-form-error>
   </form>
-  <!-- </div> -->
   <button
-    class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn mx-4 my-0 px-3"
-    (click)="editProfile(profileForm)"
+    class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center"
   >
-    Save
+    submit
   </button>
 </div>
 <app-footer></app-footer>

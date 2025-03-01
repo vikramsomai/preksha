@@ -14,11 +14,10 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { FormErrorComponent } from "../../shared/component/form-error/form-error.component";
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule, FormErrorComponent],
+  imports: [SiteHeaderComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -34,13 +33,13 @@ export class ProfileComponent {
   ) {}
 
   profileForm = new FormGroup({
-    firstname: new FormGroup('', [Validators.required]),
+    firstname: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    street: new FormControl('',[Validators.required]),
-    province: new FormControl('',[Validators.required]),
-    postalCode: new FormControl('',[Validators.required]),
-    phoneNumber: new FormControl('',[Validators.required]),
+    street: new FormControl('', [Validators.required]),
+    province: new FormControl('', [Validators.required]),
+    postalCode: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required]),
   });
 
   ngOnInit() {
@@ -51,6 +50,7 @@ export class ProfileComponent {
       this.profileService.getProfile().subscribe((data) => {
         this.profileInfo = data;
         this.profileForm.patchValue({
+          firstname: data.firstName,
           lastName: data.lastName,
           email: data.email,
           street: data.address,
