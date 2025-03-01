@@ -16,6 +16,7 @@ import { UploadService } from '../admin/component/add-item/upload.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 import { SliderComponent } from '../../shared/slider/slider.component';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -31,6 +32,7 @@ import { SliderComponent } from '../../shared/slider/slider.component';
   styleUrl: 'home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  imagePath=environment.apiImage
   quantity: number = 1; // Default quantity
   selectedFilterCategory = '';
   loading: boolean = true;

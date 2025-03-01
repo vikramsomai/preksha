@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:5000/api/auth';
   private otpUrl = 'http://127.0.0.1:5000/api/otp';
+
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
   sendOtp(email: any): Observable<any> {

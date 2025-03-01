@@ -318,15 +318,15 @@
             <a href="#" class="product-img">
               <img
                 class="lazyload img-product"
-                [src]="'http://localhost:5000/' + item?.imageUrls[0]"
+                [src]="imagePath + item?.imageUrls[0]"
                 data-src="{{ item?.imageUrls[0] }}"
                 alt="image-product"
               />
 
               <img
                 class="lazyload img-hover"
-                [attr.src]="'http://localhost:5000/' + item?.imageUrls[1]"
-                [attr.data-src]="'http://localhost:5000/' + item?.imageUrls[1]"
+                [attr.src]="imagePath + item?.imageUrls[1]"
+                [attr.data-src]="imagePath + item?.imageUrls[1]"
                 alt="image-product"
               />
             </a>
@@ -1143,7 +1143,7 @@
         <div class="tf-product-info-item">
           <div class="image">
             <img
-              [src]="'http://localhost:5000/' + selectedProduct?.imageUrls[0]"
+              [src]="imagePath + selectedProduct?.imageUrls[0]"
               alt="{{ selectedProduct?.productName }}"
             />
           </div>
@@ -1309,7 +1309,7 @@
                 <div class="item">
                   <img
                     [src]="
-                      'http://localhost:5000/' +
+                      imagePath +
                       selectedProduct?.imageUrls[currentIndex]
                     "
                     alt=""

@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadService {
   private apiUrl = 'http://localhost:5000/api/upload';
-  private baseUrl = 'http://localhost:5000/api'; // Update backend URL
+  private baseUrl = environment.apiUrl;
+  // private baseUrl = 'http://localhost:5000/api';
   private productsSubject = new BehaviorSubject<any[]>([]); // BehaviorSubject for products
   products$ = this.productsSubject.asObservable(); // Expose as observable
 
@@ -26,7 +28,7 @@ export class UploadService {
   // }
 
   getProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/products`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/products`);
   }
 
   // Fetch a single product by ID (optional)
