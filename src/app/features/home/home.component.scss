@@ -1,6 +1,17 @@
 .swiper-wrapper{
     height: auto;
 }
+.wrap-slider img{
+    animation: slider;
+} 
+@keyframes slider {
+    0%{
+        transform: translateX(-50%);
+    }
+    100%{
+        transform: translateX(-200%);
+    }
+}
 .filter-container {
     display: flex;
     gap: 1rem;

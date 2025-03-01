@@ -266,7 +266,11 @@
         </div>
       </div>
 
-      <button class="place-order-btn" (click)="placeOrder()">
+      <button
+        class="place-order-btn"
+        (click)="placeOrder()"
+        [disabled]="cartlist.length > 0 ? false : true"
+      >
         PLACE ORDER
       </button>
     </div>

@@ -15,6 +15,7 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
+import { SliderComponent } from '../../shared/slider/slider.component';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,6 +25,7 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
     RouterLink,
     FooterComponent,
     FilterPipe,
+    SliderComponent,
   ],
   templateUrl: 'home.component.html',
   styleUrl: 'home.component.scss',
@@ -65,7 +67,6 @@ export class HomeComponent implements OnInit {
       this.loading = false;
     }, 500);
   }
-
 
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(

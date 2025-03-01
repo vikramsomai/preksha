@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartService } from '../../core/services/cart/cart.service';
 import { SiteHeaderComponent } from '../../shared/component/site-header/site-header.component';
 import { FooterComponent } from '../../shared/component/footer/footer.component';
@@ -14,6 +14,7 @@ import {
 import { debounce, debounceTime } from 'rxjs';
 import { UploadService } from '../admin/component/add-item/upload.service';
 import { PaymentService } from '../../core/services/payment/payment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -24,10 +25,11 @@ import { PaymentService } from '../../core/services/payment/payment.service';
 })
 export class CheckoutComponent {
   cartlist!: any[];
+  router = inject(Router);
   profileInfo: any;
   phonePattern = /^[6-9]\d{9}$/;
   productList: any[] = [];
-  selectedPaymentMethod: string = 'ESEWA'; // Default selection
+  selectedPaymentMethod = 'ESEWA'; // Default selection
   constructor(
     public cartService: CartService,
     private authService: AuthService,
@@ -132,17 +134,29 @@ export class CheckoutComponent {
       status: 'Order Placed',
     };
     const amount = this.cartService.getTotal(); // Example amount
-    console.log(order);
-    console.log(this.profileForm.value);
+
     if (this.profileForm.valid) {
-      this.paymentService.initiatePayment(amount, order).subscribe({
-        next: (response) => {
-          window.location.href = response.url;
-        },
-        error: (err) => {
-          console.error('Payment initiation failed', err);
-        },
-      });
+      if (this.selectedPaymentMethod == 'ESEWA') {
+        this.paymentService.initiatePayment(amount, order).subscribe({
+          next: (response) => {
+            window.location.href = response.url;
+          },
+          error: (err) => {
+            console.error('Payment initiation failed', err);
+          },
+        });
+      } else if (this.selectedPaymentMethod === 'KHALTI') {
+        //khaliti
+      } else if (this.selectedPaymentMethod === 'COD') {
+        this.paymentService.codInitiatePayment(order).subscribe({
+          next: (res) => {
+            this.router.navigate(['/order']);
+          },
+          error: (err) => {
+            console.error('Payment initiation failed', err);
+          },
+        });
+      }
     }
   }
   generateTransactionId(): string {

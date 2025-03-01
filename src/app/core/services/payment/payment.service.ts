@@ -14,6 +14,12 @@ export class PaymentService {
       order: order,
     });
   }
+  codInitiatePayment(order: any) {
+    return this.http.post<any>('http://localhost:5000/codPayment', {
+      productId: this.generateCustomTransactionId().toString(),
+      order: order,
+    });
+  }
   generateCustomTransactionId() {
     const timestamp = Date.now().toString(); // Current timestamp
     const randomPart = Math.random().toString(36).substring(2, 10); // Random string

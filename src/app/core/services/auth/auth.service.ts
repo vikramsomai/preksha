@@ -29,6 +29,13 @@ export class AuthService {
       })
     );
   }
+  refreshToken(): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/refresh`,
+      {},
+      { withCredentials: true }
+    );
+  }
 
   // Register Method
   register(user: any): Observable<any> {

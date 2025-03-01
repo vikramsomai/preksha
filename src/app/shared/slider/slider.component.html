@@ -1,0 +1,18 @@
+<div class="slider-container">
+  <div
+    class="slider"
+    [style.transform]="'translateX(' + -currentIndex * 100 + '%)'"
+  >
+    @for (image of images;track image) {
+    <div class="slide">
+      <img [src]="image" alt="slider image" />
+    </div>
+    }
+  </div>
+
+  <div class="dots">
+    @for (image of images;track image;let i = $index) {
+    <span [class.active]="i === currentIndex" (click)="goToSlide(i)"></span>
+    }
+  </div>
+</div>

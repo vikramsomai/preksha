@@ -114,6 +114,15 @@
               <i class="bi bi-people"></i> Orders
             </a>
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              (click)="changeTab('category', 'category')"
+            >
+              <i class="bi bi-people"></i> Category
+            </a>
+          </li>
         </ul>
         <!-- Divider -->
         <hr class="navbar-divider my-5 opacity-20" />
@@ -183,6 +192,8 @@
     <app-list-item></app-list-item>
     } @else if (currentTab=='orders') {
     <app-order-item></app-order-item>
-    }
+    }@else if (currentTab=='category') {
+      <app-order-item></app-order-item>
+      }
   </div>
 </div>
