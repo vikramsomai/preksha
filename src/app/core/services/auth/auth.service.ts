@@ -10,31 +10,33 @@ export class AuthService {
   private apiUrl = 'http://127.0.0.1:5000/api/auth';
   private otpUrl = 'http://127.0.0.1:5000/api/otp';
 
-  private baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
   sendOtp(email: any): Observable<any> {
-    return this.http.post(`${this.otpUrl}/send`, {
+    return this.http.post(`${this.baseUrl}/api/otp/send`, {
       email: email,
     });
   }
   verifyOtp(email: any, otp: any): Observable<any> {
-    return this.http.post(`${this.otpUrl}/verify`, {
+    return this.http.post(`${this.baseUrl}/api/otp/verify`, {
       email: email,
       otp: otp,
     });
   }
   login(user: any): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, user).pipe(
-      tap((response) => {
-        console.log('Received Token:', response.token); // Debugging
-        this.saveToken(response.token);
-      })
-    );
+    return this.http
+      .post<{ token: string }>(`${this.baseUrl}/api/auth/login`, user)
+      .pipe(
+        tap((response) => {
+          console.log('Received Token:', response.token); // Debugging
+          this.saveToken(response.token);
+        })
+      );
   }
   refreshToken(): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}/refresh`,
+      `${this.baseUrl}/refresh`,
       {},
       { withCredentials: true }
     );
@@ -42,7 +44,7 @@ export class AuthService {
 
   // Register Method
   register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post(`${this.baseUrl}/api/auth/register`, user);
   }
 
   // Save Token to Local Storage

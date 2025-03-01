@@ -12,15 +12,15 @@ export class OrdersService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/all`);
+    return this.http.get(`${this.baseUrl}/order/all`);
   }
   getProductsById(userId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${userId}`);
+    return this.http.get(`${this.baseUrl}/order/${userId}`);
   }
   updateOrderStatus(orderId: string, status: string) {
-    return this.http.put(`${this.baseUrl}/${orderId}/status`, { status });
+    return this.http.put(`${this.baseUrl}/order/${orderId}/status`, { status });
   }
   getOrderById(orderId: any) {
-    return this.http.get(`${this.baseUrl}/print/${orderId}`);
+    return this.http.get(`${this.baseUrl}/order/print/${orderId}`);
   }
 }

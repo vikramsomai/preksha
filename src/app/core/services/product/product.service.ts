@@ -8,12 +8,12 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class ProductService {
   private apiUrl = 'your-api-endpoint';
-  private baseUrl = 'http://localhost:5000/api';
-
+  // private baseUrl = 'http://localhost:5000/api';
+  baseUrl=environment.apiUrl
   constructor(private http: HttpClient) {}
 
   addProduct(product: Product): Observable<any> {
-    return this.http.post(this.apiUrl, product);
+    return this.http.post(`${this.baseUrl}/api`, product);
   }
 
   uploadImage(file: File): Observable<any> {

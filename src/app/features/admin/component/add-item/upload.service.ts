@@ -33,20 +33,22 @@ export class UploadService {
 
   // Fetch a single product by ID (optional)
   getProductById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/products/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/api/products/${id}`);
   }
   // updateProduct(productId: string, formData: any) {
   //   return this.http.put(`${this.baseUrl}/products/${productId}`, formData);
   // }
   fetchProducts(): void {
-    this.http.get<any[]>(`${this.baseUrl}/products`).subscribe((products) => {
-      this.productsSubject.next(products);
-    });
+    this.http
+      .get<any[]>(`${this.baseUrl}/api/products`)
+      .subscribe((products) => {
+        this.productsSubject.next(products);
+      });
   }
 
   // Add product and update the products subject
   addProduct(product: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/product`, product).pipe(
+    return this.http.post<any>(`${this.baseUrl}/api/product`, product).pipe(
       tap((newProduct) => {
         const currentProducts = this.productsSubject.value;
         this.productsSubject.next([...currentProducts, newProduct]); // Add to the list
@@ -57,7 +59,7 @@ export class UploadService {
   // Update product and update the products subject
   updateProduct(productId: string, product: any): Observable<any> {
     return this.http
-      .put<any>(`${this.baseUrl}/products/${productId}`, product)
+      .put<any>(`${this.baseUrl}/api/products/${productId}`, product)
       .pipe(
         tap((updatedProduct) => {
           const currentProducts = this.productsSubject.value;
