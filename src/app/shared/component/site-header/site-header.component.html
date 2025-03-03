@@ -597,6 +597,8 @@
               name="text"
               tabindex="0"
               value=""
+              #search
+              [(ngModel)]="searchItem"
               aria-required="true"
               required=""
             />
@@ -627,49 +629,25 @@
           </div>
           <div class="tf-col-content">
             <div class="tf-search-content-title fw-5">
-              Need some inspiration?
+              Need some inspiration? {{ searchItem }}
             </div>
             <div class="tf-search-hidden-inner">
+              @for (item of productData | searchItem:searchItem; track item) {
               <div class="tf-loop-item">
                 <div class="image">
-                  <a href="#">
-                    <img src="assets/images/products/white-3.jpg" alt="" />
+                  <a>
+                    <img src="{{ imagePath }}{{ item.imageUrls[0] }}" alt="" />
                   </a>
                 </div>
                 <div class="content">
-                  <a href="#">Cotton jersey top</a>
+                  <a href="#">{{ item.productName }}</a>
                   <div class="tf-product-info-price">
                     <div class="compare-at-price">NPR. 2000</div>
-                    <div class="price-on-sale fw-6">NPR. 1000</div>
+                    <div class="price-on-sale fw-6">{{ item.price }}</div>
                   </div>
                 </div>
               </div>
-              <div class="tf-loop-item">
-                <div class="image">
-                  <a href="#">
-                    <img src="assets/images/products/white-2.jpg" alt="" />
-                  </a>
-                </div>
-                <div class="content">
-                  <a href="#">Mini crossbody bag</a>
-                  <div class="tf-product-info-price">
-                    <div class="price fw-6">NPR. 4000</div>
-                  </div>
-                </div>
-              </div>
-              <div class="tf-loop-item">
-                <div class="image">
-                  <a href="#">
-                    <img src="images/products/white-1.jpg" alt="" />
-                  </a>
-                </div>
-                <div class="content">
-                  <a href="#">Oversized Printed T-shirt</a>
-                  <div class="tf-product-info-price">
-                    <div class="price fw-6">NPR. 6000</div>
-                  </div>
-                </div>
-              </div>
+              }
             </div>
           </div>
         </div>

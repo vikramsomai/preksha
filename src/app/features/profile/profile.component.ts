@@ -63,7 +63,7 @@ export class ProfileComponent {
     }
   }
 
-  editProfile(updatedData: any) {
+  editProfile() {
     const userId = this.authService.getUserId();
     if (this.profileForm.valid) {
       if (userId) {

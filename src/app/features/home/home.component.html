@@ -755,15 +755,22 @@
         </div>
         <ul class="mb-info">
           <li>Address:Kathmandu, <br /></li>
-          <li>Email: <b></b></li>
+          <li>Email: {{ email }} <b></b></li>
           <li>Phone: <b>(+977) 9768760428</b></li>
         </ul>
       </div>
     </div>
     <div class="mb-bottom">
+      @if(authService.isAuthenticated()){
+      <a href="#" class="site-nav-icon"
+        ><i class="icon icon-account"></i>Logout</a
+      >
+      } @else {
       <a href="#" class="site-nav-icon"
         ><i class="icon icon-account"></i>Login</a
       >
+      }
+
       <div class="bottom-bar-language">
         <div class="tf-currencies">
           <select class="image-select center style-default type-currencies">

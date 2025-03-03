@@ -17,6 +17,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 import { SliderComponent } from '../../shared/slider/slider.component';
 import { environment } from '../../../environments/environment';
+import { SearchItemPipe } from '../../shared/pipes/search-item.pipe';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -27,18 +28,20 @@ import { environment } from '../../../environments/environment';
     FooterComponent,
     FilterPipe,
     SliderComponent,
+    SearchItemPipe,
   ],
   templateUrl: 'home.component.html',
   styleUrl: 'home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  imagePath=environment.apiImage
+  imagePath = environment.apiImage;
   quantity: number = 1; // Default quantity
   selectedFilterCategory = '';
   loading: boolean = true;
   productList: any[] = [];
   selectedProduct: any;
   cartForm: FormGroup;
+  email = 'prekshaaclothing@gmail.com';
   mainImage: string = '';
   currentIndex: number = 0; // To track the current image index
   wishlist: IWishlistList[] = [];

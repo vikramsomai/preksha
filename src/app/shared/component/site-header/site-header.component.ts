@@ -5,11 +5,15 @@ import { Route, Router, RouterModule } from '@angular/router';
 import { CartService } from '../../../core/services/cart/cart.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { UploadService } from '../../../features/admin/component/add-item/upload.service';
+import { SearchItemPipe } from '../../pipes/search-item.pipe';
+import { FilterPipe } from '../../pipes/filter.pipe';
+import { environment } from '../../../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-site-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, SearchItemPipe,FormsModule],
   templateUrl: './site-header.component.html',
   styleUrl: './site-header.component.scss',
 })
@@ -19,6 +23,9 @@ export class SiteHeaderComponent {
   newCartList: any[] = [];
   isLoggedIn = false;
   productList: any[] = [];
+  searchItem = '';
+  productData: any[] = [];
+  imagePath = environment.apiImage;
   selectedProduct: any;
   mainImage: string = '';
   constructor(
@@ -37,11 +44,12 @@ export class SiteHeaderComponent {
       this.cartlist = items;
       this.updateNewCartList();
     });
-
-    console.log('user id', authService.getUserId());
   }
   ngOnInit(): void {
     this.fetchProducts();
+    this.uploadService.getProducts().subscribe((res) => {
+      this.productData = res;
+    });
     this.mainImage = this.selectedProduct?.imageUrls[0];
   }
   updateNewCartList(): void {
@@ -61,34 +69,6 @@ export class SiteHeaderComponent {
     });
   }
 
-  // fetchProducts(): void {
-  //   this.uploadService.getProducts().subscribe(
-  //     (data) => {
-  //       this.productList = data;
-
-  //       this.newCartList = this.cartlist.map((cartItem) => {
-  //         const matchedProduct = this.productList.find(
-  //           (product) => product.productId === cartItem.product.productId
-  //         );
-
-  //         if (matchedProduct) {
-  //           cartItem.product.price = matchedProduct.price;
-  //           return {
-  //             ...cartItem,
-  //           };
-  //         }
-  //         return cartItem; // Keep the original cartItem if no match is found
-  //       });
-
-  //       console.log('cart data', this.newCartList);
-  //       console.log(this.productList);
-  //       this.cdr.detectChanges();
-  //     },
-  //     (err) => {
-  //       console.error('Error fetching products:', err);
-  //     }
-  //   );
-  // }
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
       (data) => {
@@ -145,11 +125,6 @@ export class SiteHeaderComponent {
     );
   }
 
-  // removeCartItem(item: any) {
-  //   const product = item.product;
-  //   console.log(product);
-  //   this.cartService.removeFromCart(product.productId, product.selectedSize);
-  // }
   removeCartItem(productId: any, selectedSize: any) {
     this.cartService.removeFromCart(productId, selectedSize);
   }

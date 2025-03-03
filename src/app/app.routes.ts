@@ -15,7 +15,7 @@ import { SuccessPaymentComponent } from './shared/component/success-payment/succ
 import { FailurePaymentComponent } from './shared/component/failure-payment/failure-payment.component';
 import { PrintInvoiceComponent } from './shared/component/print-invoice/print-invoice.component';
 import { adminAuthGuard } from './core/guards/admin-auth.guard';
-import { adminNoAuthGuard } from './core/guards/admin--no-auth.guard';
+import { CollectionsComponent } from './features/collections/collections.component';
 
 export const routes: Routes = [
   {
@@ -55,6 +55,10 @@ export const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'collection/:id',
+    component: CollectionsComponent,
   },
   {
     path: 'cart',

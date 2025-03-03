@@ -6,7 +6,7 @@
       <input type="text" placeholder="First Name" formControlName="firstname" />
       <input type="text" placeholder="Last Name" formControlName="lastName" />
     </div>
-    <input type="email" placeholder="Email address" formControlName="email" />
+
     <div class="form-row">
       <input
         type="text"
@@ -20,6 +20,7 @@
       />
     </div>
     <div class="form-row">
+      <input type="email" placeholder="Email address" formControlName="email" />
       <div class="select-container">
         <select
           class="tf-select w-100"
@@ -42,6 +43,7 @@
   </form>
   <button
     class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center"
+    (click)="editProfile()"
   >
     submit
   </button>
