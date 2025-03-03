@@ -1,19 +1,13 @@
 .container-login{
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    height: 100vh;
     margin: 0px 20px;
-    height: 400px;
     .login-form{
         width: 400px;
     }
 }
 .login-admin{
     font-size: 24px;
-}
-.tf-field{
-    margin-top: 20px;
-}
-h1{
-    line-height: 40px;
 }

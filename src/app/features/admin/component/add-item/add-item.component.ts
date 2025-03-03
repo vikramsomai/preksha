@@ -11,11 +11,18 @@ import { __await } from 'tslib';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Observable } from 'rxjs';
+import { CategoryService } from '../../../../core/services/category/category.service';
 
 @Component({
   selector: 'app-add-item',
   standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe, NgxDropzoneModule, AsyncPipe],
+  imports: [
+    ReactiveFormsModule,
+    JsonPipe,
+    NgxDropzoneModule,
+    AsyncPipe,
+    JsonPipe,
+  ],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss',
 })
@@ -28,6 +35,8 @@ export class AddItemComponent {
   selectedFiles: File[] = [];
   products: any[] = []; // Store fetched products
   selectedSizes: string[] = [];
+  category: any[] = [];
+  subCategory: any[] = [];
   selectedImages: File[] = [];
   // Available product sizes
   sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -35,7 +44,11 @@ export class AddItemComponent {
   // Image upload slots (4 slots)
   imageSlots: number[] = [0, 1, 2, 3];
 
-  constructor(private fb: FormBuilder, private uploadService: UploadService) {
+  constructor(
+    private fb: FormBuilder,
+    private uploadService: UploadService,
+    private catgoryService: CategoryService
+  ) {
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
       description: ['', Validators.required],
@@ -53,6 +66,14 @@ export class AddItemComponent {
     this.fetchProducts();
     this.products$ = this.uploadService.products$;
     this.uploadService.fetchProducts(); // Fetch initial products
+
+    this.catgoryService.fectchCategory().subscribe((res) => {
+      this.category = res;
+      console.log('category', this.category);
+    });
+    this.catgoryService.fetchSubCategory().subscribe((res) => {
+      this.subCategory = res;
+    });
   }
   files: File[] = [];
   onSelect(event: any) {
@@ -346,4 +367,7 @@ export class AddItemComponent {
   //     console.error('Form is invalid!');
   //   }
   // }
+  deleteProduct(id: any) {
+    this.uploadService.deleteProductById(id).subscribe((res) => {});
+  }
 }

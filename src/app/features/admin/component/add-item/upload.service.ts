@@ -35,6 +35,9 @@ export class UploadService {
   getProductById(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/api/products/${id}`);
   }
+  deleteProductById(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/products/${id}`);
+  }
   // updateProduct(productId: string, formData: any) {
   //   return this.http.put(`${this.baseUrl}/products/${productId}`, formData);
   // }

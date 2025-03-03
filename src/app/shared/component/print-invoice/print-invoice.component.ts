@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdersService } from '../../../core/services/orders/orders.service';
 import { DatePipe, JsonPipe } from '@angular/common';
-
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-print-invoice',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe,MatButtonModule],
   templateUrl: './print-invoice.component.html',
   styleUrl: './print-invoice.component.scss',
 })

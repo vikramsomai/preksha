@@ -26,7 +26,6 @@ export class SuccessPaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get the 'data' query parameter
     const token = this.route.snapshot.queryParamMap.get('data');
     console.log('token', token);
     if (token) {
@@ -36,18 +35,6 @@ export class SuccessPaymentComponent implements OnInit {
     }
   }
 
-  // Decode base64 JWT
-  // base64Decode(token: string): any {
-  //   try {
-  //     const base64Payload = token.split('.')[1];
-  //     const payload = atob(base64Payload);
-  //     return JSON.parse(payload);
-  //   } catch (error) {
-  //     console.error('Error decoding token:', error);
-  //     return null;
-  //   }
-  // }
-  // Decode base64 JWT
   base64Decode(token: string): any {
     try {
       // Replace URL-safe characters

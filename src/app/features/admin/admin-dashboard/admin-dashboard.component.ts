@@ -5,7 +5,8 @@ import { ListItemComponent } from '../component/list-item/list-item.component';
 import { OrderItemComponent } from '../component/order-item/order-item.component';
 import { AdminAuthService } from '../../../core/services/admin/admin-auth.service';
 import { Router } from '@angular/router';
-
+import { CategoryComponent } from '../category/category.component';
+import { SubcategoryComponent } from '../subcategory/subcategory.component';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
     DashboardComponent,
     ListItemComponent,
     OrderItemComponent,
+    CategoryComponent,
+    SubcategoryComponent,
   ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',

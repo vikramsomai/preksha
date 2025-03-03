@@ -104,8 +104,9 @@
                 >Product category</label
               >
               <select class="input" formControlName="category">
-                <option value="Men">Men</option>
-                <option value="Women">Women</option>
+                @for(item of category;track item){
+                <option value="{{ item.category }}">{{ item.category }}</option>
+                }
               </select>
             </div>
 
@@ -114,8 +115,11 @@
                 >Sub category</label
               >
               <select class="input" formControlName="subcategory">
-                <option value="Topwear">Topwear</option>
-                <option value="Bottomwear">Bottomwear</option>
+                @for(item of subCategory;track item){
+                <option value="{{ item.category }}">{{ item.category }}</option>
+                }
+                <!-- <option value="Topwear">Topwear</option>
+                <option value="Bottomwear">Bottomwear</option> -->
               </select>
             </div>
 
@@ -420,14 +424,12 @@
             </td> -->
 
           <td class="text-end">
-            <a
-              href="#"
-              class="btn btn-sm btn-neutral"
-              (click)="handleEdit(item._id)"
+            <a class="btn btn-sm btn-neutral" (click)="handleEdit(item._id)"
               >Edit</a
             >
             <button
               type="button"
+              (click)="deleteProduct(item._id)"
               class="btn btn-sm btn-square btn-neutral text-danger-hover mx-4 flex justify-content-center items-center trash"
             >
               <i class="bi bi-trash"></i>

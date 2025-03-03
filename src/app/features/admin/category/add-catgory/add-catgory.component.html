@@ -1,0 +1,40 @@
+<main class="flex-1 p-6">
+  <div class="max-w-3xl mx-auto">
+    <h2>Add Category</h2>
+    <form [formGroup]="categoryForm">
+      <div>
+        <label class="text-sm text-gray-600 mb-2 block">Product Category</label>
+        <input
+          type="text"
+          class="input"
+          placeholder="Enter category"
+          formControlName="category"
+        />
+      </div>
+      <!-- <div>
+        <label class="text-sm text-gray-600 mb-2 block"
+          >Product Sub Category</label
+        >
+        <input
+          type="text"
+          class="input"
+          placeholder="Enter sub category"
+          formControlName="subcategory"
+        />
+      </div> -->
+      <button
+        type="submit"
+        class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center my-5"
+        (click)="addCatgory()"
+      >
+        Add
+      </button>
+      <button
+        mat-dialog-close
+        class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center mx-4 my-5"
+      >
+        Close
+      </button>
+    </form>
+  </div>
+</main>

@@ -1,0 +1,46 @@
+<div class="container-login">
+  <div class="login-form">
+    <div class="modal-content">
+      <div class="header">
+        <div class="demo-title">
+          <h1 class="login-admin">Log in</h1>
+        </div>
+      </div>
+      <div class="tf-login-form">
+        <form class="" [formGroup]="adminForm" accept-charset="utf-8">
+          <div class="tf-field style-1">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              type="email"
+              formControlName="username"
+              name=""
+            />
+            <label class="tf-field-label" for="">Email *</label>
+          </div>
+          <div class="tf-field style-1 mt-3">
+            <input
+              class="tf-field-input tf-input"
+              placeholder=" "
+              type="password"
+              formControlName="password"
+              name=""
+            />
+            <label class="tf-field-label" for="">Password *</label>
+          </div>
+          <div></div>
+          <div class="bottom mt-3">
+            <div class="w-100">
+              <button
+                (click)="login()"
+                class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+              >
+                <span>Log in</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
