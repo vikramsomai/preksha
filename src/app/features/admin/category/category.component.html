@@ -21,7 +21,15 @@
             <tr>
               <td>{{ id }}</td>
               <td>{{ order.category }}</td>
-              <td></td>
+              <td>
+                <button
+                  type="button"
+                  (click)="deleteProduct(order._id)"
+                  class="btn btn-sm btn-square btn-neutral text-danger-hover mx-4 flex justify-content-center items-center trash"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
             </tr>
             }
           </tbody>

@@ -29,7 +29,6 @@ export class AuthService {
       .post<{ token: string }>(`${this.baseUrl}/api/auth/login`, user)
       .pipe(
         tap((response) => {
-          console.log('Received Token:', response.token); // Debugging
           this.saveToken(response.token);
         })
       );

@@ -23,4 +23,7 @@ export class OrdersService {
   getOrderById(orderId: any) {
     return this.http.get(`${this.baseUrl}/order/print/${orderId}`);
   }
+  getTopselling(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/order/top/top-selling`);
+  }
 }

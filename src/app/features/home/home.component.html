@@ -376,7 +376,21 @@
           </div>
           <div class="card-product-info">
             <a href="#" class="title link">{{ item?.productName }}</a>
-            <span class="price">NPR. {{ item?.price }}</span>
+            <!-- <div class="tf-product-info-price">
+              <div class="compare-at-price">NPR. 2000</div>
+              <div class="price">NPR. {{ item?.price }}</div>
+            </div> -->
+            <div class="tf-product-info-price">
+              <div class="price-on-sale">&#8377; {{ item?.price }}</div>
+              <div class="compare-at-price">
+                &#8377; {{ showDisocuntPrice(item?.price,item?.discount) }}
+              </div>
+              <div class="badges-on-sale">
+                <span>{{ item?.discount }}</span
+                >% OFF
+              </div>
+              <!-- <div class="price">{{ item?.price }}</div> -->
+            </div>
             <!-- <ul class="list-color-product"> -->
             <!-- @for (color of item.colors; track $index) {
               <li
@@ -1051,11 +1065,22 @@
           <div class="content">
             <!-- <a href="#">Ribbed Tank Top</a> -->
             <a href="#">{{ selectedProduct?.productName }}</a>
-            <div class="tf-product-info-price">
-              <!-- <div class="price-on-sale">$8.00</div>
-                                  <div class="compare-at-price">$10.00</div>
-                                  <div class="badges-on-sale"><span>20</span>% OFF</div> -->
+            <!-- <div class="tf-product-info-price">
+              <div class="price-on-sale">$8.00</div>
+              <div class="compare-at-price">$10.00</div>
+              <div class="badges-on-sale"><span>20</span>% OFF</div>
               <div class="price">{{ selectedProduct?.price }}</div>
+            </div> -->
+            <div class="tf-product-info-price">
+              <div class="price-on-sale">&#8377; {{ selectedProduct?.price }}</div>
+              <div class="compare-at-price">
+                &#8377; {{ showDisocuntPrice(selectedProduct?.price,selectedProduct?.discount) }}
+              </div>
+              <div class="badges-on-sale">
+                <span>{{ selectedProduct?.discount }}</span
+                >% OFF
+              </div>
+              <!-- <div class="price">{{ item?.price }}</div> -->
             </div>
           </div>
         </div>
@@ -1247,8 +1272,26 @@
                   </p> -->
               </div>
             </div>
-            <div class="tf-product-info-price">
+            <!-- <div class="tf-product-info-price">
+              <div class="compare-at-price">NPR. 2000</div>
               <div class="price">NPR.{{ selectedProduct?.price }}</div>
+            </div> -->
+            <!-- <div class="tf-product-info-price">
+              <div class="price-on-sale">$8.00</div>
+              <div class="compare-at-price">$10.00</div>
+              <div class="badges-on-sale"><span>20</span>% OFF</div>
+              <div class="price">{{ selectedProduct?.price }}</div>
+            </div> -->
+            <div class="tf-product-info-price">
+              <div class="price-on-sale">&#8377; {{ selectedProduct?.price }}</div>
+              <div class="compare-at-price">
+                &#8377; {{ showDisocuntPrice(selectedProduct?.price,selectedProduct?.discount) }}
+              </div>
+              <div class="badges-on-sale">
+                <span>{{ selectedProduct?.discount }}</span
+                >% OFF
+              </div>
+              <!-- <div class="price">{{ item?.price }}</div> -->
             </div>
             <div class="tf-product-description">
               <p>
@@ -1350,7 +1393,7 @@
                   (click)="decreaseQunatity()"
                   >-</span
                 >
-                <input id="quantity" type="number" value="1" min="1" />
+                <input id="quantity" type="number" value="1" min="1" max="10" />
                 <span class="btn-quantity plus-btn" (click)="addQunatity()"
                   >+</span
                 >

@@ -64,7 +64,6 @@ export class CartComponent {
   }
   removeCartItem(item: any) {
     const product = item.product;
-    console.log(product);
     this.cartService.removeFromCart(product.productId, product.selectedSize);
   }
 }

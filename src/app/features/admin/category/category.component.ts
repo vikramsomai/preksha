@@ -17,7 +17,7 @@ export class CategoryComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.catgoryService.fectchCategory().subscribe((res) => {
+    this.catgoryService.categories$.subscribe((res) => {
       this.categoryData = res;
     });
   }
@@ -25,7 +25,14 @@ export class CategoryComponent {
     const dialogRef = this.dialog.open(AddCatgoryComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+    });
+  }
+  deleteProduct(id: any) {
+    this.catgoryService.deleteCategoryById(id).subscribe({
+      next: (response) => {
+      },
+      error: (err) => {
+      },
     });
   }
 }

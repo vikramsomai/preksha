@@ -462,8 +462,8 @@
               >
                 <a
                   routerLink="/cart"
-                  data-bs-toggle="modal"
-                  data-bs-target="#myModal"
+                  data-bs-toggle="modal-backdrop"
+                  data-bs-target="modal-backdrop"
                   data-bs-backdrop="false"
                   class="tf-btn btn-outline radius-3 link w-100 justify-content-center"
                   >View cart</a
@@ -471,8 +471,8 @@
                 @if(!authService.isAuthenticated()){
                 <a
                   routerLink="/login"
-                  data-bs-toggle="modal"
-                  data-bs-target="#myModal"
+                  data-bs-toggle="modal-backdrop"
+                  data-bs-target="modal-backdrop"
                   data-bs-backdrop="false"
                   class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                   ><span>Check out</span></a
@@ -640,10 +640,10 @@
                   </a>
                 </div>
                 <div class="content">
-                  <a href="#">{{ item.productName }}</a>
+                  <a>{{ item.productName }}</a>
                   <div class="tf-product-info-price">
                     <div class="compare-at-price">NPR. 2000</div>
-                    <div class="price-on-sale fw-6">{{ item.price }}</div>
+                    <div class="price-on-sale fw-6">NPR. {{ item.price }}</div>
                   </div>
                 </div>
               </div>

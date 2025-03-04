@@ -65,3 +65,15 @@ select:focus {
         width: 250px;
     }
 }
+@media screen and (max-width:480px) {
+    .price-on-sale{
+        font-size:18px;
+    }
+    .compare-at-price{
+        font-size: 16px;
+    }
+    .badges-on-sale{
+        width: 70px;
+        
+    }
+}

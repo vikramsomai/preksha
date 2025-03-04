@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-site-header',
   standalone: true,
-  imports: [RouterModule, SearchItemPipe,FormsModule],
+  imports: [RouterModule, SearchItemPipe, FormsModule],
   templateUrl: './site-header.component.html',
   styleUrl: './site-header.component.scss',
 })
@@ -112,7 +112,7 @@ export class SiteHeaderComponent {
     const currentQuantity = item.quantity;
     let updatedQuantity = currentQuantity;
 
-    if (action === 'add') {
+    if (action === 'add' && currentQuantity < 10) {
       updatedQuantity++;
     } else if (action === 'delete' && currentQuantity > 1) {
       updatedQuantity--;

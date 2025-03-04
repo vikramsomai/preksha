@@ -55,6 +55,7 @@ export class AddItemComponent {
       category: ['', Validators.required],
       subcategory: ['', Validators.required],
       price: [0, Validators.required],
+      discount: [0, Validators.required],
       qty: [1, Validators.required],
       sizes: [[]],
       bestseller: [false],
@@ -65,23 +66,21 @@ export class AddItemComponent {
   ngOnInit(): void {
     this.fetchProducts();
     this.products$ = this.uploadService.products$;
-    this.uploadService.fetchProducts(); // Fetch initial products
 
-    this.catgoryService.fectchCategory().subscribe((res) => {
+    this.catgoryService.categories$.subscribe((res) => {
       this.category = res;
       console.log('category', this.category);
     });
-    this.catgoryService.fetchSubCategory().subscribe((res) => {
+    this.catgoryService.subCategories$.subscribe((res) => {
       this.subCategory = res;
     });
   }
   files: File[] = [];
   onSelect(event: any) {
-    console.log(event);
+
     this.selectedFiles.push(...event.addedFiles);
   }
   onRemove(event: any) {
-    console.log(event);
     this.selectedFiles.splice(this.files.indexOf(event), 1);
   }
 
@@ -104,14 +103,6 @@ export class AddItemComponent {
     }
   }
 
-  //  uploadImages() {
-  //   if (this.selectedFiles.length) {
-  //     this.uploadService.uploadImages(this.selectedFiles).subscribe((res) => {
-  //       this.uploadedImages = res.imagePaths;
-  //       this.productForm.patchValue({ imageUrls: this.uploadedImages });
-  //     });
-  //   }
-  // }
   async uploadImages(): Promise<string[]> {
     if (this.selectedFiles.length) {
       return new Promise((resolve, reject) => {
@@ -227,6 +218,7 @@ export class AddItemComponent {
         category: res.category,
         subcategory: res.subcategory,
         price: res.price,
+        discount: res.discount,
         qty: res.qty,
         sizes: res.size,
         bestseller: res.bestseller,
@@ -368,6 +360,8 @@ export class AddItemComponent {
   //   }
   // }
   deleteProduct(id: any) {
-    this.uploadService.deleteProductById(id).subscribe((res) => {});
+    this.uploadService.deleteProductById(id).subscribe((res) => {
+
+    });
   }
 }

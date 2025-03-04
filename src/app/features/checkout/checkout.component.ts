@@ -71,7 +71,6 @@ export class CheckoutComponent {
       });
     }
     this.profileForm.valueChanges.pipe(debounceTime(1400)).subscribe((res) => {
-      console.log('change value', this.profileForm.value);
       const profile = this.profileForm.value;
       const profileData = {
         userId: userId,

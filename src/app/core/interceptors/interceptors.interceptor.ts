@@ -15,7 +15,6 @@ export const interceptorsInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return next(cloned);
   }
 
   // If no token, pass the original request
@@ -23,7 +22,6 @@ export const interceptorsInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 403 || error.status === 401) {
         console.log('Token Expired... Calling Refresh Token API 🔥');
-
         return authService.refreshToken().pipe(
           switchMap((res: any) => {
             console.log('New Token:', res.accessToken);

@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 export class DashboardComponent {
   orderData: any[] = [];
   productData: any[] = [];
+  topSelling:any;
   constructor(
     private orderService: OrdersService,
     private productService: UploadService
@@ -29,7 +30,6 @@ export class DashboardComponent {
         this.productData.push(product);
       });
     });
-    console.log('product data', this.productData);
     this.getTopSelling();
   }
   getTotalOrders() {
@@ -41,12 +41,14 @@ export class DashboardComponent {
   getTotalStock() {
     return this.productData.reduce((sum, item) => (sum += item.qty), 0);
   }
-  getTopSelling() {}
+  getTopSelling() {
+    this.orderService.getTopselling().subscribe((res)=>{
+      this.topSelling=res
+    })
+  }
   statusChange(orderId: any, event: any) {
     const status = event.target.value;
-    console.log(status, orderId);
     this.orderService.updateOrderStatus(orderId, status).subscribe((res) => {
-      console.log('status changes');
     });
   }
 }

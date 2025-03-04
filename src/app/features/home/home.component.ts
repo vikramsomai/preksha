@@ -91,9 +91,6 @@ export class HomeComponent implements OnInit {
           }
           return cartItem; // Keep the original cartItem if no match is found
         });
-
-        console.log('cart data', this.newCartList);
-        console.log(this.productList);
         this.cdr.detectChanges();
       },
       (err) => {
@@ -135,7 +132,7 @@ export class HomeComponent implements OnInit {
     const currentQuantity = item.quantity;
     let updatedQuantity = currentQuantity;
 
-    if (action === 'add') {
+    if (action === 'add' && currentQuantity < 10) {
       updatedQuantity++;
     } else if (action === 'delete' && currentQuantity > 1) {
       updatedQuantity--;
@@ -149,17 +146,14 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.cartForm.value);
     if (this.cartForm.valid) {
       const formData = this.cartForm.value;
-      console.log('Added to Cart:', { ...this.selectedProduct, ...formData });
     }
   }
   addToCart(item: any): void {
     if (item.selectedSize == undefined) {
       item.selectedSize = 'S';
     }
-    console.log('selected size', item.selectedSize);
     this.cartService.addToCart(item, this.quantity, item.selectedSize);
   }
 
@@ -178,11 +172,12 @@ export class HomeComponent implements OnInit {
   }
   setSelectedProduct(product: any) {
     this.selectedProduct = product;
-    console.log('Selected Product:', this.selectedProduct);
   }
 
   addQunatity(): void {
-    this.quantity += 1;
+    if (this.quantity < 10) {
+      this.quantity += 1;
+    }
   }
 
   decreaseQunatity(): void {
@@ -210,9 +205,12 @@ export class HomeComponent implements OnInit {
   }
   chnageCategory(event: any) {
     this.selectedFilterCategory = event.target.value;
-    console.log(this.selectedFilterCategory);
   }
   changePriceRange(event: any) {
     console.log(event);
+  }
+  showDisocuntPrice(price: number, discount: number): number {
+    let fakePrice = price + (price * discount) / 100;
+    return Math.round(fakePrice); // Rounded for better display
   }
 }

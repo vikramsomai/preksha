@@ -3,6 +3,7 @@ import { FooterComponent } from '../../shared/component/footer/footer.component'
 import { SiteHeaderComponent } from '../../shared/component/site-header/site-header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UploadService } from '../admin/component/add-item/upload.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-collections',
@@ -12,7 +13,7 @@ import { UploadService } from '../admin/component/add-item/upload.service';
   styleUrl: './collections.component.scss',
 })
 export class CollectionsComponent {
-  imagePath: any;
+  imagePath = environment.apiImage;
   currentIndex = 0;
   selectedProduct: any;
   productData: any;
