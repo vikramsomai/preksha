@@ -1,51 +1,286 @@
 <app-site-header></app-site-header>
-<div class="delivery-info">
-  <h2>Edit Profile</h2>
-  <form class="form-grid" [formGroup]="profileForm">
-    <div class="form-row">
-      <input type="text" placeholder="First Name" formControlName="firstname" />
-      <input type="text" placeholder="Last Name" formControlName="lastName" />
+<div class="profile-wrapper">
+  <div class="profile-breadcrumb">
+    <a routerLink="/">Home</a>
+    <i class="bi bi-chevron-right"></i>
+    <span>My Profile</span>
+  </div>
+
+  <div class="profile-container">
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar">
+      <div class="profile-avatar">
+        <div class="avatar-circle">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <h3>{{ profileForm.get('firstname')?.value }} {{ profileForm.get('lastName')?.value }}</h3>
+        <p>{{ profileForm.get('email')?.value }}</p>
+      </div>
+      <nav class="profile-nav">
+        <a class="nav-item" [class.active]="activeTab === 'profile'" (click)="switchTab('profile')">
+          <i class="bi bi-person"></i>
+          <span>Edit Profile</span>
+        </a>
+        <a class="nav-item" [class.active]="activeTab === 'orders'" (click)="switchTab('orders')">
+          <i class="bi bi-bag"></i>
+          <span>My Orders</span>
+        </a>
+        <a class="nav-item" [class.active]="activeTab === 'wishlist'" (click)="switchTab('wishlist')">
+          <i class="bi bi-heart"></i>
+          <span>Wishlist</span>
+        </a>
+        <a class="nav-item logout" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
     </div>
 
-    <div class="form-row">
-      <input
-        type="text"
-        placeholder="Postal code"
-        formControlName="postalCode"
-      />
-      <input
-        type="number"
-        placeholder="Phone number"
-        formControlName="phoneNumber"
-      />
-    </div>
-    <div class="form-row">
-      <input type="email" placeholder="Email address" formControlName="email" />
-      <div class="select-container">
-        <select
-          class="tf-select w-100"
-          formControlName="province"
-          id="ShippingCountry_CartDrawer-Form"
-          data-default=""
-        >
-          <!-- <select #province formControlName="province"> -->
-          <option disabled selected value="">Province</option>
-          <option value="Madhui88787esh Province">Madhesh Province</option>
-          <option value="Bagmati Province">Bagmati Province</option>
-          <option value="Gandaki Province">Gandaki Province</option>
-          <option value="Lumbini Province">Lumbini Province</option>
-          <option value="Karnali Province">Karnali Province</option>
-          <option value="Sudurpashchim Province">Sudurpashchim Province</option>
-        </select>
+    <!-- Profile Content -->
+    <div class="profile-content">
+      <!-- Edit Profile Tab -->
+      @if (activeTab === 'profile') {
+      <div class="content-header">
+        <h1>Edit Profile</h1>
+        <p>Manage your personal information and delivery address</p>
       </div>
+
+      <form class="profile-form" [formGroup]="profileForm">
+        <!-- Personal Information Section -->
+        <div class="form-section">
+          <h2><i class="bi bi-person-badge"></i> Personal Information</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="firstname">First Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="firstname" 
+                placeholder="Enter first name" 
+                formControlName="firstname"
+                [class.error]="profileForm.get('firstname')?.invalid && profileForm.get('firstname')?.touched"
+              />
+              @if (profileForm.get('firstname')?.invalid && profileForm.get('firstname')?.touched) {
+                <span class="error-message">First name is required</span>
+              }
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="lastName" 
+                placeholder="Enter last name" 
+                formControlName="lastName"
+                [class.error]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
+              />
+              @if (profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched) {
+                <span class="error-message">Last name is required</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="form-section">
+          <h2><i class="bi bi-telephone"></i> Contact Information</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="email">Email Address <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="email" 
+                placeholder="Enter email address" 
+                formControlName="email"
+                [class.error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+              />
+              @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
+                <span class="error-message">Valid email is required</span>
+              }
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="phoneNumber" 
+                placeholder="98XXXXXXXX" 
+                formControlName="phoneNumber"
+                [class.error]="profileForm.get('phoneNumber')?.invalid && profileForm.get('phoneNumber')?.touched"
+              />
+              @if (profileForm.get('phoneNumber')?.invalid && profileForm.get('phoneNumber')?.touched) {
+                <span class="error-message">Valid phone number is required</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="form-section">
+          <h2><i class="bi bi-geo-alt"></i> Delivery Address</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="province">Province <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select 
+                  id="province" 
+                  formControlName="province"
+                  [class.error]="profileForm.get('province')?.invalid && profileForm.get('province')?.touched"
+                >
+                  <option disabled selected value="">Select Province</option>
+                  <option value="Koshi Province">Koshi Province</option>
+                  <option value="Madhesh Province">Madhesh Province</option>
+                  <option value="Bagmati Province">Bagmati Province</option>
+                  <option value="Gandaki Province">Gandaki Province</option>
+                  <option value="Lumbini Province">Lumbini Province</option>
+                  <option value="Karnali Province">Karnali Province</option>
+                  <option value="Sudurpashchim Province">Sudurpashchim Province</option>
+                </select>
+                <i class="bi bi-chevron-down select-icon"></i>
+              </div>
+              @if (profileForm.get('province')?.invalid && profileForm.get('province')?.touched) {
+                <span class="error-message">Please select a province</span>
+              }
+            </div>
+            <div class="form-group">
+              <label for="postalCode">Postal Code <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="postalCode" 
+                placeholder="Enter postal code" 
+                formControlName="postalCode"
+                [class.error]="profileForm.get('postalCode')?.invalid && profileForm.get('postalCode')?.touched"
+              />
+              @if (profileForm.get('postalCode')?.invalid && profileForm.get('postalCode')?.touched) {
+                <span class="error-message">Postal code is required</span>
+              }
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label for="street">Street Address <span class="required">*</span></label>
+            <textarea 
+              id="street" 
+              placeholder="Enter complete street address, landmarks, etc." 
+              formControlName="street"
+              rows="3"
+              [class.error]="profileForm.get('street')?.invalid && profileForm.get('street')?.touched"
+            ></textarea>
+            @if (profileForm.get('street')?.invalid && profileForm.get('street')?.touched) {
+              <span class="error-message">Street address is required</span>
+            }
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button 
+            type="button" 
+            class="btn-save"
+            (click)="editProfile()"
+            [disabled]="isSaving"
+            [class.loading]="isSaving"
+          >
+            @if (isSaving) {
+              <span class="spinner"></span>
+              Saving...
+            } @else {
+              <i class="bi bi-check-lg"></i>
+              Save Changes
+            }
+          </button>
+        </div>
+      </form>
+      }
+
+      <!-- Orders Tab -->
+      @if (activeTab === 'orders') {
+      <div class="content-header">
+        <h1>My Orders</h1>
+        <p>View and track your order history</p>
+      </div>
+
+      <div class="orders-content">
+        @if (loadingOrders) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading orders...</p>
+          </div>
+        } @else if (orders.length === 0) {
+          <div class="empty-state">
+            <i class="bi bi-bag-x"></i>
+            <h3>No orders yet</h3>
+            <p>You haven't placed any orders yet. Start shopping to see your orders here.</p>
+            <a routerLink="/products" class="tf-btn btn-fill">Start Shopping</a>
+          </div>
+        } @else {
+          <div class="orders-list">
+            @for (order of orders; track order._id) {
+              <div class="order-card">
+                <div class="order-header">
+                  <div class="order-info">
+                    <span class="order-id">Order #{{ order._id | slice:0:8 }}</span>
+                    <span class="order-date">{{ order.createdAt | date:'mediumDate' }}</span>
+                  </div>
+                  <span class="order-status" [class]="order.status?.toLowerCase()">{{ order.status }}</span>
+                </div>
+                <div class="order-items">
+                  @for (item of order.products; track item.productId) {
+                    <div class="order-item">
+                      <img [src]="imagePath + item.imageUrl" alt="{{ item.productName }}" />
+                      <div class="item-details">
+                        <h4>{{ item.productName }}</h4>
+                        <p>Size: {{ item.size }} | Qty: {{ item.quantity }}</p>
+                        <span class="item-price">&#8377; {{ item.price }}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+                <div class="order-footer">
+                  <span class="order-total">Total: &#8377; {{ order.totalAmount }}</span>
+                  <a routerLink="/print/{{ order._id }}" class="view-details">View Details</a>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      }
+
+      <!-- Wishlist Tab -->
+      @if (activeTab === 'wishlist') {
+      <div class="content-header">
+        <h1>My Wishlist</h1>
+        <p>Items you've saved for later</p>
+      </div>
+
+      <div class="wishlist-content">
+        @if (wishlistItems.length === 0) {
+          <div class="empty-state">
+            <i class="bi bi-heart"></i>
+            <h3>Your wishlist is empty</h3>
+            <p>Save items you like by clicking the heart icon on products.</p>
+            <a routerLink="/products" class="tf-btn btn-fill">Browse Products</a>
+          </div>
+        } @else {
+          <div class="wishlist-grid">
+            @for (item of wishlistItems; track item.productId) {
+              <div class="wishlist-card">
+                <div class="card-image">
+                  <a [routerLink]="'/collection/' + item.productId">
+                    <img [src]="imagePath + item.imageUrls[0]" alt="{{ item.productName }}" />
+                  </a>
+                  <button class="remove-btn" (click)="removeFromWishlist(item.productId)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+                <div class="card-info">
+                  <a [routerLink]="'/collection/' + item.productId" class="product-name">{{ item.productName }}</a>
+                  <span class="product-price">&#8377; {{ item.price }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      }
     </div>
-    <textarea formControlName="street"></textarea>
-  </form>
-  <button
-    class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center"
-    (click)="editProfile()"
-  >
-    submit
-  </button>
+  </div>
 </div>
 <app-footer></app-footer>

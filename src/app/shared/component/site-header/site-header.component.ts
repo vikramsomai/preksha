@@ -20,13 +20,13 @@ import { FormsModule } from '@angular/forms';
 export class SiteHeaderComponent {
   wishlist: IWishlistList[] = [];
   cartlist: any[] = [];
-  newCartList: any[] = [];
   isLoggedIn = false;
   productList: any[] = [];
   searchItem = '';
   productData: any[] = [];
   imagePath = environment.apiImage;
   selectedProduct: any;
+  email = 'prekshaaclothing@gmail.com';
   mainImage: string = '';
   constructor(
     public authService: AuthService,
@@ -42,7 +42,6 @@ export class SiteHeaderComponent {
     });
     this.cartService.cart$.subscribe((items) => {
       this.cartlist = items;
-      this.updateNewCartList();
     });
   }
   ngOnInit(): void {
@@ -52,47 +51,33 @@ export class SiteHeaderComponent {
     });
     this.mainImage = this.selectedProduct?.imageUrls[0];
   }
-  updateNewCartList(): void {
-    this.newCartList = this.cartlist.filter((cartItem) => {
-      const matchedProduct = this.productList.find(
-        (product) => product.productId === cartItem.product.productId
-      );
-
-      if (matchedProduct) {
-        // Update the price from the server data
-        cartItem.product.price = matchedProduct.price;
-        return true; // Keep the item in the new cart list
-      }
-
-      // If no matching product is found, the cart item is removed.
-      return false;
-    });
-  }
 
   fetchProducts(): void {
     this.uploadService.getProducts().subscribe(
       (data) => {
         this.productList = data;
 
-        // Filter and update cart items
-        this.newCartList = this.cartlist.filter((cartItem) => {
-          const matchedProduct = this.productList.find(
-            (product) => product.productId === cartItem.product.productId
-          );
+        // Update cart items with latest prices without removing items
+        if (this.cartlist.length > 0 && this.productList.length > 0) {
+          const updatedCart = this.cartlist.map((cartItem) => {
+            const matchedProduct = this.productList.find(
+              (product) => product.productId === cartItem.product.productId
+            );
 
-          if (matchedProduct) {
-            // Update the cart item's price
-            cartItem.product.price = matchedProduct.price;
-            return true; // Keep this cart item
-          }
-
-          // Remove the cart item if no match is found
-          return false;
-        });
-        this.cartService.updateCart(this.newCartList);
-        // Log the updated cart list and product list
-        console.log('Updated cart data:', this.newCartList);
-        console.log('Product list:', this.productList);
+            if (matchedProduct) {
+              // Update the cart item's price with server price
+              return {
+                ...cartItem,
+                product: {
+                  ...cartItem.product,
+                  price: matchedProduct.price
+                }
+              };
+            }
+            return cartItem;
+          });
+          this.cartService.updateCart(updatedCart);
+        }
 
         // Trigger change detection to update the UI
         this.cdr.detectChanges();

@@ -278,11 +278,13 @@
           arrivals
         </p>
       </div>
-      <div class="filter-container">
+      <div class="filter-container desktop-filter">
+        <div class="filter-label">
+          <i class="fa fa-filter"></i> Filter:
+        </div>
         <div class="select-container">
           <select #gender (change)="changeGender($event)">
-            <option disabled selected value="">Gender</option>
-            <option value="">All</option>
+            <option value="">All Genders</option>
             <option value="Men">Men</option>
             <option value="Women">Women</option>
           </select>
@@ -290,8 +292,7 @@
         <!-- Category Dropdown -->
         <div class="select-container">
           <select #category (change)="chnageCategory($event)">
-            <option disabled selected value="">Category</option>
-            <option value="">All</option>
+            <option value="">All Categories</option>
             <option value="Topwear">Top Wear</option>
             <option value="Bottomwear">Bottom Wear</option>
             <option value="pants">Shorts & Pants</option>
@@ -300,14 +301,58 @@
         <!-- Price Range Dropdown -->
         <div class="select-container">
           <select #priceRange (change)="changePriceRange($event)">
-            <option disabled selected value="">Price Range</option>
             <option value="">All Prices</option>
-            <option value="0-500">NPR 0 - 500</option>
-            <option value="501-1000">NPR 501 - 1000</option>
-            <option value="1001-2000">NPR 1001 - 2000</option>
-            <option value="2000">NPR 2000+</option>
+            <option value="0-500">₹0 - ₹500</option>
+            <option value="501-1000">₹501 - ₹1000</option>
+            <option value="1001-2000">₹1001 - ₹2000</option>
+            <option value="2000">₹2000+</option>
           </select>
         </div>
+        <button class="clear-filter-btn" (click)="clearFilters(gender, category, priceRange)">
+          <i class="fa fa-times"></i> Clear All
+        </button>
+      </div>
+      
+      <!-- Mobile Filter Toggle -->
+      <div class="mobile-filter-toggle">
+        <button class="filter-toggle-btn" [class.active]="showMobileFilter" (click)="toggleMobileFilter()">
+          <i class="fa fa-sliders"></i>
+          <span>Filters</span>
+          @if(activeFilterCount > 0) {
+            <span class="filter-count">{{ activeFilterCount }}</span>
+          }
+        </button>
+      </div>
+      
+      <!-- Mobile Filter Panel -->
+      <div class="filter-container mobile-filter" [class.show]="showMobileFilter">
+        <div class="select-container">
+          <select #genderMobile (change)="changeGender($event); gender.value = genderMobile.value">
+            <option value="">All Genders</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+          </select>
+        </div>
+        <div class="select-container">
+          <select #categoryMobile (change)="chnageCategory($event); category.value = categoryMobile.value">
+            <option value="">All Categories</option>
+            <option value="Topwear">Top Wear</option>
+            <option value="Bottomwear">Bottom Wear</option>
+            <option value="pants">Shorts & Pants</option>
+          </select>
+        </div>
+        <div class="select-container">
+          <select #priceRangeMobile (change)="changePriceRange($event); priceRange.value = priceRangeMobile.value">
+            <option value="">All Prices</option>
+            <option value="0-500">₹0 - ₹500</option>
+            <option value="501-1000">₹501 - ₹1000</option>
+            <option value="1001-2000">₹1001 - ₹2000</option>
+            <option value="2000">₹2000+</option>
+          </select>
+        </div>
+        <button class="clear-filter-btn" (click)="clearFilters(genderMobile, categoryMobile, priceRangeMobile); clearFilters(gender, category, priceRange)">
+          <i class="fa fa-times"></i> Clear All
+        </button>
       </div>
       <!-- <app-card></app-card> -->
       <div class="grid-layout" data-wow-delay="0s" data-grid="grid-4">
@@ -315,7 +360,7 @@
         filter:gender.value:category.value:priceRange.value; track item) {
         <div class="card-product fl-item">
           <div class="card-product-wrapper">
-            <a href="#" class="product-img">
+            <a class="product-img">
               <img
                 class="lazyload img-product"
                 [src]="imagePath + item?.imageUrls[0]"
@@ -375,7 +420,7 @@
             </div>
           </div>
           <div class="card-product-info">
-            <a href="#" class="title link">{{ item?.productName }}</a>
+            <a href="" class="title link">{{ item?.productName }}</a>
             <!-- <div class="tf-product-info-price">
               <div class="compare-at-price">NPR. 2000</div>
               <div class="price">NPR. {{ item?.price }}</div>
@@ -383,7 +428,7 @@
             <div class="tf-product-info-price">
               <div class="price-on-sale">&#8377; {{ item?.price }}</div>
               <div class="compare-at-price">
-                &#8377; {{ showDisocuntPrice(item?.price,item?.discount) }}
+                &#8377; {{ showDisocuntPrice(item?.price, item?.discount) }}
               </div>
               <div class="badges-on-sale">
                 <span>{{ item?.discount }}</span
@@ -453,6 +498,58 @@
     <!-- </div> -->
   </section>
   <!-- /Seller -->
+
+  <!-- Brands Section -->
+  <section class="brands-section">
+    <div class="container">
+      <div class="brands-header">
+        <h2>Our Trusted Brands</h2>
+        <p>Shop from the most popular fashion brands</p>
+      </div>
+      <div class="brands-marquee">
+        <div class="brands-track">
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-01.png" alt="Brand 1" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-02.png" alt="Brand 2" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-03.png" alt="Brand 3" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-04.png" alt="Brand 4" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-05.png" alt="Brand 5" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-06.png" alt="Brand 6" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <!-- Duplicate for infinite scroll -->
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-01.png" alt="Brand 1" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-02.png" alt="Brand 2" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-03.png" alt="Brand 3" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-04.png" alt="Brand 4" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-05.png" alt="Brand 5" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+          <div class="brand-item">
+            <img src="assets/images/brand/brand-06.png" alt="Brand 6" onerror="this.src='https://via.placeholder.com/120x50?text=Brand'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /Brands Section -->
 
   <!-- Testimonial -->
   <section class="flat-spacing-5 pt_0 flat-testimonial">
@@ -686,7 +783,7 @@
                 </div>
                 <div class="content">
                   <div class="title">Flexible Payment</div>
-                  <p>Pay with Multiple Credit Cards</p>
+                  <p>Pay with Multiple</p>
                 </div>
               </div>
             </div>
@@ -747,7 +844,7 @@
 <!-- /gotop -->
 
 <!-- mobile menu -->
-<div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+<!-- <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <span
     class="icon-close icon-close-popup"
     data-bs-dismiss="offcanvas"
@@ -810,7 +907,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- /mobile menu -->
 
 <!-- toolbarShopmb -->
@@ -1072,9 +1169,17 @@
               <div class="price">{{ selectedProduct?.price }}</div>
             </div> -->
             <div class="tf-product-info-price">
-              <div class="price-on-sale">&#8377; {{ selectedProduct?.price }}</div>
+              <div class="price-on-sale">
+                &#8377; {{ selectedProduct?.price }}
+              </div>
               <div class="compare-at-price">
-                &#8377; {{ showDisocuntPrice(selectedProduct?.price,selectedProduct?.discount) }}
+                &#8377;
+                {{
+                  showDisocuntPrice(
+                    selectedProduct?.price,
+                    selectedProduct?.discount
+                  )
+                }}
               </div>
               <div class="badges-on-sale">
                 <span>{{ selectedProduct?.discount }}</span
@@ -1166,23 +1271,41 @@
         <div class="tf-product-info-quantity mb_15">
           <div class="quantity-title fw-6">Quantity</div>
           <div class="wg-quantity">
+            @if(selectedProduct?.qty!=0){
             <span class="btn-quantity minus-btn" (click)="decreaseQunatity()"
               >-</span
             >
+            } @else {
+            <span class="btn-quantity minus-btn">-</span>
+            }
             <input type="text" name="number" value="1" min="1" readonly />
+            @if(selectedProduct?.qty!=0){
             <span class="btn-quantity plus-btn" (click)="addQunatity()">+</span>
+            } @else {
+            <span class="btn-quantity plus-btn">+</span>
+            }
           </div>
         </div>
         <div class="tf-product-info-buy-button">
           <form>
+            @if(selectedProduct?.qty!=0){
             <a
               (click)="addToCart(selectedProduct)"
               class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
               ><span>Add to cart -&nbsp;</span
               ><span class="tf-qty-price"
-                >NPR. {{ selectedProduct?.price }}</span
+                >&#8377; {{ selectedProduct?.price }}</span
               ></a
             >
+            } @else {
+            <a
+              class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
+              ><span>Add to cart -&nbsp;</span
+              ><span class="tf-qty-price"
+                >&#8377; {{ selectedProduct?.price }}</span
+              ></a
+            >
+            }
             <div class="tf-product-btn-wishlist btn-icon-action">
               <i class="icon-heart"></i>
               <i class="icon-delete"></i>
@@ -1283,9 +1406,17 @@
               <div class="price">{{ selectedProduct?.price }}</div>
             </div> -->
             <div class="tf-product-info-price">
-              <div class="price-on-sale">&#8377; {{ selectedProduct?.price }}</div>
+              <div class="price-on-sale">
+                &#8377; {{ selectedProduct?.price }}
+              </div>
               <div class="compare-at-price">
-                &#8377; {{ showDisocuntPrice(selectedProduct?.price,selectedProduct?.discount) }}
+                &#8377;
+                {{
+                  showDisocuntPrice(
+                    selectedProduct?.price,
+                    selectedProduct?.discount
+                  )
+                }}
               </div>
               <div class="badges-on-sale">
                 <span>{{ selectedProduct?.discount }}</span
@@ -1388,27 +1519,46 @@
             <div class="tf-product-info-quantity">
               <div class="quantity-title fw-6">Quantity</div>
               <div class="wg-quantity">
+                @if(selectedProduct?.qty!=0){
                 <span
                   class="btn-quantity minus-btn"
                   (click)="decreaseQunatity()"
                   >-</span
                 >
-                <input id="quantity" type="number" value="1" min="1" max="10" />
+                } @else {
+                <span class="btn-quantity minus-btn">-</span>
+                }
+                <input type="text" name="number" value="1" min="1" readonly />
+                @if(selectedProduct?.qty!=0){
                 <span class="btn-quantity plus-btn" (click)="addQunatity()"
                   >+</span
                 >
+                } @else {
+                <span class="btn-quantity plus-btn">+</span>
+                }
               </div>
             </div>
             <div class="tf-product-info-buy-button">
               <form class="">
+                @if(selectedProduct?.qty!=0){
                 <a
                   (click)="addToCart(selectedProduct)"
                   class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
                   ><span>Add to cart -&nbsp;</span
                   ><span class="tf-qty-price"
-                    >NPR. {{ selectedProduct?.price }}</span
+                    >&#8377; {{ selectedProduct?.price }}</span
                   ></a
                 >
+                }@else {
+                <a
+                  class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
+                  ><span>Add to cart -&nbsp;</span
+                  ><span class="tf-qty-price"
+                    >&#8377; {{ selectedProduct?.price }}</span
+                  ></a
+                >
+                }
+
                 <a
                   href="javascript:void(0);"
                   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action"
@@ -1594,4 +1744,16 @@
     </div>
   </div>
 </div>
+
+<!-- Cart Added Notification -->
+@if(showCartNotification) {
+<div class="cart-notification">
+  <div class="cart-notification-content">
+    <i class="fa fa-check-circle"></i>
+    <span>Item added to cart successfully!</span>
+    <a routerLink="/cart" class="view-cart-btn">View Cart</a>
+  </div>
+</div>
+}
+
 <app-footer></app-footer>

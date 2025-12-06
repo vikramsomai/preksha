@@ -75,8 +75,8 @@
           <div style="color: #666; font-size: 11px">{{ item.size }}</div>
         </td>
         <td>{{ item.quantity }}</td>
-        <td>NPR. {{ item.price }}</td>
-        <td class="text-right">NPR. {{ item.quantity * item.price }}</td>
+        <td>&#8377; {{ item.price }}</td>
+        <td class="text-right">&#8377; {{ item.quantity * item.price }}</td>
       </tr>
       }
     </tbody>
@@ -85,7 +85,7 @@
   <div class="totals-section">
     <div class="totals-row">
       <div>Subtotal:</div>
-      <div>NPR.{{ getSubTotal() }}</div>
+      <div>&#8377; {{ getSubTotal() }}</div>
     </div>
     <div class="totals-row">
       <div>Discount (10%):</div>
@@ -97,11 +97,11 @@
     </div>
     <div class="totals-row">
       <div>Shipping:</div>
-      <div>NPR.120</div>
+      <div>&#8377; 120</div>
     </div>
     <div class="totals-row grand-total">
       <div>TOTAL:</div>
-      <div>NPR.{{ ordersData.totalAmount }}</div>
+      <div>&#8377; {{ ordersData.totalAmount }}</div>
     </div>
   </div>
 

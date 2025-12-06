@@ -1,0 +1,109 @@
+@if (flashSales.length > 0 && currentSale) {
+  <section class="flash-sale-section">
+    <div class="flash-sale-header">
+      <div class="flash-icon">
+        <i class="bi bi-lightning-charge-fill"></i>
+      </div>
+      <div class="flash-title">
+        <h2>Flash Sale</h2>
+        <p>{{ currentSale.name }}</p>
+      </div>
+      <div class="flash-countdown">
+        <span class="countdown-label">Ends in</span>
+        <div class="countdown-timer">
+          <i class="bi bi-clock"></i>
+          <span class="countdown-value">{{ countdowns[currentSale._id] || '--:--:--' }}</span>
+        </div>
+      </div>
+      @if (flashSales.length > 1) {
+        <div class="flash-nav">
+          <button class="nav-btn" (click)="prevSale()">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <span class="nav-indicator">{{ currentSaleIndex + 1 }}/{{ flashSales.length }}</span>
+          <button class="nav-btn" (click)="nextSale()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="flash-products-grid">
+      @for (product of currentSale.products.slice(0, 6); track product.productId._id) {
+        <div class="flash-product-card">
+          <div class="discount-badge">
+            -{{ currentSale.discountPercentage }}%
+          </div>
+          
+          <a [routerLink]="['/products', product.productId._id]" class="product-image">
+            <img [src]="product.productId.imageUrls[0]" [alt]="product.productId.productName">
+          </a>
+          
+          <div class="product-info">
+            <h4 class="product-name">
+              <a [routerLink]="['/products', product.productId._id]">
+                {{ product.productId.productName }}
+              </a>
+            </h4>
+            
+            <div class="price-row">
+              <span class="sale-price">NPR {{ product.salePrice }}</span>
+              <span class="original-price">NPR {{ product.originalPrice }}</span>
+            </div>
+            
+            <div class="savings">
+              You save NPR {{ product.originalPrice - product.salePrice }}
+            </div>
+            
+            @if (product.stockLimit) {
+              <div class="stock-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="getStockProgress(product)"></div>
+                </div>
+                <span class="stock-text">
+                  @if (getRemainingStock(product) > 0) {
+                    {{ getRemainingStock(product) }} left
+                  } @else {
+                    Sold out
+                  }
+                </span>
+              </div>
+            }
+          </div>
+          
+          @if (!product.stockLimit || getRemainingStock(product) > 0) {
+            <button class="add-to-cart-btn" (click)="addToCart(product, product.salePrice)">
+              <i class="bi bi-cart-plus"></i>
+              Add to Cart
+            </button>
+          } @else {
+            <button class="sold-out-btn" disabled>
+              <i class="bi bi-x-circle"></i>
+              Sold Out
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    @if (currentSale.products.length > 6) {
+      <div class="view-all-wrapper">
+        <a [routerLink]="['/flash-sale', currentSale._id]" class="view-all-btn">
+          View All {{ currentSale.products.length }} Products
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    }
+  </section>
+} @else if (isLoading) {
+  <section class="flash-sale-section loading">
+    <div class="loading-skeleton">
+      <div class="skeleton-header"></div>
+      <div class="skeleton-grid">
+        @for (i of [1,2,3,4]; track i) {
+          <div class="skeleton-card"></div>
+        }
+      </div>
+    </div>
+  </section>
+}

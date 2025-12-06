@@ -1,0 +1,307 @@
+<app-site-header></app-site-header>
+
+<!-- Loading State -->
+@if(loading) {
+<div class="loading-container">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading product...</p>
+  </div>
+</div>
+}
+
+<!-- Product Not Found -->
+@if(!loading && !product) {
+<div class="not-found-container">
+  <div class="not-found-content">
+    <i class="bi bi-exclamation-circle"></i>
+    <h2>Product Not Found</h2>
+    <p>The product you're looking for doesn't exist or has been removed.</p>
+    <a routerLink="/products" class="btn-back">Browse Products</a>
+  </div>
+</div>
+}
+
+<!-- Product Details -->
+@if(!loading && product) {
+<div class="product-page">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a routerLink="/">Home</a>
+        <i class="bi bi-chevron-right"></i>
+        <a routerLink="/products">Products</a>
+        <i class="bi bi-chevron-right"></i>
+        <span>{{ product.productName }}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Product Section -->
+  <section class="product-detail-section">
+    <div class="container">
+      <div class="product-grid">
+        <!-- Image Gallery -->
+        <div class="product-gallery">
+          <div class="main-image-container">
+            <div class="main-image">
+              <img [src]="imagePath + product.imageUrls[currentImageIndex]" [alt]="product.productName" />
+              @if(product.discount > 0) {
+              <span class="discount-badge">-{{ product.discount }}%</span>
+              }
+            </div>
+            <!-- Navigation Arrows -->
+            @if(product.imageUrls?.length > 1) {
+            <button class="gallery-nav prev" (click)="prevImage()">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="gallery-nav next" (click)="nextImage()">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            }
+          </div>
+          <!-- Thumbnails -->
+          @if(product.imageUrls?.length > 1) {
+          <div class="thumbnail-list">
+            @for(image of product.imageUrls; track image; let i = $index) {
+            <div class="thumbnail" [class.active]="i === currentImageIndex" (click)="selectImage(i)">
+              <img [src]="imagePath + image" [alt]="product.productName" />
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <!-- Category & Brand -->
+          <div class="product-meta">
+            <span class="category">{{ product.category }}</span>
+            @if(product.subcategory) {
+            <span class="subcategory">{{ product.subcategory }}</span>
+            }
+          </div>
+
+          <!-- Title -->
+          <h1 class="product-title">{{ product.productName }}</h1>
+
+          <!-- Rating (placeholder) -->
+          <div class="product-rating">
+            <div class="stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </div>
+            <span class="rating-text">4.5 (120 reviews)</span>
+          </div>
+
+          <!-- Price -->
+          <div class="product-price">
+            <span class="current-price">₹{{ product.price }}</span>
+            @if(product.discount > 0) {
+            <span class="original-price">₹{{ getDiscountedPrice() }}</span>
+            <span class="discount-percent">{{ product.discount }}% OFF</span>
+            }
+          </div>
+
+          <!-- Short Description -->
+          @if(product.description) {
+          <p class="short-description">{{ product.description }}</p>
+          }
+
+          <!-- Size Selector -->
+          <div class="size-selector">
+            <div class="selector-header">
+              <span class="label">Select Size:</span>
+              <span class="selected-value">{{ selectedSize }}</span>
+              <a href="#" class="size-guide">Size Guide</a>
+            </div>
+            <div class="size-options">
+              @for(size of product.sizes || ['S', 'M', 'L', 'XL']; track size) {
+              <button 
+                class="size-btn" 
+                [class.active]="selectedSize === size"
+                (click)="onSizeChange(size)">
+                {{ size }}
+              </button>
+              }
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div class="quantity-selector">
+            <span class="label">Quantity:</span>
+            <div class="quantity-controls">
+              <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+                <i class="bi bi-dash"></i>
+              </button>
+              <input type="text" [value]="quantity" readonly />
+              <button class="qty-btn" (click)="increaseQuantity()" [disabled]="quantity >= 10">
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn-add-cart" [class.loading]="isAddingToCart" (click)="addToCart()">
+              @if(isAddingToCart) {
+              <span class="spinner-sm"></span>
+              <span>Adding...</span>
+              } @else {
+              <i class="bi bi-bag-plus"></i>
+              <span>Add to Cart</span>
+              }
+            </button>
+            <button class="btn-buy-now" (click)="buyNow()">
+              <i class="bi bi-lightning-fill"></i>
+              <span>Buy Now</span>
+            </button>
+            <button class="btn-wishlist" [class.active]="isInWishlist()" (click)="addToWishlist()">
+              <i [class]="isInWishlist() ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+            </button>
+          </div>
+
+          <!-- Product Features -->
+          <div class="product-features">
+            <div class="feature">
+              <i class="bi bi-truck"></i>
+              <div>
+                <strong>Free Delivery</strong>
+                <span>On orders above ₹999</span>
+              </div>
+            </div>
+            <div class="feature">
+              <i class="bi bi-arrow-repeat"></i>
+              <div>
+                <strong>Easy Returns</strong>
+                <span>14 days return policy</span>
+              </div>
+            </div>
+            <div class="feature">
+              <i class="bi bi-shield-check"></i>
+              <div>
+                <strong>Secure Payment</strong>
+                <span>100% secure checkout</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Share -->
+          <div class="share-product">
+            <span>Share:</span>
+            <div class="share-icons">
+              <a href="#" class="share-icon"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="share-icon"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="share-icon"><i class="bi bi-whatsapp"></i></a>
+              <a href="#" class="share-icon"><i class="bi bi-pinterest"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Tabs -->
+  <section class="product-tabs-section">
+    <div class="container">
+      <div class="tabs-wrapper">
+        <div class="tab-headers">
+          <button class="tab-btn" [class.active]="activeTab === 'description'" (click)="setActiveTab('description')">
+            Description
+          </button>
+          <button class="tab-btn" [class.active]="activeTab === 'details'" (click)="setActiveTab('details')">
+            Product Details
+          </button>
+          <button class="tab-btn" [class.active]="activeTab === 'reviews'" (click)="setActiveTab('reviews')">
+            Reviews
+          </button>
+        </div>
+        <div class="tab-content">
+          @if(activeTab === 'description') {
+          <div class="tab-pane">
+            <h3>Product Description</h3>
+            <p>{{ product.description || 'No description available for this product.' }}</p>
+          </div>
+          }
+          @if(activeTab === 'details') {
+          <div class="tab-pane">
+            <h3>Product Details</h3>
+            <table class="details-table">
+              <tr>
+                <td>Category</td>
+                <td>{{ product.category }}</td>
+              </tr>
+              <tr>
+                <td>Subcategory</td>
+                <td>{{ product.subcategory || 'N/A' }}</td>
+              </tr>
+              <tr>
+                <td>Available Sizes</td>
+                <td>{{ product.sizes?.join(', ') || 'S, M, L, XL' }}</td>
+              </tr>
+              <tr>
+                <td>Material</td>
+                <td>Premium Quality Fabric</td>
+              </tr>
+              <tr>
+                <td>Care Instructions</td>
+                <td>Machine wash cold, tumble dry low</td>
+              </tr>
+            </table>
+          </div>
+          }
+          @if(activeTab === 'reviews') {
+          <div class="tab-pane">
+            <app-product-reviews [productId]="productId"></app-product-reviews>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  @if(relatedProducts.length > 0) {
+  <section class="related-products-section">
+    <div class="container">
+      <h2 class="section-title">You May Also Like</h2>
+      <div class="products-grid">
+        @for(item of relatedProducts; track item.productId) {
+        <div class="product-card" (click)="navigateToProduct(item.productId)">
+          <div class="card-image">
+            <img [src]="imagePath + item.imageUrls[0]" [alt]="item.productName" />
+            @if(item.discount > 0) {
+            <span class="discount-tag">-{{ item.discount }}%</span>
+            }
+          </div>
+          <div class="card-content">
+            <h4>{{ item.productName }}</h4>
+            <div class="card-price">
+              <span class="price">₹{{ item.price }}</span>
+              @if(item.discount > 0) {
+              <span class="old-price">₹{{ item.price + (item.price * item.discount / 100) | number:'1.0-0' }}</span>
+              }
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+  }
+</div>
+}
+
+<!-- Notification Toast -->
+@if(showNotification) {
+<div class="notification-toast">
+  <i class="bi bi-check-circle-fill"></i>
+  <span>{{ notificationMessage }}</span>
+</div>
+}
+
+<app-footer></app-footer>

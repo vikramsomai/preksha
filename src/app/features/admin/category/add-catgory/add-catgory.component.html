@@ -1,40 +1,45 @@
-<main class="flex-1 p-6">
-  <div class="max-w-3xl mx-auto">
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="header-icon">
+      <i class="bi bi-folder-plus"></i>
+    </div>
     <h2>Add Category</h2>
-    <form [formGroup]="categoryForm">
-      <div>
-        <label class="text-sm text-gray-600 mb-2 block">Product Category</label>
+    <p class="subtitle">Create a new product category</p>
+  </div>
+  
+  <form [formGroup]="categoryForm" class="dialog-form">
+    <div class="form-group">
+      <label for="category">Category Name</label>
+      <div class="input-wrapper">
+        <i class="bi bi-tag"></i>
         <input
           type="text"
-          class="input"
-          placeholder="Enter category"
+          id="category"
+          class="form-input"
+          placeholder="Enter category name"
           formControlName="category"
         />
       </div>
-      <!-- <div>
-        <label class="text-sm text-gray-600 mb-2 block"
-          >Product Sub Category</label
-        >
-        <input
-          type="text"
-          class="input"
-          placeholder="Enter sub category"
-          formControlName="subcategory"
-        />
-      </div> -->
+    </div>
+
+    <div class="dialog-actions">
+      <button
+        type="button"
+        mat-dialog-close
+        class="btn btn-secondary"
+      >
+        <i class="bi bi-x-lg"></i>
+        Cancel
+      </button>
       <button
         type="submit"
-        class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center my-5"
+        class="btn btn-primary"
         (click)="addCatgory()"
+        [disabled]="!categoryForm.valid"
       >
-        Add
+        <i class="bi bi-plus-lg"></i>
+        Add Category
       </button>
-      <button
-        mat-dialog-close
-        class="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center mx-4 my-5"
-      >
-        Close
-      </button>
-    </form>
-  </div>
-</main>
+    </div>
+  </form>
+</div>

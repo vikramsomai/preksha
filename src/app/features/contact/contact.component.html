@@ -1,0 +1,164 @@
+<app-site-header></app-site-header>
+
+<div class="contact-page">
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="hero-content">
+      <h1>Get in Touch</h1>
+      <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+    </div>
+  </section>
+
+  <div class="contact-container">
+    <!-- Contact Info Cards -->
+    <div class="contact-info-section">
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="bi bi-geo-alt"></i>
+        </div>
+        <h3>Visit Us</h3>
+        <p>Kathmandu, Nepal</p>
+        <p>Bagmati Province</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="bi bi-telephone"></i>
+        </div>
+        <h3>Call Us</h3>
+        <p>+977 98XXXXXXXX</p>
+        <p>Sun - Fri: 10AM - 6PM</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="bi bi-envelope"></i>
+        </div>
+        <h3>Email Us</h3>
+        <p>prekshaaclothing&#64;gmail.com</p>
+        <p>We reply within 24 hours</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="bi bi-instagram"></i>
+        </div>
+        <h3>Follow Us</h3>
+        <p>&#64;prekshafashion</p>
+        <p>DM for quick response</p>
+      </div>
+    </div>
+
+    <!-- Contact Form Section -->
+    <div class="contact-form-section">
+      <div class="form-header">
+        <h2>Send us a Message</h2>
+        <p>Fill out the form below and we'll get back to you within 24-48 hours</p>
+      </div>
+
+      @if (submitted) {
+        <div class="success-message">
+          <i class="bi bi-check-circle"></i>
+          <h3>Thank you for reaching out!</h3>
+          <p>We've received your message and will get back to you shortly.</p>
+          <button class="btn-primary" (click)="submitted = false">Send Another Message</button>
+        </div>
+      } @else {
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="name" 
+                formControlName="name" 
+                placeholder="Your full name"
+                [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
+              >
+              @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+                <span class="error-message">Name is required (min 2 characters)</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email" 
+                placeholder="your.email@example.com"
+                [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+              >
+              @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+                <span class="error-message">Valid email is required</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number (Nepal)</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                formControlName="phone" 
+                placeholder="98XXXXXXXX"
+              >
+              @if (contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched) {
+                <span class="error-message">Enter a valid Nepal phone number</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject <span class="required">*</span></label>
+              <select id="subject" formControlName="subject">
+                @for (sub of subjects; track sub.value) {
+                  <option [value]="sub.value">{{ sub.label }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          @if (contactForm.get('subject')?.value === 'order') {
+            <div class="form-group">
+              <label for="orderId">Order ID</label>
+              <input 
+                type="text" 
+                id="orderId" 
+                formControlName="orderId" 
+                placeholder="Enter your order ID (if applicable)"
+              >
+            </div>
+          }
+
+          <div class="form-group">
+            <label for="message">Message <span class="required">*</span></label>
+            <textarea 
+              id="message" 
+              formControlName="message" 
+              rows="6"
+              placeholder="Write your message here..."
+              [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+            ></textarea>
+            <div class="char-count">
+              {{ contactForm.get('message')?.value?.length || 0 }}/2000
+            </div>
+            @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
+              <span class="error-message">Message is required (min 10 characters)</span>
+            }
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+            @if (isSubmitting) {
+              <i class="bi bi-hourglass-split spin"></i> Sending...
+            } @else {
+              <i class="bi bi-send"></i> Send Message
+            }
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

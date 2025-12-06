@@ -1,0 +1,136 @@
+<app-site-header></app-site-header>
+
+<div class="size-guide-page">
+  <!-- Hero -->
+  <section class="size-hero">
+    <h1>Size Guide</h1>
+    <p>Find your perfect fit with our comprehensive size chart</p>
+  </section>
+
+  <div class="container">
+    <!-- How to Measure Section -->
+    <section class="measure-section">
+      <h2><i class="bi bi-rulers"></i> How to Measure</h2>
+      <p class="section-desc">Follow these tips for accurate measurements. All sizes are in inches.</p>
+      
+      <div class="tips-grid">
+        @for (tip of measurementTips; track tip.title) {
+          <div class="tip-card">
+            <div class="tip-icon">
+              <i class="bi {{ tip.icon }}"></i>
+            </div>
+            <h3>{{ tip.title }}</h3>
+            <p>{{ tip.description }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Size Charts -->
+    <section class="charts-section">
+      <div class="tabs">
+        <button 
+          [class.active]="activeTab === 'women'"
+          (click)="activeTab = 'women'"
+        >
+          <i class="bi bi-gender-female"></i> Women's Sizes
+        </button>
+        <button 
+          [class.active]="activeTab === 'men'"
+          (click)="activeTab = 'men'"
+        >
+          <i class="bi bi-gender-male"></i> Men's Sizes
+        </button>
+      </div>
+
+      @if (activeTab === 'women') {
+        <div class="size-chart">
+          <h3>Women's Size Chart (in inches)</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest</th>
+                  <th>Waist</th>
+                  <th>Hips</th>
+                  <th>Length</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (size of womenSizes; track size.size) {
+                  <tr>
+                    <td class="size-col">{{ size.size }}</td>
+                    <td>{{ size.chest }}"</td>
+                    <td>{{ size.waist }}"</td>
+                    <td>{{ size.hips }}"</td>
+                    <td>{{ size.length }}"</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      @if (activeTab === 'men') {
+        <div class="size-chart">
+          <h3>Men's Size Chart (in inches)</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest</th>
+                  <th>Waist</th>
+                  <th>Hips</th>
+                  <th>Length</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (size of menSizes; track size.size) {
+                  <tr>
+                    <td class="size-col">{{ size.size }}</td>
+                    <td>{{ size.chest }}"</td>
+                    <td>{{ size.waist }}"</td>
+                    <td>{{ size.hips }}"</td>
+                    <td>{{ size.length }}"</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </section>
+
+    <!-- Size Tips -->
+    <section class="tips-section">
+      <div class="tips-box">
+        <h3><i class="bi bi-lightbulb"></i> Sizing Tips</h3>
+        <ul>
+          <li><strong>Between sizes?</strong> We recommend sizing up for a more comfortable fit.</li>
+          <li><strong>For a loose fit:</strong> Choose one size larger than your measurements suggest.</li>
+          <li><strong>For a fitted look:</strong> Go with your exact measurements.</li>
+          <li><strong>Still unsure?</strong> Contact us via WhatsApp or Instagram for personalized help!</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contact for Help -->
+    <section class="help-section">
+      <div class="help-content">
+        <i class="bi bi-whatsapp"></i>
+        <div>
+          <h3>Need Help Finding Your Size?</h3>
+          <p>Our team is happy to help! Send us your measurements and we'll recommend the perfect size.</p>
+        </div>
+        <a href="https://wa.me/977XXXXXXXXXX" target="_blank" class="btn-whatsapp">
+          Chat on WhatsApp
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>

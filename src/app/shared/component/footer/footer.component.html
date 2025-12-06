@@ -6,7 +6,7 @@
           <div class="col-xl-3 col-md-6 col-12">
             <div class="footer-infor">
               <div class="footer-logo">
-                <a href="#">
+                <a href="javascript:void(0)">
                   <img src="images/logo/logo.svg" alt="" />
                 </a>
               </div>
@@ -16,14 +16,14 @@
                 </li>
                 <li>
                   <p>
-                    Email: <a href="#">{{ email }}</a>
+                    Email: <a href="javascript:void(0)">{{ email }}</a>
                   </p>
                 </li>
                 <li>
-                  <p>Phone: <a href="#">(+977) 9768760428</a></p>
+                  <p>Phone: <a href="javascript:void(0)">(+977) 9768760428</a></p>
                 </li>
               </ul>
-              <a href="#" class="tf-btn btn-line"
+              <a href="javascript:void(0)" class="tf-btn btn-line"
                 >Get direction<i class="icon icon-arrow1-top-left"></i
               ></a>
               <ul class="tf-social-icon d-flex gap-10">
@@ -36,7 +36,7 @@
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     class="box-icon w_34 round social-twiter social-line"
                     ><i class="icon fs-12 icon-Icon-x"></i
                   ></a>
@@ -57,7 +57,7 @@
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     class="box-icon w_34 round social-pinterest social-line"
                     ><i class="icon fs-14 icon-pinterest-1"></i
                   ></a>
@@ -74,25 +74,25 @@
             </div>
             <ul class="footer-menu-list tf-collapse-content">
               <li>
-                <a href="#" class="footer-menu_item">Privacy Policy</a>
+                <a href="javascript:void(0)" class="footer-menu_item">Privacy Policy</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item"> Returns + Exchanges </a>
+                <a href="javascript:void(0)" class="footer-menu_item"> Returns + Exchanges </a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Shipping</a>
+                <a href="javascript:void(0)" class="footer-menu_item">Shipping</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Terms &amp; Conditions</a>
+                <a href="javascript:void(0)" class="footer-menu_item">Terms &amp; Conditions</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">FAQ’s</a>
+                <a href="javascript:void(0)" class="footer-menu_item">FAQ’s</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Compare</a>
+                <a href="javascript:void(0)" class="footer-menu_item">Compare</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">My Wishlist</a>
+                <a href="javascript:void(0)" class="footer-menu_item">My Wishlist</a>
               </li>
             </ul>
           </div>
@@ -105,16 +105,16 @@
             </div>
             <ul class="footer-menu-list tf-collapse-content">
               <li>
-                <a href="#" class="footer-menu_item">Our Story</a>
+                <a routerLink="/about" class="footer-menu_item">Our Story</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Visit Our Store</a>
+                <a routerLink="/products" class="footer-menu_item">Shop Now</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Contact Us</a>
+                <a routerLink="/contact" class="footer-menu_item">Contact Us</a>
               </li>
               <li>
-                <a href="#" class="footer-menu_item">Account</a>
+                <a routerLink="/profile" class="footer-menu_item">Account</a>
               </li>
             </ul>
           </div>
@@ -133,11 +133,7 @@
                 </div>
                 <form
                   class="form-newsletter subscribe-form"
-                  id=""
-                  action="#"
-                  method="post"
-                  accept-charset="utf-8"
-                  data-mailchimp="true"
+                  (ngSubmit)="subscribeNewsletter()"
                 >
                   <div class="subscribe-content">
                     <fieldset class="email">
@@ -146,17 +142,25 @@
                         name="email-form"
                         class="subscribe-email"
                         placeholder="Enter your email...."
+                        [(ngModel)]="newsletterEmail"
+                        [disabled]="isSubscribing"
                         tabindex="0"
                         aria-required="true"
                       />
                     </fieldset>
                     <div class="button-submit">
                       <button
-                        id=""
                         class="subscribe-button tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn"
-                        type="button"
+                        type="submit"
+                        [disabled]="isSubscribing"
                       >
-                        Subscribe<i class="icon icon-arrow1-top-left"></i>
+                        @if (isSubscribing) {
+                          Subscribing...
+                        } @else if (subscribeSuccess) {
+                          Subscribed! ✓
+                        } @else {
+                          Subscribe<i class="icon icon-arrow1-top-left"></i>
+                        }
                       </button>
                     </div>
                   </div>

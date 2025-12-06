@@ -1,42 +1,44 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  inject,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { SiteHeaderComponent } from '../../../shared/component/site-header/site-header.component';
-import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
-import { IWishlistList } from '../../../core/services/wishlist/wishlist.interface';
-import { JsonPipe } from '@angular/common';
 import { FooterComponent } from '../../../shared/component/footer/footer.component';
-import { Subscription } from 'rxjs';
+import { WishlistService } from '../../../core/services/wishlist/wishlist.service';
 import { CartService } from '../../../core/services/cart/cart.service';
+import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [SiteHeaderComponent],
+  imports: [CommonModule, RouterLink, SiteHeaderComponent, FooterComponent],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.scss',
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class WishlistComponent {
-  mainImage: string = '';
-  quantity: number = 1; // Default quantity
-  currentIndex: number = 0; // To track the current image index
-  wishlist: any[] = [];
-  selectedProduct: any;
-  private subscription!: Subscription;
+export class WishlistComponent implements OnInit, OnDestroy {
+  private wishlistService = inject(WishlistService);
+  private cartService = inject(CartService);
+  private snackBar = inject(MatSnackBar);
 
-  constructor(
-    private wishlistService: WishlistService,
-    private cartService: CartService
-  ) {}
+  wishlist: any[] = [];
+  isLoading = true;
+  private subscription!: Subscription;
 
   ngOnInit(): void {
     this.subscription = this.wishlistService.wishlist$.subscribe((items) => {
       this.wishlist = items;
+      this.isLoading = false;
     });
-    this.mainImage = this.selectedProduct?.imageUrls[0];
+
+    // Try to load from API if logged in
+    this.wishlistService.loadFromApi().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -44,54 +46,46 @@ export class WishlistComponent {
       this.subscription.unsubscribe();
     }
   }
-  setSelectedProduct(product: any) {
-    this.selectedProduct = product;
-    console.log('Selected Product:', this.selectedProduct);
-  }
-  prevImage(): void {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    } else {
-      this.currentIndex = this.selectedProduct.imageUrls.length - 1; // Loop to the last image
-    }
-    this.mainImage = this.selectedProduct.imageUrls[this.currentIndex];
+
+  removeFromWishlist(productId: string): void {
+    this.wishlistService.removeFromWishlist(productId);
+    this.showNotification('Item removed from wishlist');
   }
 
-  // Function to go to the next image
-  nextImage(): void {
-    if (this.currentIndex < this.selectedProduct.imageUrls.length - 1) {
-      this.currentIndex++;
-    } else {
-      this.currentIndex = 0; // Loop back to the first image
-    }
-    this.mainImage = this.selectedProduct.imageUrls[this.currentIndex];
-  }
-  onSizeChange(size: string): void {
-    this.selectedProduct.selectedSize = size;
-  }
-  addToCart(item: any) {
-    const newItem = {
-      productId: item.productId,
+  addToCart(item: any): void {
+    const product = {
+      productId: item.productId || item._id,
       productName: item.productName,
-      imageUrls: item.imageUrls,
-      qty: item.qty,
+      price: item.price,
+      imageUrls: item.imageUrls || [item.image]
     };
-
-    // this.cartService.addToCart(
-    //   newItem,
-    //   this.quantity,
-    //   item.selectedSize
-    // ); // Add 2 units of the product
-    // console.log('qunatity', item);
+    const quantity = 1;
+    const selectedSize = item.sizes?.[0] || 'M';
+    this.cartService.addToCart(product, quantity, selectedSize);
+    this.showNotification('Item added to cart');
   }
 
-  addQunatity(): void {
-    this.quantity += 1;
+  addAllToCart(): void {
+    this.wishlist.forEach(item => this.addToCart(item));
+    this.showNotification(`${this.wishlist.length} items added to cart`);
   }
 
-  decreaseQunatity(): void {
-    if (this.quantity > 1) {
-      this.quantity -= 1;
+  clearWishlist(): void {
+    if (confirm('Are you sure you want to clear your wishlist?')) {
+      this.wishlistService.clearWishlist();
+      this.showNotification('Wishlist cleared');
     }
+  }
+
+  get totalValue(): number {
+    return this.wishlist.reduce((sum, item) => sum + (item.price || 0), 0);
+  }
+
+  private showNotification(message: string): void {
+    this.snackBar.open(message, '✕', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
   }
 }

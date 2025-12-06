@@ -1,7 +1,314 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Global Theme Variables - Minimal Soft Design
+:root {
+    --primary: #111111;
+    --primary-soft: #f8f9fa;
+    --accent: #6366f1;
+    --accent-light: #eef2ff;
+    --success: #10b981;
+    --success-light: #ecfdf5;
+    --warning: #f59e0b;
+    --warning-light: #fffbeb;
+    --danger: #ef4444;
+    --danger-light: #fef2f2;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// Global Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+// Global Button Styles
+.btn-soft {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+
+    &.btn-primary {
+        background: var(--primary);
+        color: #fff;
+
+        &:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+    }
+
+    &.btn-accent {
+        background: var(--accent);
+        color: #fff;
+
+        &:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+    }
+
+    &.btn-outline {
+        background: transparent;
+        border: 1.5px solid var(--border);
+        color: var(--text-primary);
+
+        &:hover {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+    }
+
+    &.btn-ghost {
+        background: transparent;
+        color: var(--text-secondary);
+
+        &:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+    }
+}
+
+// Global Card Styles
+.card-soft {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+
+    &:hover {
+        box-shadow: var(--shadow-md);
+    }
+}
+
+// Global Input Styles
+.input-soft {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: var(--transition);
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    &::placeholder {
+        color: var(--text-muted);
+    }
+}
+
+// Global Badge Styles
+.badge-soft {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+
+    &.badge-success {
+        background: var(--success-light);
+        color: var(--success);
+    }
+
+    &.badge-warning {
+        background: var(--warning-light);
+        color: var(--warning);
+    }
+
+    &.badge-danger {
+        background: var(--danger-light);
+        color: var(--danger);
+    }
+
+    &.badge-accent {
+        background: var(--accent-light);
+        color: var(--accent);
+    }
+}
+
+// Global Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// Utility Classes
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 0.4s ease-out;
+}
+
+.animate-scaleIn {
+    animation: scaleIn 0.3s ease-out;
+}
+
+/* Custom Material Dialog Styles */
+.custom-dialog {
+    .mat-mdc-dialog-container {
+        --mdc-dialog-container-shape: 16px;
+        padding: 0;
+    }
+
+    .mat-mdc-dialog-surface {
+        border-radius: 16px !important;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+/* Ensure dialog appears centered immediately */
+.cdk-overlay-pane {
+    max-width: 95vw !important;
+}
+
+.cdk-global-overlay-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Scrollbar Styles
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 4px;
+
+    &:hover {
+        background: var(--text-secondary);
+    }
+}

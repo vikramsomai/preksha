@@ -1,0 +1,309 @@
+// Minimal Soft Theme Variables
+$primary: #111111;
+$accent: #6366f1;
+$accent-light: #eef2ff;
+$main: #1e293b;
+$white: #ffffff;
+$text: #64748b;
+$text-muted: #94a3b8;
+$border: #e2e8f0;
+$bg-primary: #ffffff;
+$bg-secondary: #f8fafc;
+$success: #10b981;
+$danger: #ef4444;
+$radius: 16px;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+.contact-page {
+    min-height: 100vh;
+    background: $bg-secondary;
+}
+
+.contact-hero {
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 15%) 100%);
+    padding: 80px 20px;
+    text-align: center;
+    color: $white;
+
+    .hero-content {
+        max-width: 600px;
+        margin: 0 auto;
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+    }
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.contact-info-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+
+    @media (max-width: 991px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-card {
+    background: $white;
+    border-radius: $radius;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: $shadow-md;
+    transition: $transition;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: $accent-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+
+        i {
+            font-size: 28px;
+            color: $accent;
+        }
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 14px;
+        color: $text;
+        margin: 4px 0;
+        line-height: 1.5;
+    }
+}
+
+.contact-form-section {
+    background: $white;
+    border-radius: $radius;
+    padding: 48px;
+    box-shadow: $shadow-md;
+
+    @media (max-width: 576px) {
+        padding: 24px;
+    }
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: $main;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 16px;
+        color: $text;
+    }
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: $main;
+        margin-bottom: 8px;
+
+        .required {
+            color: $danger;
+        }
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 15px;
+        border: 1.5px solid $border;
+        border-radius: 12px;
+        background: $bg-secondary;
+        color: $main;
+        transition: $transition;
+
+        &:focus {
+            outline: none;
+            border-color: $accent;
+            background: $white;
+            box-shadow: 0 0 0 4px rgba($accent, 0.1);
+        }
+
+        &.error {
+            border-color: $danger;
+            background: rgba($danger, 0.02);
+        }
+
+        &::placeholder {
+            color: $text-muted;
+        }
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+    }
+
+    .char-count {
+        position: absolute;
+        right: 12px;
+        bottom: -20px;
+        font-size: 12px;
+        color: $text-muted;
+    }
+
+    .error-message {
+        display: block;
+        font-size: 12px;
+        color: $danger;
+        margin-top: 6px;
+    }
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    color: $white;
+    background: $primary;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: $transition;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    &:hover:not(:disabled) {
+        background: lighten($primary, 10%);
+        transform: translateY(-2px);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    i {
+        font-size: 18px;
+    }
+
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+}
+
+.success-message {
+    text-align: center;
+    padding: 60px 20px;
+
+    i {
+        font-size: 64px;
+        color: $success;
+        margin-bottom: 24px;
+    }
+
+    h3 {
+        font-size: 24px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 16px;
+        color: $text;
+        margin-bottom: 32px;
+    }
+
+    .btn-primary {
+        padding: 14px 32px;
+        font-size: 15px;
+        font-weight: 600;
+        color: $white;
+        background: $primary;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: $transition;
+
+        &:hover {
+            background: lighten($primary, 10%);
+        }
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

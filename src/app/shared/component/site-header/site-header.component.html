@@ -42,7 +42,10 @@
             <div class="swiper-slide">
               <p class="top-bar-text fw-5">
                 Spring Fashion Sale
-                <a href="#" title="all collection" class="tf-btn btn-line"
+                <a
+                  routerLink="/products"
+                  title="all collection"
+                  class="tf-btn btn-line"
                   >Shop now<i class="icon icon-arrow1-top-left"></i
                 ></a>
               </p>
@@ -204,9 +207,9 @@
 <!-- toolbar-bottom -->
 <div class="tf-toolbar-bottom type-1150">
   <div class="toolbar-item">
+    <!-- href="#toolbarShopmb" -->
     <a
-      href="#toolbarShopmb"
-      onclick="location.href='/'"
+      routerLink="/products"
       data-bs-toggle="offcanvas"
       aria-controls="offcanvasLeft"
     >
@@ -308,7 +311,7 @@
             </span>
           </div>
           <div class="tf-progress-msg">
-            Buy <span class="price fw-6">NPR. 4000</span> more to enjoy
+            Buy <span class="price fw-6">&#8377; 4000</span> more to enjoy
             <span class="fw-6">Free Shipping</span>
           </div>
         </div>
@@ -317,14 +320,12 @@
           <div class="tf-mini-cart-main">
             <div class="tf-mini-cart-sroll">
               <div class="tf-mini-cart-items">
-                @for(item of newCartList;track item){
+                @for(item of cartlist;track item){
                 <div class="tf-mini-cart-item">
                   <div class="tf-mini-cart-image">
                     <a href="#">
                       <img
-                        [src]="
-                          'http://localhost:5000/' + item.product?.imageUrls[0]
-                        "
+                        [src]="imagePath + item.product?.imageUrls[0]"
                         alt=""
                       />
                     </a>
@@ -333,7 +334,7 @@
                     <a class="title link">{{ item.product?.productName }}</a>
                     <!-- <div class="meta-variant">{{ item.product?.color }}</div> -->
                     <div class="price fw-6">
-                      NPR.
+                      &#8377;
                       {{ item.product?.price }}
                     </div>
                     <div class="price">
@@ -430,7 +431,7 @@
               <div class="tf-cart-totals-discounts">
                 <div class="tf-cart-total">Subtotal</div>
                 <div class="tf-totals-total-value fw-6">
-                  NPR. {{ this.cartService.getTotalCost() }}
+                  &#8377; {{ this.cartService.getTotalCost() }}
                 </div>
               </div>
               <div class="tf-cart-tax">
@@ -548,7 +549,7 @@
                   <div class="tf-gift-wrap-infos">
                     <p>Do you want a gift wrap?</p>
                     Only
-                    <span class="price fw-6">NPR. 4000</span>
+                    <span class="price fw-6">&#8377; 4000</span>
                   </div>
                 </div>
                 <div class="tf-cart-tool-btns">
@@ -633,7 +634,10 @@
             </div>
             <div class="tf-search-hidden-inner">
               @for (item of productData | searchItem:searchItem; track item) {
-              <div class="tf-loop-item">
+              <div
+                class="tf-loop-item"
+                routerLink="/products/{{ item.productId }}"
+              >
                 <div class="image">
                   <a>
                     <img src="{{ imagePath }}{{ item.imageUrls[0] }}" alt="" />
@@ -656,3 +660,69 @@
   </div>
 </div>
 <!-- /canvasSearch -->
+<!-- mobile menu -->
+<div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+  <span
+    class="icon-close icon-close-popup"
+    data-bs-dismiss="offcanvas"
+    aria-label="Close"
+  ></span>
+  <div class="mb-canvas-content">
+    <div class="mb-body">
+      <div class="mb-other-content">
+        <div class="d-flex group-icon">
+          <a href="#" class="site-nav-icon"
+            ><i class="icon icon-heart"></i>Wishlist</a
+          >
+          <a href="#" class="site-nav-icon"
+            ><i class="icon icon-search"></i>Search</a
+          >
+        </div>
+        <div class="mb-notice">
+          <a href="#" class="text-need">Need help ?</a>
+        </div>
+        <ul class="mb-info">
+          <li>Address:Kathmandu, <br /></li>
+          <li>Email: {{ email }} <b></b></li>
+          <li>Phone: <b>(+977) 9768760428</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mb-bottom">
+      @if(authService.isAuthenticated()){
+      <a href="#" class="site-nav-icon"
+        ><i class="icon icon-account"></i>Logout</a
+      >
+      } @else {
+      <a href="#" class="site-nav-icon"
+        ><i class="icon icon-account"></i>Login</a
+      >
+      }
+
+      <!-- <div class="bottom-bar-language">
+        <div class="tf-currencies">
+          <select class="image-select center style-default type-currencies">
+            <option data-thumbnail="assets/images/country/fr.svg">
+              EUR <span>€ | France</span>
+            </option>
+            <option data-thumbnail="assets/images/country/de.svg">
+              EUR <span>€ | Germany</span>
+            </option>
+            <option selected data-thumbnail="assets/images/country/us.svg">
+              USD <span>$ | United States</span>
+            </option>
+            <option data-thumbnail="assets/images/country/vn.svg">
+              VND <span>₫ | Vietnam</span>
+            </option>
+          </select>
+        </div>
+        <div class="tf-languages">
+          <select class="image-select center style-default type-languages">
+            <option>English</option>
+          </select>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<!-- /mobile menu -->

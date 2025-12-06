@@ -1,77 +1,114 @@
-<app-site-header></app-site-header>
-<div class="container-login">
-  <div class="login-form">
-    <div class="modal-content">
-      <div class="header">
-        <div class="demo-title">
-          <h1 class="login-admin">Log in</h1>
+<div class="login-page">
+  <app-site-header></app-site-header>
+  
+  <div class="login-container">
+    <div class="login-wrapper">
+      <!-- Left Side - Branding -->
+      <div class="login-branding">
+        <div class="brand-logo">
+          <i class="bi bi-bag-heart"></i>
+          <span>Preksha Fashion</span>
         </div>
-        <div style="color: red; text-align: center">
-          {{ loginError }}
-        </div>
+        <h2>Welcome Back!</h2>
+        <p>Sign in to access your account and continue shopping with us.</p>
+        
+        <ul class="features">
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Track your orders easily</span>
+          </li>
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Save your favorite items</span>
+          </li>
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Faster checkout experience</span>
+          </li>
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Exclusive member offers</span>
+          </li>
+        </ul>
       </div>
-      <div class="tf-login-form">
-        <form class="" [formGroup]="loginForm" accept-charset="utf-8">
-          <div class="tf-field style-1">
-            <input
-              class="tf-field-input tf-input"
-              placeholder=" "
-              type="email"
-              formControlName="email"
-              name=""
-            />
-            <label class="tf-field-label" for="">Email *</label>
-            <app-form-error
-              errorMessages="Please enter email"
-              [control]="loginForm.get('email')"
-            ></app-form-error>
+
+      <!-- Right Side - Form -->
+      <div class="login-form-section">
+        <div class="form-header">
+          <h1>Log In</h1>
+          <p>Enter your credentials to access your account</p>
+        </div>
+
+        @if (loginError) {
+          <div class="error-alert">
+            <i class="bi bi-exclamation-circle"></i>
+            <span>{{ loginError }}</span>
           </div>
-          <div class="tf-field style-1">
-            <input
-              class="tf-field-input tf-input"
-              placeholder=" "
-              type="password"
-              formControlName="password"
-              name=""
-            />
-            <label class="tf-field-label" for="">Password *</label>
-            <app-form-error
-              errorMessages="Please enter password"
-              [control]="loginForm.get('password')"
-            ></app-form-error>
-          </div>
-          <div>
-            <a
-              href="#forgotPassword"
-              data-bs-toggle="modal"
-              class="btn-link link mt-2"
-              >Forgot your password?</a
-            >
-          </div>
-          <div class="bottom mt-2">
-            <div class="w-100">
-              <button
-                type="submit"
-                (click)="handleLogin()"
-                class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-              >
-                <span>Log in</span>
-              </button>
+        }
+
+        <form class="login-form" [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="bi bi-envelope"></i>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="Enter your email"
+              />
             </div>
-            <div class="w-100 mt-2">
-              <a
-                routerLink="/register"
-                data-bs-toggle="modal"
-                class="btn-link fw-6 w-100 link"
-              >
-                New customer? Create your account
-                <i class="icon icon-arrow1-top-left"></i>
-              </a>
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+              <div class="error-message">
+                <i class="bi bi-exclamation-circle"></i>
+                Please enter a valid email address
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <i class="bi bi-lock"></i>
+              <input
+                id="password"
+                type="password"
+                formControlName="password"
+                placeholder="Enter your password"
+              />
             </div>
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+              <div class="error-message">
+                <i class="bi bi-exclamation-circle"></i>
+                Password is required
+              </div>
+            }
+          </div>
+
+          <div class="form-options">
+            <a href="#forgotPassword" class="forgot-link" data-bs-toggle="modal">
+              Forgot password?
+            </a>
+          </div>
+
+          <button type="submit" class="submit-btn" [disabled]="isLoading">
+            @if (isLoading) {
+              <span class="spinner"></span>
+              <span>Signing in...</span>
+            } @else {
+              <span>Sign In</span>
+              <i class="bi bi-arrow-right"></i>
+            }
+          </button>
+
+          <div class="register-link">
+            Don't have an account?
+            <a routerLink="/register">Create one now</a>
           </div>
         </form>
       </div>
     </div>
   </div>
+
+  <app-footer></app-footer>
 </div>
-<app-footer></app-footer>

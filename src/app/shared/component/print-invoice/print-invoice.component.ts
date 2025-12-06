@@ -25,7 +25,6 @@ export class PrintInvoiceComponent {
     if (orderId) {
       this.orderService.getOrderById(orderId).subscribe((data) => {
         this.order.push({ ...data });
-        console.log('print data', this.order);
         this.ordersData = this.order[0][0];
       });
     }

@@ -7,7 +7,7 @@ import { HomeComponent } from './features/home/home.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

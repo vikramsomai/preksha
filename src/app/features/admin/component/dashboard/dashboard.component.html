@@ -1,191 +1,143 @@
-<main class="py-6 bg-surface-secondary">
-  <div class="container-fluid">
-    <!-- Card stats -->
-    <div class="row g-6 mb-6">
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                  >Total Sales</span
-                >
-                <span class="h3 font-bold mb-0"
-                  >NPR. {{ getTotalOrderAmount() }}</span
-                >
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-tertiary text-white text-lg rounded-circle"
-                >
-                  <i class="bi bi-credit-card"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>13%
-              </span>
-              <span class="text-nowrap text-xs text-muted"
-                >Since last month</span
-              >
-            </div>
-          </div>
-        </div>
+<div class="dashboard-container">
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card sales">
+      <div class="stat-icon">
+        <i class="bi bi-currency-rupee"></i>
       </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                  >Inventory Status</span
-                >
-                <span class="h3 font-bold mb-0">{{ getTotalStock() }}</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-primary text-white text-lg rounded-circle"
-                >
-                  <i class="bi bi-people"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>30%
-              </span>
-              <span class="text-nowrap text-xs text-muted"
-                >Since last month</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                  >Orders Overview</span
-                >
-                <span class="h3 font-bold mb-0">{{ getTotalOrders() }}</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-info text-white text-lg rounded-circle"
-                >
-                  <i class="bi bi-clock-history"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-danger text-danger me-2">
-                <i class="bi bi-arrow-down me-1"></i>-5%
-              </span>
-              <span class="text-nowrap text-xs text-muted"
-                >Since last month</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">
-                  Top-Selling Products</span
-                >
-                <span class="h4 font-bold mb-0">{{
-                  topSelling?.productName
-                }}</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-warning text-white text-lg rounded-circle"
-                >
-                  <i class="bi bi-minecart-loaded"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>10%
-              </span>
-              <span class="text-nowrap text-xs text-muted"
-                >Since last month</span
-              >
-            </div>
-          </div>
+      <div class="stat-content">
+        <span class="stat-label">Total Sales</span>
+        <span class="stat-value">NPR {{ getTotalOrderAmount() | number }}</span>
+        <div class="stat-trend positive">
+          <i class="bi bi-arrow-up"></i>
+          <span>13% from last month</span>
         </div>
       </div>
     </div>
-    <div class="card shadow border-0 mb-7">
-      <!-- <div class="card-header">
-        <h5 class="mb-0">Top products</h5>
-      </div> -->
 
-
-
-
-      
-      <div class="table-responsive">
-        <table class="table table-hover table-nowrap">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Product name</th>
-              <th scope="col">Payment Method</th>
-              <th scope="col">Total Amount</th>
-              <th scope="col">Date</th>
-              <th scope="col">Address</th>
-              <th scope="col">Province</th>
-              <th scope="col">Payment status</th>
-              <th scope="col">Order status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(order of orderData;track order){
-            <tr>
-              <td>
-                @for(product of order?.products;track product){
-                {{ product?.name }} × {{ product?.quantity }}
-                {{ product?.size }}
-                }
-              </td>
-              <td>{{ order.payment.method }}</td>
-              <td>{{ order.totalAmount }}</td>
-              <td>{{ order.createdAt | date : "shortDate" }}</td>
-              <td>{{ order.shippingAddress.address }}</td>
-              <td>{{ order.shippingAddress.province }}</td>
-              <td>{{ order.payment.status }}</td>
-              <td>
-                <div class="order-actions">
-                  <select
-                    class="order-status"
-                    [(ngModel)]="order.status"
-                    (change)="statusChange(order.orderId, $event)"
-                  >
-                    <option value="Order Placed">Order Placed</option>
-                    <option value="Packed">Packed</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
+    <div class="stat-card inventory">
+      <div class="stat-icon">
+        <i class="bi bi-box-seam"></i>
       </div>
-      <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm"
-          >Showing 10 items out of 250 results found</span
-        >
+      <div class="stat-content">
+        <span class="stat-label">Total Inventory</span>
+        <span class="stat-value">{{ getTotalStock() | number }}</span>
+        <div class="stat-trend positive">
+          <i class="bi bi-arrow-up"></i>
+          <span>Items in stock</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card orders">
+      <div class="stat-icon">
+        <i class="bi bi-bag-check"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Total Orders</span>
+        <span class="stat-value">{{ getTotalOrders() }}</span>
+        <div class="stat-trend neutral">
+          <i class="bi bi-dash"></i>
+          <span>All time orders</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card bestseller">
+      <div class="stat-icon">
+        <i class="bi bi-trophy"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Top Selling</span>
+        <span class="stat-value-text">{{ topSelling?.productName || 'N/A' }}</span>
+        <div class="stat-trend positive">
+          <i class="bi bi-fire"></i>
+          <span>Most popular item</span>
+        </div>
       </div>
     </div>
   </div>
-</main>
+
+  <!-- Recent Orders Section -->
+  <div class="orders-section">
+    <div class="section-header">
+      <h2><i class="bi bi-clock-history"></i> Recent Orders</h2>
+      <span class="order-count">{{ orderData.length }} orders</span>
+    </div>
+
+    <div class="orders-table-wrapper">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orderData; track order) {
+            <tr>
+              <td class="product-cell">
+                <div class="product-info">
+                  @for (product of order.products; track product) {
+                    <span class="product-item">{{ product.name }} × {{ product.quantity }}</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <div class="customer-info">
+                  <span class="customer-name">{{ order.user.firstName }} {{ order.user.lastName }}</span>
+                  <span class="customer-location">{{ order.shippingAddress.province }}</span>
+                </div>
+              </td>
+              <td class="amount-cell">
+                <strong>NPR {{ order.totalAmount | number }}</strong>
+              </td>
+              <td class="date-cell">
+                {{ order.createdAt | date: 'MMM d, y' }}
+              </td>
+              <td>
+                <span class="payment-badge" [class]="order.payment.method.toLowerCase()">
+                  {{ order.payment.method }}
+                </span>
+                <span class="payment-status" [class]="order.payment.status.toLowerCase()">
+                  {{ order.payment.status }}
+                </span>
+              </td>
+              <td>
+                <select
+                  class="status-select"
+                  [(ngModel)]="order.status"
+                  (change)="statusChange(order.orderId, $event)"
+                  [class]="getStatusClass(order.status)"
+                >
+                  <option value="Order Placed">Order Placed</option>
+                  <option value="Packed">Packed</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Out for Delivery">Out for Delivery</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              </td>
+              <td>
+                <button class="view-btn" [routerLink]="['/', 'print', order.orderId]" title="View Invoice">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p>No orders yet</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,27 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../../../core/services/orders/orders.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order-item',
   standalone: true,
-  imports: [DatePipe, FormsModule, RouterLink],
+  imports: [DatePipe, FormsModule, RouterLink, CommonModule],
   templateUrl: './order-item.component.html',
   styleUrl: './order-item.component.scss',
 })
-export class OrderItemComponent {
+export class OrderItemComponent implements OnInit {
   orderList: any[] = [];
-  constructor(private orderService: OrdersService) {}
+  isLoading = true;
+
+  constructor(private orderService: OrdersService) { }
+
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.orderService.getProducts().subscribe((res) => {
-      console.log(res);
-      this.orderList = res;
+    this.loadOrders();
+  }
+
+  loadOrders(): void {
+    this.isLoading = true;
+    this.orderService.getProducts().subscribe({
+      next: (res) => {
+        // Handle both response formats
+        this.orderList = res.orders || res;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load orders', err);
+        this.isLoading = false;
+      }
     });
-    
   }
   statusChange(orderId: any, event: any) {
     const status = event.target.value;

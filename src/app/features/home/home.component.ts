@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   FormBuilder,
   FormControl,
@@ -47,14 +48,19 @@ export class HomeComponent implements OnInit {
   wishlist: IWishlistList[] = [];
   cartlist: any[] = [];
   newCartList: any[] = [];
+  showCartNotification = false;
+  private isBrowser: boolean;
+
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
     public cartService: CartService,
     private uploadService: UploadService,
     private wishlistService: WishlistService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.cartForm = this.fb.group({
       color: new FormControl('', Validators.required),
       size: new FormControl('', Validators.required),
@@ -155,6 +161,39 @@ export class HomeComponent implements OnInit {
       item.selectedSize = 'S';
     }
     this.cartService.addToCart(item, this.quantity, item.selectedSize);
+
+    // Close any open modals
+    if (this.isBrowser) {
+      const modals = document.querySelectorAll('.modal.show');
+      modals.forEach((modal: any) => {
+        const bootstrapModal = (window as any).bootstrap?.Modal?.getInstance(modal);
+        if (bootstrapModal) {
+          bootstrapModal.hide();
+        }
+      });
+      // Remove backdrop if still visible
+      setTimeout(() => {
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }, 300);
+    }
+
+    // Show notification
+    this.showCartNotification = true;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.showCartNotification = false;
+      this.cdr.detectChanges();
+    }, 3000);
+
+    // Reset quantity
+    this.quantity = 1;
   }
 
   addItem(item: any): void {
@@ -199,16 +238,50 @@ export class HomeComponent implements OnInit {
   removeCartItem(productId: any, selectedSize: any) {
     this.cartService.removeFromCart(productId, selectedSize);
   }
-  changeGender(event: any) {
-    console.log('changes');
-    console.log(event.target.value);
+
+  // Mobile filter properties
+  showMobileFilter = false;
+  activeFilterCount = 0;
+  selectedGender = '';
+  selectedPriceRange = '';
+
+  toggleMobileFilter(): void {
+    this.showMobileFilter = !this.showMobileFilter;
   }
+
+  updateFilterCount(): void {
+    let count = 0;
+    if (this.selectedGender) count++;
+    if (this.selectedFilterCategory) count++;
+    if (this.selectedPriceRange) count++;
+    this.activeFilterCount = count;
+  }
+
+  changeGender(event: any) {
+    this.selectedGender = event.target.value;
+    this.updateFilterCount();
+  }
+
   chnageCategory(event: any) {
     this.selectedFilterCategory = event.target.value;
+    this.updateFilterCount();
   }
+
   changePriceRange(event: any) {
-    console.log(event);
+    this.selectedPriceRange = event.target.value;
+    this.updateFilterCount();
   }
+
+  clearFilters(gender: any, category: any, priceRange: any): void {
+    gender.value = '';
+    category.value = '';
+    priceRange.value = '';
+    this.selectedGender = '';
+    this.selectedFilterCategory = '';
+    this.selectedPriceRange = '';
+    this.activeFilterCount = 0;
+  }
+
   showDisocuntPrice(price: number, discount: number): number {
     let fakePrice = price + (price * discount) / 100;
     return Math.round(fakePrice); // Rounded for better display

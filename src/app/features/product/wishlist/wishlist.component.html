@@ -1,273 +1,114 @@
 <app-site-header></app-site-header>
-<h3 style="padding: 5px; margin-left: 10px; font-size: 28px">
-  My wishlist {{ wishlist.length }} items
-</h3>
 
-<div class="grid-layout" data-grid="grid-4">
-  @for (item of wishlist; track item) {
-  <div class="card-product fl-item">
-    <div class="card-product-wrapper">
-      <a class="product-img">
-        <img
-          class="lazyload img-product"
-          [src]="'http://localhost:5000/' + item?.imageUrls[0]"
-          data-src="{{ item?.imageUrls[0] }}"
-          alt="image-product"
-        />
-        <img
-          class="img-hover"
-          [src]="'http://localhost:5000/' + item?.imageUrls[1]"
-          alt="image-product"
-        />
+<div class="wishlist-wrapper">
+  <div class="wishlist-breadcrumb">
+    <a routerLink="/">Home</a>
+    <i class="bi bi-chevron-right"></i>
+    <span>Wishlist</span>
+  </div>
+
+  <div class="wishlist-header">
+    <div class="header-content">
+      <h1><i class="bi bi-heart-fill"></i> My Wishlist</h1>
+      <p class="wishlist-subtitle">{{ wishlist.length }} item(s) saved</p>
+    </div>
+    
+    @if (wishlist.length > 0) {
+      <div class="header-actions">
+        <button class="add-all-btn" (click)="addAllToCart()">
+          <i class="bi bi-cart-plus"></i>
+          Add All to Cart
+        </button>
+        <button class="clear-btn" (click)="clearWishlist()">
+          <i class="bi bi-trash3"></i>
+          Clear All
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading your wishlist...</p>
+    </div>
+  } @else if (wishlist.length === 0) {
+    <div class="empty-wishlist">
+      <div class="empty-icon">
+        <i class="bi bi-heart"></i>
+      </div>
+      <h2>Your wishlist is empty</h2>
+      <p>Save items you love by clicking the heart icon on products</p>
+      <a routerLink="/products" class="shop-now-btn">
+        <i class="bi bi-bag"></i>
+        Start Shopping
       </a>
-      <div class="list-product-btn">
-        <a
-          href="#quick_add"
-          data-bs-toggle="modal"
-          class="box-icon bg_white quick-add tf-btn-loading"
-        >
-          <span class="icon icon-bag"></span>
-          <span class="tooltip">Quick Add</span>
-        </a>
-        <a class="box-icon bg_white wishlist btn-icon-action">
-          <span class="icon icon-heart"></span>
-          <span class="tooltip">Add to Wishlist</span>
-
-          <span class="icon icon-delete"></span>
-        </a>
-        <a
-          href="#quick_view"
-          data-bs-toggle="modal"
-          (click)="setSelectedProduct(item)"
-          class="box-icon bg_white quickview tf-btn-loading"
-        >
-          <span class="icon icon-view"></span>
-          <span class="tooltip">Quick View</span>
-        </a>
+    </div>
+  } @else {
+    <div class="wishlist-summary">
+      <div class="summary-card">
+        <i class="bi bi-heart-fill"></i>
+        <div class="summary-info">
+          <span class="summary-value">{{ wishlist.length }}</span>
+          <span class="summary-label">Items Saved</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <i class="bi bi-currency-rupee"></i>
+        <div class="summary-info">
+          <span class="summary-value">NPR {{ totalValue | number }}</span>
+          <span class="summary-label">Total Value</span>
+        </div>
       </div>
     </div>
-  </div>
-  } @empty {
-  <div class="mx-4"><p>Wishlist is empty</p></div>
+
+    <div class="wishlist-grid">
+      @for (item of wishlist; track item.productId) {
+        <div class="wishlist-card">
+          <button class="remove-btn" (click)="removeFromWishlist(item.productId)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+          
+          <a [routerLink]="['/products', item.productId]" class="product-image">
+            <img [src]="item.imageUrls?.[0] || item.image" [alt]="item.productName">
+          </a>
+          
+          <div class="product-info">
+            <span class="product-category">{{ item.category }}</span>
+            <h3 class="product-name">
+              <a [routerLink]="['/products', item.productId]">
+                {{ item.productName }}
+              </a>
+            </h3>
+            <div class="product-price">
+              NPR {{ item.price | number }}
+            </div>
+            
+            @if (item.stock > 0 || item.stock === undefined) {
+              <span class="stock-status in-stock">
+                <i class="bi bi-check-circle"></i> In Stock
+              </span>
+            } @else {
+              <span class="stock-status out-of-stock">
+                <i class="bi bi-x-circle"></i> Out of Stock
+              </span>
+            }
+          </div>
+          
+          <div class="card-actions">
+            <button 
+              class="add-to-cart-btn" 
+              (click)="addToCart(item)"
+              [disabled]="item.stock === 0"
+            >
+              <i class="bi bi-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      }
+    </div>
   }
 </div>
-<div class="modal fade modalDemo" id="quick_view">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="header">
-        <span
-          class="icon-close icon-close-popup"
-          data-bs-dismiss="modal"
-        ></span>
-      </div>
-      <div class="wrap">
-        <div class="tf-product-media-wrap">
-          <div dir="ltr" class="swiper tf-single-slide">
-            <div class="swiper-wrapper">
-              <!-- Dynamically create slides based on selected color -->
-              <!-- @for( color of selectedProduct?.colors;track color;let
-              index=$index){
-              <div class="swiper-slide">
-                <div class="item">
-                  <img
-                    [src]="
-                      color.name === selectedProduct.selectedColor
-                        ? color.image
-                        : color.image
-                    "
-                    alt="{{ color.name }}"
-                  />
-                </div>
-              </div>
-              } -->
 
-              <div class="swiper-slide">
-                <div class="item">
-                  <img
-                    [src]="
-                      'http://localhost:5000/' +
-                      selectedProduct?.imageUrls[currentIndex]
-                    "
-                    alt=""
-                  />
-                </div>
-              </div>
-
-              <div class="swiper-slide">
-                <div class="item">
-                  <img src="{{ selectedProduct?.imageUrls[1] }}" alt="" />
-                </div>
-              </div>
-            </div>
-            <div
-              class="swiper-button-next button-style-arrow single-slide-prev"
-              (click)="prevImage()"
-            ></div>
-            <div
-              class="swiper-button-prev button-style-arrow single-slide-next"
-              (click)="nextImage()"
-            ></div>
-          </div>
-        </div>
-        <div class="tf-product-info-wrap position-relative">
-          <div class="tf-product-info-list">
-            <div class="tf-product-info-title">
-              <h5>
-                <a class="link" href="#">{{ selectedProduct?.productName }}</a>
-              </h5>
-            </div>
-            <div class="tf-product-info-badges">
-              <div class="badges text-uppercase">Best seller</div>
-              <div class="product-status-content">
-                <i class="icon-lightning"></i>
-                <!-- <p class="fw-6">
-                  {{ selectedProduct?.description }}
-                </p> -->
-              </div>
-            </div>
-            <div class="tf-product-info-price">
-              <div class="price">NPR.{{ selectedProduct?.price }}</div>
-            </div>
-            <div class="tf-product-description">
-              <p>
-                {{ selectedProduct?.description }}
-              </p>
-            </div>
-            <div class="tf-product-info-variant-picker">
-              <!-- <div class="variant-picker-item">
-                <div class="variant-picker-label">
-                  Color:
-                  <span class="fw-6 variant-picker-label-value">Orange</span>
-                </div>
-                <div class="variant-picker-values">
-                  @for(color of selectedProduct?.colors;track color){
-                  <input
-                    id="values-{{ color.name | lowercase }}-1"
-                    type="radio"
-                    name="color-1"
-                    value="{{ color.name }}"
-                    [(ngModel)]="selectedProduct.selectedColor"
-                    (click)="onColorChange(color.name)"
-                  />
-                  <label
-                    class="hover-tooltip radius-60"
-                    [for]="'values-' + (color.name | lowercase) + '-1'"
-                    data-value="color.name"
-                  >
-                    <span
-                      class="btn-checkbox bg-color-{{
-                        color.name | lowercase
-                      }}"
-                    ></span>
-                    <span class="tooltip">{{ color.name }}</span>
-                  </label>
-                  }
-                </div>
-              </div> -->
-              <div class="variant-picker-item">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="variant-picker-label">
-                    Size:
-                    <span class="fw-6 variant-picker-label-value">{{
-                      selectedProduct?.selectedSize
-                    }}</span>
-                  </div>
-                  <div class="find-size btn-choose-size fw-6">
-                    Find your size
-                  </div>
-                </div>
-                <div class="variant-picker-values">
-                  <input
-                    type="radio"
-                    name="size-1"
-                    id="values-s-1"
-                    [checked]="selectedProduct?.selectedSize == 'S'"
-                    (click)="onSizeChange('S')"
-                  />
-                  <label class="style-text" for="values-s-1" data-value="S">
-                    <p>S</p>
-                  </label>
-                  <input
-                    type="radio"
-                    name="size-1"
-                    id="values-m-1"
-                    [checked]="selectedProduct?.selectedSize == 'M'"
-                    (click)="onSizeChange('M')"
-                  />
-                  <label class="style-text" for="values-m-1" data-value="M">
-                    <p>M</p>
-                  </label>
-                  <input
-                    type="radio"
-                    name="size-1"
-                    id="values-l-1"
-                    [checked]="selectedProduct?.selectedSize == 'L'"
-                    (click)="onSizeChange('L')"
-                  />
-                  <label class="style-text" for="values-l-1" data-value="L">
-                    <p>L</p>
-                  </label>
-                  <input
-                    type="radio"
-                    name="size-1"
-                    id="values-xl-1"
-                    [checked]="selectedProduct?.selectedSize == 'XL'"
-                    (click)="onSizeChange('XL')"
-                  />
-                  <label class="style-text" for="values-xl-1" data-value="XL">
-                    <p>XL</p>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="tf-product-info-quantity">
-              <div class="quantity-title fw-6">Quantity</div>
-              <div class="wg-quantity">
-                <span
-                  class="btn-quantity minus-btn"
-                  (click)="decreaseQunatity()"
-                  >-</span
-                >
-                <input id="quantity" type="number" value="1" min="1" />
-                <span class="btn-quantity plus-btn" (click)="addQunatity()"
-                  >+</span
-                >
-              </div>
-            </div>
-            <div class="tf-product-info-buy-button">
-              <form class="">
-                <a
-                  (click)="addToCart(selectedProduct)"
-                  class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
-                  ><span>Add to cart -&nbsp;</span
-                  ><span class="tf-qty-price"
-                    >NPR. {{ selectedProduct?.price }}</span
-                  ></a
-                >
-                <a
-                  href="javascript:void(0);"
-                  class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action"
-                >
-                  <span class="icon icon-heart"></span>
-                  <span class="tooltip">Add to Wishlist</span>
-                  <span class="icon icon-delete"></span>
-                </a>
-
-                <div class="w-100">
-                  <a href="#" class="payment-more-option"
-                    >More payment options</a
-                  >
-                </div>
-              </form>
-            </div>
-            <div>
-              <a href="#" class="tf-btn fw-6 btn-line"
-                >View full details<i class="icon icon-arrow1-top-left"></i
-              ></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<app-footer></app-footer>

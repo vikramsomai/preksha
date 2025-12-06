@@ -1,0 +1,332 @@
+// Minimal Soft Theme Variables
+$primary: #111111;
+$accent: #6366f1;
+$accent-light: #eef2ff;
+$main: #1e293b;
+$white: #ffffff;
+$text: #64748b;
+$text-muted: #94a3b8;
+$border: #e2e8f0;
+$bg-primary: #ffffff;
+$bg-secondary: #f8fafc;
+$success: #25d366;
+$radius: 16px;
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+.size-guide-page {
+    min-height: 100vh;
+    background: $bg-secondary;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.size-hero {
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 15%) 100%);
+    padding: 80px 20px;
+    text-align: center;
+    color: $white;
+
+    h1 {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+}
+
+// Measure Section
+.measure-section {
+    padding: 60px 0;
+    text-align: center;
+
+    h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: $main;
+        margin-bottom: 12px;
+
+        i {
+            color: $accent;
+            margin-right: 10px;
+        }
+    }
+
+    .section-desc {
+        font-size: 16px;
+        color: $text;
+        margin-bottom: 40px;
+    }
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tip-card {
+    background: $white;
+    border-radius: $radius;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: $shadow-md;
+
+    .tip-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: $accent-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+
+        i {
+            font-size: 24px;
+            color: $accent;
+        }
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 13px;
+        color: $text;
+        line-height: 1.5;
+    }
+}
+
+// Charts Section
+.charts-section {
+    padding-bottom: 60px;
+}
+
+.tabs {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 32px;
+
+    button {
+        padding: 12px 28px;
+        font-size: 15px;
+        font-weight: 500;
+        color: $text;
+        background: $white;
+        border: 2px solid $border;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: $transition;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        i {
+            font-size: 18px;
+        }
+
+        &:hover {
+            border-color: $accent;
+            color: $accent;
+        }
+
+        &.active {
+            background: $primary;
+            color: $white;
+            border-color: $primary;
+        }
+    }
+}
+
+.size-chart {
+    background: $white;
+    border-radius: $radius;
+    padding: 32px;
+    box-shadow: $shadow-md;
+
+    h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 14px 20px;
+        text-align: center;
+        border-bottom: 1px solid $border;
+    }
+
+    th {
+        background: $bg-secondary;
+        font-size: 14px;
+        font-weight: 600;
+        color: $main;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        font-size: 15px;
+        color: $text;
+    }
+
+    .size-col {
+        font-weight: 700;
+        color: $primary;
+        font-size: 16px;
+    }
+
+    tbody tr {
+        transition: $transition;
+
+        &:hover {
+            background: $accent-light;
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+// Tips Section
+.tips-section {
+    padding-bottom: 60px;
+}
+
+.tips-box {
+    background: $accent-light;
+    border-radius: $radius;
+    padding: 32px;
+    border-left: 4px solid $accent;
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 16px;
+
+        i {
+            color: $accent;
+            margin-right: 8px;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            font-size: 15px;
+            color: $text;
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+
+            &::before {
+                content: '✓';
+                position: absolute;
+                left: 0;
+                color: $accent;
+                font-weight: 700;
+            }
+
+            strong {
+                color: $main;
+            }
+        }
+    }
+}
+
+// Help Section
+.help-section {
+    padding-bottom: 80px;
+}
+
+.help-content {
+    background: $white;
+    border-radius: $radius;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: $shadow-md;
+
+    >i {
+        font-size: 48px;
+        color: $success;
+    }
+
+    div {
+        flex: 1;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: $main;
+            margin-bottom: 6px;
+        }
+
+        p {
+            font-size: 14px;
+            color: $text;
+        }
+    }
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.btn-whatsapp {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    color: $white;
+    background: $success;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: $transition;
+    white-space: nowrap;
+
+    &:hover {
+        background: darken($success, 8%);
+        transform: translateY(-2px);
+    }
+}

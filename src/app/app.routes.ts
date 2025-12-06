@@ -16,6 +16,11 @@ import { FailurePaymentComponent } from './shared/component/failure-payment/fail
 import { PrintInvoiceComponent } from './shared/component/print-invoice/print-invoice.component';
 import { adminAuthGuard } from './core/guards/admin-auth.guard';
 import { CollectionsComponent } from './features/collections/collections.component';
+import { ProductsComponent } from './features/products/products.component';
+import { ViewProductComponent } from './features/products/component/view-product/view-product.component';
+import { ContactComponent } from './features/contact/contact.component';
+import { AboutComponent } from './features/about/about.component';
+import { SizeGuideComponent } from './features/size-guide/size-guide.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +41,14 @@ export const routes: Routes = [
     path: 'register',
     component: UserSignupComponent,
     canActivate: [noAuthGuard],
+  },
+  {
+    path: 'products',
+    component: ProductsComponent,
+  },
+  {
+    path: 'products/:id',
+    component: ViewProductComponent,
   },
   {
     path: 'dashboard',
@@ -79,6 +92,18 @@ export const routes: Routes = [
     component: FailurePaymentComponent,
   },
   { path: 'print/:id', component: PrintInvoiceComponent },
+  {
+    path: 'contact',
+    component: ContactComponent,
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
+    path: 'size-guide',
+    component: SizeGuideComponent,
+  },
   {
     path: '**',
     redirectTo: '',

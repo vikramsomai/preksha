@@ -3,8 +3,9 @@ import { SiteHeaderComponent } from '../../../shared/component/site-header/site-
 import { FooterComponent } from '../../../shared/component/footer/footer.component';
 import { CartService } from '../../../core/services/cart/cart.service';
 import { RouterLink, RouterModule } from '@angular/router';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -15,12 +16,15 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     RouterLink,
     FormsModule,
+    CommonModule,
   ],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent {
   cartlist!: any[];
+  imagePath = environment.apiImage;
+
   constructor(public cartService: CartService) {
     this.cartService.cart$.subscribe((items) => {
       this.cartlist = items;
@@ -63,7 +67,6 @@ export class CartComponent {
     );
   }
   removeCartItem(item: any) {
-    const product = item.product;
-    this.cartService.removeFromCart(product.productId, product.selectedSize);
+    this.cartService.removeFromCart(item.product.productId, item.selectedSize);
   }
 }

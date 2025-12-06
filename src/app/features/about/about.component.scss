@@ -1,0 +1,446 @@
+// Minimal Soft Theme Variables
+$primary: #111111;
+$accent: #6366f1;
+$accent-light: #eef2ff;
+$main: #1e293b;
+$white: #ffffff;
+$text: #64748b;
+$text-muted: #94a3b8;
+$border: #e2e8f0;
+$bg-primary: #ffffff;
+$bg-secondary: #f8fafc;
+$radius: 16px;
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+.about-page {
+    min-height: 100vh;
+    background: $bg-secondary;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: $accent;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 48px;
+
+    h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: $main;
+    }
+}
+
+// Hero Section
+.about-hero {
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 15%) 100%);
+    padding: 100px 20px;
+    text-align: center;
+    color: $white;
+
+    .hero-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba($white, 0.15);
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 24px;
+    }
+
+    h1 {
+        font-size: 52px;
+        font-weight: 800;
+        margin-bottom: 16px;
+        letter-spacing: -1px;
+    }
+
+    p {
+        font-size: 20px;
+        opacity: 0.9;
+    }
+}
+
+// Story Section
+.story-section {
+    padding: 80px 0;
+    background: $white;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.story-image {
+    .image-placeholder {
+        background: linear-gradient(135deg, $accent-light 0%, lighten($accent, 30%) 100%);
+        border-radius: $radius;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            font-size: 80px;
+            color: $accent;
+        }
+    }
+}
+
+.story-content {
+    h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: $main;
+        margin-bottom: 24px;
+    }
+
+    p {
+        font-size: 16px;
+        color: $text;
+        line-height: 1.8;
+        margin-bottom: 16px;
+    }
+}
+
+.story-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid $border;
+
+    .stat {
+        display: flex;
+        flex-direction: column;
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: $primary;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: $text;
+        }
+    }
+}
+
+// Values Section
+.values-section {
+    padding: 80px 0;
+    background: $bg-secondary;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+
+    @media (max-width: 991px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.value-card {
+    background: $white;
+    border-radius: $radius;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: $shadow-md;
+    transition: $transition;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    .value-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: $accent-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+
+        i {
+            font-size: 32px;
+            color: $accent;
+        }
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 14px;
+        color: $text;
+        line-height: 1.6;
+    }
+}
+
+// Timeline Section
+.timeline-section {
+    padding: 80px 0;
+    background: $white;
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $border;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 32px;
+
+        &::before {
+            width: 2px;
+            height: 100%;
+            left: 40px;
+            top: 0;
+        }
+    }
+}
+
+.timeline-item {
+    text-align: center;
+    position: relative;
+    flex: 1;
+
+    @media (max-width: 768px) {
+        text-align: left;
+        display: flex;
+        gap: 24px;
+    }
+}
+
+.timeline-marker {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: $white;
+    border: 3px solid $accent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+    z-index: 1;
+
+    .year {
+        font-size: 18px;
+        font-weight: 700;
+        color: $accent;
+    }
+
+    @media (max-width: 768px) {
+        flex-shrink: 0;
+        margin: 0;
+    }
+}
+
+.timeline-content {
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $main;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 14px;
+        color: $text;
+    }
+}
+
+// Nepal Section
+.nepal-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 12%) 100%);
+    color: $white;
+}
+
+.nepal-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.nepal-text {
+    .section-label {
+        color: rgba($white, 0.9);
+    }
+
+    h2 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.8;
+        opacity: 0.9;
+        margin-bottom: 24px;
+    }
+}
+
+.nepal-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+
+        i {
+            color: #10b981;
+        }
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.nepal-map {
+    .map-placeholder {
+        background: rgba($white, 0.1);
+        border-radius: $radius;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+            font-size: 120px;
+        }
+    }
+}
+
+// CTA Section
+.cta-section {
+    padding: 80px 0;
+    background: $bg-secondary;
+}
+
+.cta-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: $main;
+        margin-bottom: 16px;
+    }
+
+    p {
+        font-size: 18px;
+        color: $text;
+        margin-bottom: 32px;
+    }
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+    }
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: $transition;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: $primary;
+    color: $white;
+
+    &:hover {
+        background: lighten($primary, 10%);
+        transform: translateY(-2px);
+    }
+}
+
+.btn-secondary {
+    background: transparent;
+    color: $primary;
+    border: 2px solid $primary;
+
+    &:hover {
+        background: $primary;
+        color: $white;
+    }
+}

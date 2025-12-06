@@ -4,11 +4,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  FormsModule,
 } from '@angular/forms';
 import { Product, ProductSize } from './product.model';
 import { UploadService } from './upload.service';
 import { __await } from 'tslib';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe, CommonModule, SlicePipe, DecimalPipe } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../../../../core/services/category/category.service';
@@ -18,10 +19,13 @@ import { CategoryService } from '../../../../core/services/category/category.ser
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     JsonPipe,
     NgxDropzoneModule,
     AsyncPipe,
-    JsonPipe,
+    CommonModule,
+    SlicePipe,
+    DecimalPipe,
   ],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss',
@@ -33,16 +37,87 @@ export class AddItemComponent {
   products$: Observable<any[]> | undefined; // Observable for products
   uploadedImages: string[] = [];
   selectedFiles: File[] = [];
+  existingImageUrls: string[] = []; // Stores existing images during edit
   products: any[] = []; // Store fetched products
   selectedSizes: string[] = [];
   category: any[] = [];
   subCategory: any[] = [];
   selectedImages: File[] = [];
+
+  // Search, filter, pagination
+  searchTerm = '';
+  filterCategory = '';
+  currentPage = 1;
+  itemsPerPage = 10;
+
   // Available product sizes
   sizes: string[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
   // Image upload slots (4 slots)
   imageSlots: number[] = [0, 1, 2, 3];
+
+  // Math for template
+  Math = Math;
+
+  // Filtered products based on search and category
+  get filteredProducts(): any[] {
+    let filtered = this.products;
+
+    if (this.searchTerm) {
+      const search = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(p =>
+        p.productName?.toLowerCase().includes(search) ||
+        p.description?.toLowerCase().includes(search)
+      );
+    }
+
+    if (this.filterCategory) {
+      filtered = filtered.filter(p => p.category === this.filterCategory);
+    }
+
+    return filtered;
+  }
+
+  // Paginated products
+  get paginatedProducts(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.filteredProducts.slice(start, end);
+  }
+
+  // Total pages
+  get totalPages(): number {
+    return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+  }
+
+  // Get page numbers for pagination
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxVisible = 5;
+    let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(this.totalPages, start + maxVisible - 1);
+
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // Go to page
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  // Filter products - reset to first page
+  filterProducts(): void {
+    this.currentPage = 1;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -148,7 +223,6 @@ export class AddItemComponent {
         // Send the complete form data to the backend
         this.uploadService.addProduct(this.productForm.value).subscribe(
           (res) => {
-            console.log('Product saved successfully:', res);
             this.handleClose();
           },
           (err) => {
@@ -159,7 +233,7 @@ export class AddItemComponent {
         console.error('Error in submission process:', err);
       }
     } else {
-      console.error('Form is invalid!');
+
     }
   }
 
@@ -201,16 +275,24 @@ export class AddItemComponent {
     this.productForm.patchValue({ sizes: this.selectedSizes }); // Update form
   }
   handleAddProduct() {
-    this.productForm.value.prdoductName = '';
-    this.productForm.value.description = '';
+    this.productForm.reset();
+    this.selectedFiles = [];
+    this.existingImageUrls = [];
+    this.uploadedImages = [];
+    this.selectedSizes = [];
     this.formMode = 'add';
   }
   handleClose() {
     this.productForm.reset();
     this.formMode = 'none';
+    this.selectedFiles = [];
+    this.existingImageUrls = [];
+    this.uploadedImages = [];
+    this.selectedSizes = [];
   }
   handleEdit(id: any) {
     this.formMode = 'edit';
+    this.selectedFiles = []; // Reset new files
     this.uploadService.getProductById(id).subscribe((res) => {
       this.productForm.patchValue({
         productName: res.productName,
@@ -224,19 +306,28 @@ export class AddItemComponent {
         bestseller: res.bestseller,
       });
       this.productId = res.productId;
-      this.selectedSizes = res.sizes;
-      this.selectedFiles = res.imageUrls;
+      this.selectedSizes = res.sizes || [];
+      // Store existing image URLs separately (not in selectedFiles)
+      this.existingImageUrls = res.imageUrls || [];
     });
+  }
+
+  // Remove existing image during edit
+  removeExistingImage(index: number) {
+    this.existingImageUrls.splice(index, 1);
   }
   async handleUpdate() {
     if (this.productForm.valid) {
       try {
-        // Upload images and get the URLs
-        const imageUrls = await this.uploadImages();
+        // Upload new images and get the URLs
+        const newImageUrls = await this.uploadImages();
+
+        // Combine existing images with newly uploaded images
+        const combinedImageUrls = [...this.existingImageUrls, ...newImageUrls];
 
         // Patch uploaded image URLs and selected sizes to the form
         this.productForm.patchValue({
-          imageUrls: imageUrls,
+          imageUrls: combinedImageUrls,
           sizes: this.selectedSizes,
         });
 
@@ -252,6 +343,7 @@ export class AddItemComponent {
             (res) => {
               console.log('Product saved successfully:', res);
               this.handleClose();
+              this.fetchProducts();
             },
             (err) => {
               console.error('Error saving product:', err);
@@ -274,10 +366,8 @@ export class AddItemComponent {
 
         // Combine existing and new images (if edit mode)
         if (this.formMode === 'edit') {
-          this.productForm.patchValue({ imageUrls: uploadedImages });
-          // const existingImages = this.productForm.get('imageUrls')?.value || [];
-          // const imageUrls = [...existingImages, ...uploadedImages];
-          // this.productForm.patchValue({ imageUrls });
+          const combinedImages = [...this.existingImageUrls, ...uploadedImages];
+          this.productForm.patchValue({ imageUrls: combinedImages });
         } else {
           this.productForm.patchValue({ imageUrls: uploadedImages });
         }

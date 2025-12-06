@@ -1,3 +1,460 @@
-.cat-btn{
-    margin: 10px 30px;
+// Theme Variables - Soft & Minimal
+$primary: #6366f1;
+$primary-light: #eef2ff;
+$main: #1e293b;
+$white: #ffffff;
+$text: #64748b;
+$text-2: #94a3b8;
+$line: #f1f5f9;
+$bg-1: #f8fafc;
+$bg-2: #f1f5f9;
+$success: #10b981;
+$success-light: #ecfdf5;
+$warning: #f59e0b;
+$warning-light: #fffbeb;
+$danger: #ef4444;
+$danger-light: #fef2f2;
+$border-radius: 14px;
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Category page wrapper
+.category-page {
+    animation: fadeIn 0.4s ease-out;
+}
+
+// Page Header
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .header-content {
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: $main;
+            margin: 0 0 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+
+            i {
+                font-size: 22px;
+                color: $primary;
+                background: $primary-light;
+                padding: 10px;
+                border-radius: 12px;
+            }
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: $text;
+            margin: 0;
+        }
+    }
+}
+
+// Buttons
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: $transition;
+
+    i {
+        font-size: 16px;
+    }
+
+    &.btn-primary {
+        background: $primary;
+        color: $white;
+
+        &:hover {
+            background: darken($primary, 8%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba($primary, 0.25);
+        }
+    }
+}
+
+// Filter Bar
+.filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+
+        i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $text-2;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            border: 1.5px solid $line;
+            border-radius: 12px;
+            font-size: 14px;
+            color: $main;
+            background: $white;
+            transition: $transition;
+
+            &:focus {
+                outline: none;
+                border-color: $primary;
+                box-shadow: 0 0 0 4px $primary-light;
+            }
+
+            &::placeholder {
+                color: $text-2;
+            }
+        }
+    }
+
+    .filter-info {
+        .result-count {
+            font-size: 14px;
+            color: $text;
+            font-weight: 500;
+            background: $bg-2;
+            padding: 10px 18px;
+            border-radius: 10px;
+        }
+    }
+}
+
+// Table Card
+.table-card {
+    background: $white;
+    border-radius: $border-radius;
+    overflow: hidden;
+    border: 1px solid $line;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    animation: fadeInUp 0.5s ease-out 0.1s backwards;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        tr {
+            background: $bg-1;
+        }
+
+        th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: $text-2;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid $line;
+
+            &.th-id {
+                width: 60px;
+            }
+
+            &.th-date {
+                width: 140px;
+            }
+
+            &.th-actions {
+                width: 120px;
+                text-align: center;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            transition: $transition;
+            animation: fadeIn 0.3s ease-out backwards;
+
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    animation-delay: #{$i * 0.03}s;
+                }
+            }
+
+            &:hover {
+                background: $bg-1;
+            }
+
+            &:last-child td {
+                border-bottom: none;
+            }
+        }
+
+        td {
+            padding: 18px 20px;
+            font-size: 14px;
+            color: $main;
+            border-bottom: 1px solid $line;
+
+            &.td-id {
+                font-weight: 600;
+                color: $text-2;
+            }
+
+            &.td-date {
+                color: $text;
+                font-size: 13px;
+            }
+
+            &.td-actions {
+                text-align: center;
+            }
+        }
+    }
+}
+
+// Category Name Cell
+.category-name {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    .category-icon {
+        width: 40px;
+        height: 40px;
+        background: $primary-light;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            font-size: 16px;
+            color: $primary;
+        }
+    }
+
+    span {
+        font-weight: 600;
+        color: $main;
+    }
+}
+
+// Action Buttons
+.action-btns {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+
+    .action-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: $transition;
+
+        i {
+            font-size: 15px;
+        }
+
+        &.edit {
+            background: $primary-light;
+            color: $primary;
+
+            &:hover {
+                background: $primary;
+                color: $white;
+                transform: scale(1.05);
+            }
+        }
+
+        &.delete {
+            background: $danger-light;
+            color: $danger;
+
+            &:hover {
+                background: $danger;
+                color: $white;
+                transform: scale(1.05);
+            }
+        }
+    }
+}
+
+// Empty State
+.empty-state {
+    text-align: center;
+    padding: 60px 20px !important;
+
+    .empty-content {
+        i {
+            font-size: 56px;
+            color: $line;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: $main;
+            margin: 0 0 8px;
+        }
+
+        p {
+            font-size: 14px;
+            color: $text;
+            margin: 0;
+        }
+    }
+}
+
+// Pagination
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-top: 1px solid $line;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .pagination-info {
+        font-size: 13px;
+        color: $text;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 6px;
+
+        .page-btn {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid $line;
+            background: $white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: $text;
+            cursor: pointer;
+            transition: $transition;
+
+            i {
+                font-size: 14px;
+            }
+
+            &:hover:not(:disabled):not(.active) {
+                border-color: $primary;
+                color: $primary;
+                background: $primary-light;
+            }
+
+            &.active {
+                background: $primary;
+                border-color: $primary;
+                color: $white;
+            }
+
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+
+        .search-box {
+            max-width: 100%;
+        }
+    }
+
+    .pagination-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    table {
+
+        th,
+        td {
+            padding: 14px 16px;
+        }
+
+        .th-date,
+        .td-date {
+            display: none;
+        }
+    }
 }

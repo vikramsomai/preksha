@@ -1,194 +1,150 @@
-<!-- Dashboard -->
-<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
-  <!-- Vertical Navbar -->
-  <nav
-    class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
-    id="navbarVertical"
-  >
-    <div class="container-fluid">
-      <!-- Toggler -->
-      <button
-        class="navbar-toggler ms-n2"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#sidebarCollapse"
-        aria-controls="sidebarCollapse"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
+<!-- Admin Dashboard -->
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="assets/images/logo/logo.jpg" alt="Preksha Fashion" class="logo" />
+        <span class="logo-text">Preksha</span>
+      </div>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="bi" [ngClass]="sidebarCollapsed ? 'bi-list' : 'bi-x-lg'"></i>
       </button>
-      <!-- Brand -->
-      <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-        <img
-          src="../../../../assets/images/logo/logo.jpg"
-          alt="..."
-          style="height: 100px; width: 100px"
-        />
-      </a>
-      <!-- User menu (mobile) -->
-      <div class="navbar-user d-lg-none">
-        <!-- Dropdown -->
-        <div class="dropdown">
-          <!-- Toggle -->
-          <a
-            href="#"
-            id="sidebarAvatar"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <div class="avatar-parent-child">
-              <img
-                alt="Image Placeholder"
-                src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                class="avatar avatar- rounded-circle"
-              />
-              <span class="avatar-child avatar-badge bg-success"></span>
-            </div>
-          </a>
-          <!-- Menu -->
-          <div
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="sidebarAvatar"
-          >
-            <a href="#" class="dropdown-item">Profile</a>
-            <a href="#" class="dropdown-item">Settings</a>
-            <a href="#" class="dropdown-item">Billing</a>
-            <hr class="dropdown-divider" />
-            <a href="#" class="dropdown-item">Logout</a>
-          </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <span class="nav-section-title">Main Menu</span>
+        <a 
+          class="nav-item" 
+          [class.active]="currentTab === 'dashboard'"
+          (click)="changeTab('dashboard', 'Dashboard')"
+        >
+          <i class="bi bi-grid-1x2"></i>
+          <span>Dashboard</span>
+        </a>
+        <a 
+          class="nav-item"
+          [class.active]="currentTab === 'orders'"
+          (click)="changeTab('orders', 'Orders')"
+        >
+          <i class="bi bi-bag-check"></i>
+          <span>Orders</span>
+          @if (pendingOrdersCount > 0) {
+            <span class="badge">{{ pendingOrdersCount }}</span>
+          }
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <span class="nav-section-title">Product Management</span>
+        <a 
+          class="nav-item"
+          [class.active]="currentTab === 'add'"
+          (click)="changeTab('add', 'Add Product')"
+        >
+          <i class="bi bi-plus-square"></i>
+          <span>Add Product</span>
+        </a>
+        <a 
+          class="nav-item"
+          [class.active]="currentTab === 'category'"
+          (click)="changeTab('category', 'Categories')"
+        >
+          <i class="bi bi-folder"></i>
+          <span>Categories</span>
+        </a>
+        <a 
+          class="nav-item"
+          [class.active]="currentTab === 'subCatgeory'"
+          (click)="changeTab('subCatgeory', 'Sub Categories')"
+        >
+          <i class="bi bi-folder2-open"></i>
+          <span>Sub Categories</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-info">
+        <div class="admin-avatar">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="admin-details">
+          <span class="admin-name">Admin</span>
+          <span class="admin-role">Administrator</span>
         </div>
       </div>
-      <!-- Collapse -->
-      <div class="collapse navbar-collapse" id="sidebarCollapse">
-        <!-- Navigation -->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" (click)="changeTab('dashboard', 'Dashboard')">
-              <i class="bi bi-house"></i> Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="changeTab('category', 'Category')">
-              <i class="bi bi-people"></i> Category
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              (click)="changeTab('subCatgeory', 'Sub category')"
-            >
-              <i class="bi bi-people"></i> Sub Category
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" (click)="changeTab('add', 'Add Items')">
-              <i class="bi bi-bar-chart"></i> Add Items
-            </a>
-          </li>
-          <!-- <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              (click)="changeTab('list', 'List Items')"
-            >
-              <i class="bi bi-chat"></i> List Items
-              <span
-                class="badge bg-soft-primary text-primary rounded-pill d-inline-flex align-items-center ms-auto"
-                >6</span
-              >
-            </a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              (click)="changeTab('collections', 'Collections')"
-            >
-              <i class="bi bi-bookmarks"></i> Collections
-            </a>
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="changeTab('orders', 'Orders')">
-              <i class="bi bi-people"></i> Orders
-            </a>
-          </li>
-        </ul>
-        <!-- Divider -->
-        <hr class="navbar-divider my-5 opacity-20" />
-        <!-- Navigation -->
-
-        <!-- Push content down -->
-        <div class="mt-auto"></div>
-        <!-- User (md) -->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="bi bi-person-square"></i> Account
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="logout()">
-              <i class="bi bi-box-arrow-left"></i> Logout
-            </a>
-          </li>
-        </ul>
-      </div>
+      <a class="nav-item logout" (click)="logout()">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Logout</span>
+      </a>
     </div>
-  </nav>
-  <!-- Main content -->
-  <div class="h-screen flex-grow-1 overflow-y-lg-auto">
-    <!-- Header -->
-    <header class="bg-surface-primary border-bottom pt-6">
-      <div class="container-fluid">
-        <div class="mb-npx">
-          <div class="row align-items-center">
-            <div class="col-sm-6 col-12 mb-4 mb-sm-0">
-              <!-- Title -->
-              <h1 class="h2 mb-0 ls-tight">{{ currentTitle }}</h1>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <!-- Top Header -->
+    <header class="admin-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" (click)="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="page-info">
+          <h1>{{ currentTitle }}</h1>
+          <p class="page-breadcrumb">
+            <a (click)="changeTab('dashboard', 'Dashboard')">Dashboard</a>
+            @if (currentTab !== 'dashboard') {
+              <i class="bi bi-chevron-right"></i>
+              <span>{{ currentTitle }}</span>
+            }
+          </p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-actions">
+          <button class="action-btn" title="Notifications">
+            <i class="bi bi-bell"></i>
+            @if (pendingOrdersCount > 0) {
+              <span class="notification-dot"></span>
+            }
+          </button>
+          <button class="action-btn" title="Settings">
+            <i class="bi bi-gear"></i>
+          </button>
+        </div>
+        <div class="admin-dropdown">
+          <div class="admin-info-mini">
+            <div class="admin-avatar-mini">
+              <i class="bi bi-person-fill"></i>
             </div>
-            <!-- Actions -->
-            <!-- <div class="col-sm-6 col-12 text-sm-end">
-              <div class="mx-n1">
-                <a
-                  href="#"
-                  class="btn d-inline-flex btn-sm btn-neutral border-base mx-1"
-                >
-                  <span class="pe-2">
-                    <i class="bi bi-pencil"></i>
-                  </span>
-                  <span>Edit</span>
-                </a>
-                <a href="#" class="btn d-inline-flex btn-sm btn-primary mx-1">
-                  <span class="pe-2">
-                    <i class="bi bi-plus"></i>
-                  </span>
-                  <span>Create</span>
-                </a>
-              </div>
-            </div> -->
+            <span>Admin</span>
+            <i class="bi bi-chevron-down"></i>
           </div>
-          <!-- Nav -->
-          <ul class="nav nav-tabs mt-4 overflow-x border-0"></ul>
         </div>
       </div>
     </header>
-    <!-- Main -->
-    @if(currentTab=="dashboard"){
-    <app-dashboard></app-dashboard>
-    } @else if (currentTab=="add") {
-    <app-add-item></app-add-item>
-    } @else if (currentTab=="list") {
-    <app-list-item></app-list-item>
-    } @else if (currentTab=='orders') {
-    <app-order-item></app-order-item>
-    }@else if (currentTab=='category') {
-    <app-category></app-category>
-    }@else if (currentTab=='subCatgeory') {
-    <app-subcategory></app-subcategory>
-    }
-  </div>
+
+    <!-- Page Content -->
+    <div class="admin-content">
+      @if(currentTab === 'dashboard'){
+        <app-dashboard></app-dashboard>
+      } @else if (currentTab === 'add') {
+        <app-add-item></app-add-item>
+      } @else if (currentTab === 'list') {
+        <app-list-item></app-list-item>
+      } @else if (currentTab === 'orders') {
+        <app-order-item></app-order-item>
+      } @else if (currentTab === 'category') {
+        <app-category></app-category>
+      } @else if (currentTab === 'subCatgeory') {
+        <app-subcategory></app-subcategory>
+      }
+    </div>
+  </main>
 </div>
+
+<!-- Mobile Overlay -->
+@if (!sidebarCollapsed) {
+  <div class="mobile-overlay" (click)="toggleSidebar()"></div>
+}

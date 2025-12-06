@@ -6,6 +6,9 @@ import {
   RouterModule,
   RouterLink,
 } from '@angular/router';
+import { ProductService } from '../../../core/services/product/product.service';
+import { PaymentService } from '../../../core/services/payment/payment.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-success-payment',
@@ -18,11 +21,13 @@ export class SuccessPaymentComponent implements OnInit {
   isLoading: boolean = true;
   isSuccess: boolean = false;
   decodedToken: any;
-
+  baseUrl = environment.apiUrl;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private paymentService: PaymentService,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
@@ -57,13 +62,15 @@ export class SuccessPaymentComponent implements OnInit {
 
   // Verify payment and update status
   verifyPaymentAndUpdateStatus(): void {
+    const order=this.productService.getCartFromLocalStorage()
     this.http
-      .post<any>('http://localhost:5000/payment-status', {
+      .post<any>(`${this.baseUrl}/payment-status`, {
         product_id: this.decodedToken.transaction_uuid,
       })
       .subscribe(
         (response) => {
-          if (response.status === 'success') {
+          console.log('response payemnt', response);
+          if (response.status === 'COMPLETE') {
             // Update based on your API's response structure
             this.isSuccess = true;
           } else {

@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="tf-product-info-price">
-              <div class="price">NPR.{{ selectedProduct?.price }}</div>
+              <div class="price">&#8377; {{ selectedProduct?.price }}</div>
             </div>
             <div class="tf-product-description">
               <p>
@@ -146,7 +146,7 @@
                   (click)="decreaseQunatity()"
                   >-</span
                 >
-                <input id="quantity" type="number" value="1" min="1" />
+                <input id="quantity" type="number" [value]="quantity" min="1" readonly />
                 <span class="btn-quantity plus-btn" (click)="addQunatity()"
                   >+</span
                 >
@@ -156,32 +156,33 @@
               <form class="">
                 <a
                   (click)="addToCart(selectedProduct)"
+                  href="javascript:void(0);"
                   class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"
-                  ><span>Add to cart -&nbsp;</span
-                  ><span class="tf-qty-price"
-                    >NPR. {{ selectedProduct?.price }}</span
-                  ></a
-                >
+                  [class.adding]="isAddingToCart"
+                  >
+                  @if(showAddedMessage) {
+                    <span><i class="icon icon-check"></i> Added to cart!</span>
+                  } @else {
+                    <span>Add to cart -&nbsp;</span>
+                    <span class="tf-qty-price">&#8377; {{ selectedProduct?.price * quantity }}</span>
+                  }
+                </a>
                 <a
                   href="javascript:void(0);"
+                  (click)="addToWishlist(selectedProduct)"
                   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action"
+                  [class.active]="isInWishlist(selectedProduct)"
                 >
                   <span class="icon icon-heart"></span>
-                  <span class="tooltip">Add to Wishlist</span>
-                  <span class="icon icon-delete"></span>
+                  <span class="tooltip">{{ isInWishlist(selectedProduct) ? 'In Wishlist' : 'Add to Wishlist' }}</span>
                 </a>
 
                 <div class="w-100">
-                  <a href="#" class="payment-more-option"
-                    >More payment options</a
-                  >
+                  <a (click)="buyNow(selectedProduct)" href="javascript:void(0);" class="tf-btn fw-6 btn-line w-100 justify-content-center mt_10"
+                    >Buy Now<i class="icon icon-arrow1-top-left"></i
+                  ></a>
                 </div>
               </form>
-            </div>
-            <div>
-              <a href="#" class="tf-btn fw-6 btn-line"
-                >View full details<i class="icon icon-arrow1-top-left"></i
-              ></a>
             </div>
           </div>
         </div>

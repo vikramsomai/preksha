@@ -1,87 +1,118 @@
 <app-site-header></app-site-header>
-<main class="cart-container">
-  <h1 class="cart-title">YOUR <span>CART</span></h1>
 
-  <div class="cart-items">
-    <!-- Cart Item 1 -->
-    @for(item of cartlist;track item;let i = $index){
-    <div class="cart-item">
-      <div class="item-details">
-        <img
-          [src]="'http://localhost:5000/' + item.product?.imageUrls[0]"
-          alt="T-shirt"
-          class="item-image"
-        />
-        <div class="item-info">
-          <h3>{{ item.product.productName }}</h3>
-          <p>NPR. {{ item.product.price }}</p>
-          <p>Size {{ item.selectedSize }}</p>
-        </div>
+<!-- Page Title -->
+<div class="tf-page-title">
+  <div class="container-full">
+    <div class="heading text-center">Shopping Cart</div>
+    <p class="text-center text-2 text_black-2 mt_5">Shop through our latest selection of fashion items</p>
+  </div>
+</div>
+
+<section class="flat-spacing-11">
+  <div class="container">
+    @if(cartlist && cartlist.length > 0) {
+    <div class="tf-cart-layout tf-cart-has-sidebar">
+      <div class="tf-cart-items">
+        <table class="tf-table-page-cart">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(item of cartlist; track item; let i = $index) {
+            <tr class="tf-cart-item file-delete">
+              <td class="tf-cart-item_product">
+                <a routerLink="/collection/{{item.product?.productId}}" class="img-box">
+                  <img [src]="imagePath + item.product?.imageUrls[0]" alt="{{ item.product?.productName }}" />
+                </a>
+                <div class="cart-info">
+                  <a routerLink="/collection/{{item.product?.productId}}" class="cart-title link">{{ item.product?.productName }}</a>
+                  <div class="cart-meta-variant">Size: {{ item.selectedSize }}</div>
+                </div>
+              </td>
+              <td class="tf-cart-item_price" data-title="Price">
+                <div class="cart-price">&#8377; {{ item.product?.price }}</div>
+              </td>
+              <td class="tf-cart-item_quantity" data-title="Quantity">
+                <div class="wg-quantity">
+                  <span class="btn-quantity minus-btn" (click)="updateQunatity('delete', item)">-</span>
+                  <input type="number" [value]="item.quantity" min="1" readonly />
+                  <span class="btn-quantity plus-btn" (click)="updateQunatity('add', item)">+</span>
+                </div>
+              </td>
+              <td class="tf-cart-item_total" data-title="Total">
+                <div class="cart-total">&#8377; {{ item.product?.price * item.quantity }}</div>
+              </td>
+              <td class="tf-cart-item_remove">
+                <a href="javascript:void(0);" class="remove-cart" (click)="removeCartItem(item)">
+                  <i class="icon icon-close"></i>
+                </a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
       </div>
-
-      <div class="item-actions">
-        <div class="tf-product-info-quantity">
-          <div class="quantity-title fw-6">Quantity</div>
-          <div class="wg-quantity">
-            <span
-              class="btn-quantity minus-btn"
-              (click)="updateQunatity('delete', item)"
-              >-</span
-            >
-            <input
-              id="quantity"
-              type="number"
-              [(ngModel)]="item.quantity"
-              min="1"
-            />
-            <span
-              class="btn-quantity plus-btn"
-              (click)="updateQunatity('add', item)"
-              >+</span
-            >
+      
+      <div class="tf-cart-sidebar">
+        <div class="tf-cart-totals">
+          <h3 class="tf-cart-totals_title">Cart Totals</h3>
+          <div class="tf-cart-total-item">
+            <span class="label">Subtotal</span>
+            <span class="value">&#8377; {{ cartService.getTotalCost() }}</span>
+          </div>
+          <div class="tf-cart-total-item">
+            <span class="label">Shipping</span>
+            <span class="value">{{ cartService.getTotalCost() >= 4000 ? 'Free Shipping' : '&#8377; 120' }}</span>
+          </div>
+          <div class="tf-cart-total-item total">
+            <span class="label">Total</span>
+            <span class="value">&#8377; {{ cartService.getTotal() }}</span>
+          </div>
+          <div class="tf-cart-tax">
+            Taxes and shipping calculated at checkout
+          </div>
+          <div class="tf-cart-checkout-btn">
+            <a routerLink="/checkout" class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center">
+              <span>Proceed to Checkout</span>
+            </a>
+          </div>
+          <div class="tf-cart-continue">
+            <a routerLink="/products" class="tf-btn btn-outline radius-3 w-100 justify-content-center link">
+              Continue Shopping
+            </a>
           </div>
         </div>
-        <div class="tf-mini-cart-remove pointer" (click)="removeCartItem(item)">
-          Remove
+        
+        <div class="tf-page-cart_imgtrust mt_20">
+          <p class="text-center text-2">Guaranteed safe & secure checkout</p>
+          <div class="cart-trust-badges d-flex justify-content-center gap-10 mt_10">
+            <img src="assets/images/payments/visa.png" alt="Visa" />
+            <img src="assets/images/payments/img-1.png" alt="Mastercard" />
+            <img src="assets/images/payments/img-2.png" alt="PayPal" />
+            <img src="assets/images/payments/img-3.png" alt="Amex" />
+          </div>
         </div>
       </div>
     </div>
-    } @empty {
-    <div>
-      <h6>Pleas add some items</h6>
-    </div>
-    }
-  </div>
-  @if(cartlist.length>0){
-  <div class="cart-totals">
-    <h2 class="totals-title">CART <span>TOTALS</span></h2>
-    <div class="totals-row">
-      <span>Subtotal</span>
-      <span>NPR. {{ this.cartService.getTotalCost() }}</span>
-    </div>
-    <div class="totals-row">
-      <span>Shipping Fee</span>
-      <span
-        >{{ this.cartService.getTotalCost() > 4000 ? "0" : "NPR. 120" }}
-      </span>
-    </div>
-    <div class="cart-row total-row">
-      <div class="totals-row">
-        <span>Total</span>
-        <span>NPR.{{ this.cartService.getTotal() }} </span>
+    } @else {
+    <div class="tf-cart-empty text-center py_100">
+      <div class="empty-cart-icon mb_30">
+        <i class="icon icon-bag" style="font-size: 80px; color: #ccc;"></i>
       </div>
+      <h3 class="mb_20">Your cart is empty</h3>
+      <p class="text-2 text_black-2 mb_30">Looks like you haven't added any items to your cart yet.</p>
+      <a routerLink="/products" class="tf-btn btn-fill animate-hover-btn radius-3">
+        <span>Start Shopping</span>
+      </a>
     </div>
-  </div>
-  }
-  <div class="tf-mini-cart-view-checkout">
-    @if(cartlist.length>0){
-    <button
-      routerLink="/checkout"
-      class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-    >
-      <span>Check out</span>
-    </button>
     }
   </div>
-</main>
+</section>
+
 <app-footer></app-footer>

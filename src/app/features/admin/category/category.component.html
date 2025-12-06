@@ -1,45 +1,118 @@
-<div class="cat-btn">
-  <button mat-raised-button (click)="openDialog()">Add Category</button>
-</div>
-<main class="py-6 bg-surface-secondary">
-  <div class="container-fluid">
-    <div class="card shadow border-0 mb-7">
-      <!-- <div class="card-header">
-        <h5 class="mb-0">Top products</h5>
-      </div> -->
-      <div class="table-responsive">
-        <table class="table table-hover table-nowrap">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Category</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(order of categoryData;track order;let id=$index){
-            <tr>
-              <td>{{ id }}</td>
-              <td>{{ order.category }}</td>
-              <td>
-                <button
-                  type="button"
-                  (click)="deleteProduct(order._id)"
-                  class="btn btn-sm btn-square btn-neutral text-danger-hover mx-4 flex justify-content-center items-center trash"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-      <!-- <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm"
-          >Showing 10 items out of 250 results found</span
-        >
-      </div> -->
+<div class="category-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h2 class="page-title">
+        <i class="bi bi-folder"></i>
+        Categories
+      </h2>
+      <p class="page-subtitle">Manage your product categories</p>
+    </div>
+    <button class="btn btn-primary" (click)="openDialog()">
+      <i class="bi bi-plus-lg"></i>
+      Add Category
+    </button>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <div class="filter-bar">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search categories..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterCategories()"
+      />
+    </div>
+    <div class="filter-info">
+      <span class="result-count">{{ filteredCategories.length }} categories</span>
     </div>
   </div>
-</main>
+
+  <!-- Categories Table -->
+  <div class="table-card">
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th class="th-id">#</th>
+            <th>Category Name</th>
+            <th class="th-date">Created</th>
+            <th class="th-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(category of paginatedCategories; track category; let i = $index) {
+            <tr>
+              <td class="td-id">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td>
+                <div class="category-name">
+                  <div class="category-icon">
+                    <i class="bi bi-tag"></i>
+                  </div>
+                  <span>{{ category.category }}</span>
+                </div>
+              </td>
+              <td class="td-date">{{ category.createdAt | date: 'MMM d, y' }}</td>
+              <td class="td-actions">
+                <div class="action-btns">
+                  <button class="action-btn edit" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="action-btn delete" (click)="deleteProduct(category._id)" title="Delete">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-state">
+                <div class="empty-content">
+                  <i class="bi bi-folder-x"></i>
+                  <h4>No categories found</h4>
+                  <p>Start by adding your first category</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    @if(filteredCategories.length > itemsPerPage) {
+      <div class="pagination-wrapper">
+        <div class="pagination-info">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, filteredCategories.length) }} of {{ filteredCategories.length }}
+        </div>
+        <div class="pagination">
+          <button 
+            class="page-btn" 
+            [disabled]="currentPage === 1" 
+            (click)="goToPage(currentPage - 1)"
+          >
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          @for(page of getPageNumbers(); track page) {
+            <button 
+              class="page-btn" 
+              [class.active]="page === currentPage"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          }
+          <button 
+            class="page-btn" 
+            [disabled]="currentPage === totalPages" 
+            (click)="goToPage(currentPage + 1)"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
